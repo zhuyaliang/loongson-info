@@ -5,3 +5,4 @@ src/loongson-state.c
 src/loongson-security.c
 src/loongson-spec.c
 src/loongson-mainboard.c
+src/loongson-utils.c

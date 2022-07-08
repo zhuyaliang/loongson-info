@@ -8,6 +8,7 @@ sources = [
 'loongson-mainboard.c',
 'loongson-perf.c',
 'loongson-state.c',
+'loongson-utils.c',
 ]
 
 executable('loongson-info',

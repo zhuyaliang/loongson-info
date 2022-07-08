@@ -1,10 +1,7 @@
 #ifndef __LOONGSON_WINDOW__
 #define __LOONGSON_WINDOW__
 
-#include <gtk/gtk.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include "config.h"
+#include "loongson-utils.h"
 G_BEGIN_DECLS
 
 #define LOONGSON_TYPE_WINDOW         (loongson_window_get_type ())

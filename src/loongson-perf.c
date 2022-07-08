@@ -19,6 +19,7 @@
  Created Time: 2022年07月07日 星期四 20时06分47秒
 ************************************************************************/
 #include "loongson-perf.h"
+#include "loongson-utils.h"
 
 struct _LoongsonPerfPrivate
 {
@@ -27,9 +28,112 @@ struct _LoongsonPerfPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonPerf, loongson_perf, GTK_TYPE_BOX)
 
+static GtkWidget *grid_widget_new (void)
+{
+    GtkWidget *table;
+
+    table = gtk_grid_new ();
+    gtk_widget_set_can_focus (table, FALSE);
+    gtk_widget_set_halign (table, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign (table, GTK_ALIGN_CENTER);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (table), 18);
+
+    return table;
+}
+
 static void
 loongson_perf_fill (LoongsonPerf *perf)
 {
+    GtkWidget *vbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    GtkWidget *table;
+    g_autoptr(GdkPixbuf) pb = NULL;
+    g_autoptr(GdkPixbuf) pb2 = NULL;
+
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    gtk_box_pack_start (GTK_BOX (perf), vbox, FALSE, FALSE, 0);
+    
+    pb = gdk_pixbuf_new_from_file ("/tmp/loongson-cpu.png", NULL);
+    pb2 = gdk_pixbuf_scale_simple (pb, 120, 120, GDK_INTERP_BILINEAR);
+    image = gtk_image_new_from_pixbuf(pb2);
+    gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 12);
+    
+    table = grid_widget_new ();
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 6);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Physical Kernel"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
+    
+    label = gtk_label_new (_("4"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Maximum Memory frequency"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
+    
+    label = gtk_label_new (_("2500 HZ"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Memory channel"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
+    
+    label = gtk_label_new (_("8"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 2, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Maximum Frequency"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
+    
+    label = gtk_label_new (_("2500 HZ"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 3, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Current Frequency"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
+    
+    label = gtk_label_new (_("2500 HZ"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 4, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Maximum memory capacity"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 5, 1, 1);
+    
+    label = gtk_label_new (_("128 G"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 5, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("BogoMIPS"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 6, 1, 1);
+    
+    label = gtk_label_new (_("5000"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 6, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Address sizes"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 7, 1, 1);
+    
+    label = gtk_label_new (_("48 bits physical, 48 bits virtual"));
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 7, 1, 1);
 
 }
 

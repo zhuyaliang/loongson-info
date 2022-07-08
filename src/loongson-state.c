@@ -19,9 +19,7 @@
  Created Time: 2022年07月07日 星期四 19时57分02秒
 ************************************************************************/
 #include "loongson-state.h"
-#include <libintl.h>
-#include <locale.h>
-#include <glib/gi18n.h>
+#include "loongson-utils.h"
 
 struct _LoongsonStatePrivate
 {
@@ -30,9 +28,90 @@ struct _LoongsonStatePrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonState, loongson_state, GTK_TYPE_BOX)
 
+static GtkWidget *grid_widget_new (void)
+{
+    GtkWidget *table;
+
+    table = gtk_grid_new ();
+    gtk_widget_set_can_focus (table, FALSE);
+    gtk_widget_set_halign (table, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign (table, GTK_ALIGN_CENTER);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (table), 18);
+
+    return table;
+}
+
 static void
 loongson_state_fill (LoongsonState *state)
 {
+    GtkWidget *vbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    GtkWidget *table;
+    g_autoptr(GdkPixbuf) pb = NULL;
+    g_autoptr(GdkPixbuf) pb2 = NULL;
+
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+    gtk_box_pack_start (GTK_BOX (state), vbox, FALSE, FALSE, 0);
+    
+    pb = gdk_pixbuf_new_from_file ("/tmp/loongson-state.png", NULL);
+    pb2 = gdk_pixbuf_scale_simple (pb, 120, 120, GDK_INTERP_BILINEAR);
+    image = gtk_image_new_from_pixbuf(pb2);
+    gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 12);
+    
+    table = grid_widget_new ();
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 6);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Temperature"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    set_lable_style (label, "red", 12, _("80"), TRUE);
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Fan speed"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    set_lable_style (label, "green", 12, _("30%"), TRUE);
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Memory Usage"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    set_lable_style (label, "yellow", 12, _("60%"), TRUE);
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 2, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("CPU utilization"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    set_lable_style (label, "yellow", 12, _("50%"), TRUE);
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 3, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(label), 1);
+    set_lable_style (label, "gray", 12, _("Network traffic"), TRUE);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
+    
+    label = gtk_label_new (NULL);
+    set_lable_style (label, "gray", 12, _("Upload: 40Mb/s Download: 100Mb/s"), TRUE);
+    gtk_label_set_xalign (GTK_LABEL(label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 4, 1, 1);
 
 }
 
