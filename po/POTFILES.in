@@ -1,0 +1,7 @@
+src/main.c
+src/loongson-window.c
+src/loongson-perf.c
+src/loongson-state.c
+src/loongson-security.c
+src/loongson-spec.c
+src/loongson-mainboard.c
