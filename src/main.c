@@ -12,8 +12,8 @@ main (int argc, char **argv)
     textdomain (GETTEXT_PACKAGE);
 
     gtk_init (&argc, &argv);
-    
-    window = loongson_window_new (); 
+
+    window = loongson_window_new ();
     gtk_widget_show_all (window);
 
     gtk_main ();

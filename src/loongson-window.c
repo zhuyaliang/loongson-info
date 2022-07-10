@@ -121,23 +121,23 @@ loongson_window_constructor (GType                  type,
 }
 
 static void
-loongson_window_dispose (GObject *object)
+loongson_window_destroy (GtkWidget *widget)
 {
     LoongsonWindow *loongsonwin;
 
-    loongsonwin = LOONGSON_WINDOW (object);
-    g_object_unref (loongsonwin->priv->proxy);
-
-    G_OBJECT_CLASS (loongson_window_parent_class)->dispose (object);
+    loongsonwin = LOONGSON_WINDOW (widget);
+    //g_object_unref (loongsonwin->priv->proxy);
+    gtk_main_quit ();
 }
 
 static void
 loongson_window_class_init (LoongsonWindowClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass   *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_window_constructor;
-    gobject_class->dispose = loongson_window_dispose;
+    gtk_class->destroy = loongson_window_destroy;
 }
 
 static void
