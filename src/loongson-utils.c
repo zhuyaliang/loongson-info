@@ -20,6 +20,8 @@
 ************************************************************************/
 #include "loongson-utils.h"
 
+#define MSGFORMAT           "<span foreground='red'font_desc='13'>%s </span>"
+
 void set_lable_style (GtkWidget  *lable ,
                       const char *color,
                       int         font_szie,
@@ -53,4 +55,84 @@ void set_lable_style (GtkWidget  *lable ,
     gtk_label_set_markup (GTK_LABEL(lable), lable_text);
 
     g_free (lable_text);
+}
+
+int loongson_message_dialog (const char *title, MsgType type, const char *msg,...)
+{
+    GtkWidget *dialog = NULL;
+    va_list    args;
+    char      *message;
+    int        ret;
+
+    switch(type)
+    {
+        case ERROR:
+        {
+            dialog = gtk_message_dialog_new (NULL,
+                                             GTK_DIALOG_DESTROY_WITH_PARENT,
+                                             GTK_MESSAGE_ERROR,
+                                             GTK_BUTTONS_OK,
+                                             "%s",title);
+            break;
+        }
+        case WARING:
+        {
+            dialog = gtk_message_dialog_new (NULL,
+                                             GTK_DIALOG_DESTROY_WITH_PARENT,
+                                             GTK_MESSAGE_WARNING,
+                                             GTK_BUTTONS_OK,
+                                             "%s",title);
+            break;
+        }
+        case INFOR:
+        {
+            dialog = gtk_message_dialog_new (NULL,
+                                             GTK_DIALOG_DESTROY_WITH_PARENT,
+                                             GTK_MESSAGE_INFO,
+                                             GTK_BUTTONS_OK,
+                                             "%s",title);
+            break;
+        }
+        case QUESTION:
+        {
+            dialog = gtk_message_dialog_new (NULL,
+                                             GTK_DIALOG_DESTROY_WITH_PARENT,
+                                             GTK_MESSAGE_QUESTION,
+                                             GTK_BUTTONS_YES_NO,
+                                             "%s",title);
+            break;
+        }
+        default :
+            break;
+
+    }
+
+    va_start (args, msg);
+    message = g_strdup_vprintf (msg, args);
+    va_end (args);
+
+    gtk_message_dialog_format_secondary_markup (GTK_MESSAGE_DIALOG (dialog),
+                                                MSGFORMAT,
+                                                message);
+
+    gtk_window_set_title (GTK_WINDOW (dialog), _("Message"));
+    ret = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
+    g_free (message);
+
+    return ret;
+}
+
+GtkWidget *grid_widget_new (void)
+{
+    GtkWidget *table;
+
+    table = gtk_grid_new ();
+    gtk_widget_set_can_focus (table, FALSE);
+    gtk_widget_set_halign (table, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign (table, GTK_ALIGN_CENTER);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (table), 18);
+
+    return table;
 }

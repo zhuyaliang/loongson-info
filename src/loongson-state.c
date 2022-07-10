@@ -28,20 +28,6 @@ struct _LoongsonStatePrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonState, loongson_state, GTK_TYPE_BOX)
 
-static GtkWidget *grid_widget_new (void)
-{
-    GtkWidget *table;
-
-    table = gtk_grid_new ();
-    gtk_widget_set_can_focus (table, FALSE);
-    gtk_widget_set_halign (table, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign (table, GTK_ALIGN_CENTER);
-    gtk_grid_set_row_spacing (GTK_GRID (table), 12);
-    gtk_grid_set_column_spacing (GTK_GRID (table), 18);
-
-    return table;
-}
-
 static void
 loongson_state_fill (LoongsonState *state)
 {

@@ -28,8 +28,6 @@
 #define LOONGSON_NAME         "org.loongson.info"
 #define LOONGSON_PATH         "/org/loongson/info"
 
-#define MSGFORMAT           "<span foreground='red'font_desc='13'>%s </span>"
-
 struct _LoongsonWindowPrivate
 {
     GDBusProxy   *proxy;
@@ -176,70 +174,4 @@ loongson_window_new (void)
         return NULL;
     }
     return GTK_WIDGET (loongsonwin);
-}
-
-static int loongson_message_dialog (const char *title, MsgType type, const char *msg,...)
-{
-    GtkWidget *dialog = NULL;
-    va_list    args;
-    char      *message;
-    int        ret;
-
-    switch(type)
-    {
-        case ERROR:
-        {
-            dialog = gtk_message_dialog_new (NULL,
-                                             GTK_DIALOG_DESTROY_WITH_PARENT,
-                                             GTK_MESSAGE_ERROR,
-                                             GTK_BUTTONS_OK,
-                                             "%s",title);
-            break;
-        }
-        case WARING:
-        {
-            dialog = gtk_message_dialog_new (NULL,
-                                             GTK_DIALOG_DESTROY_WITH_PARENT,
-                                             GTK_MESSAGE_WARNING,
-                                             GTK_BUTTONS_OK,
-                                             "%s",title);
-            break;
-        }
-        case INFOR:
-        {
-            dialog = gtk_message_dialog_new (NULL,
-                                             GTK_DIALOG_DESTROY_WITH_PARENT,
-                                             GTK_MESSAGE_INFO,
-                                             GTK_BUTTONS_OK,
-                                             "%s",title);
-            break;
-        }
-        case QUESTION:
-        {
-            dialog = gtk_message_dialog_new (NULL,
-                                             GTK_DIALOG_DESTROY_WITH_PARENT,
-                                             GTK_MESSAGE_QUESTION,
-                                             GTK_BUTTONS_YES_NO,
-                                             "%s",title);
-            break;
-        }
-        default :
-            break;
-
-    }
-
-    va_start (args, msg);
-    message = g_strdup_vprintf (msg, args);
-    va_end (args);
-
-    gtk_message_dialog_format_secondary_markup (GTK_MESSAGE_DIALOG (dialog),
-                                                MSGFORMAT,
-                                                message);
-
-    gtk_window_set_title (GTK_WINDOW (dialog), _("Message"));
-    ret = gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
-    g_free (message);
-
-    return ret;
 }

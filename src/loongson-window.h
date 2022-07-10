@@ -22,14 +22,6 @@ struct _LoongsonWindowClass {
     GtkWindowClass parent_class;
 };
 
-typedef enum
-{
-    ERROR = 0,
-    WARING,
-    INFOR,
-    QUESTION
-}MsgType;
-
 GType              loongson_window_get_type                (void) G_GNUC_CONST;
 
 GtkWidget         *loongson_window_new                     (void);
