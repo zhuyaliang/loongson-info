@@ -58,7 +58,7 @@ loongson_window_fill (LoongsonWindow *loongwin)
     gtk_container_add (GTK_CONTAINER (loongwin), box);
     
     sidebar = gtk_stack_sidebar_new ();
-    gtk_box_pack_start (GTK_BOX (box), sidebar, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (box), sidebar, FALSE, FALSE, 6);
     
     stack = gtk_stack_new ();
     gtk_box_pack_start (GTK_BOX (box), stack, TRUE, TRUE, 0);
@@ -66,7 +66,7 @@ loongson_window_fill (LoongsonWindow *loongwin)
     gtk_stack_sidebar_set_stack (GTK_STACK_SIDEBAR (sidebar), GTK_STACK (stack));
     
     separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-    gtk_box_pack_start (GTK_BOX(box), separator, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX(box), separator, FALSE, FALSE, 6);
     
     loongwin->priv->loongspec = loongson_spec_new ();
     name = loongson_spec_get_name (LOONGSON_SPEC (loongwin->priv->loongspec));
