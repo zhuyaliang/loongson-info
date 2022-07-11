@@ -41,7 +41,7 @@ loongson_security_fill (LoongsonSecurity *security)
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
     gtk_box_pack_start (GTK_BOX (security), vbox, FALSE, FALSE, 0);
     
-    pb = gdk_pixbuf_new_from_file ("/tmp/loongson-security.png", NULL);
+    pb = gdk_pixbuf_new_from_file (ICONSDIR"loongson-security.png", NULL);
     pb2 = gdk_pixbuf_scale_simple (pb, 120, 120, GDK_INTERP_BILINEAR);
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 12);

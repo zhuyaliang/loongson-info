@@ -41,7 +41,7 @@ loongson_perf_fill (LoongsonPerf *perf)
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
     gtk_box_pack_start (GTK_BOX (perf), vbox, FALSE, FALSE, 0);
 
-    pb = gdk_pixbuf_new_from_file ("/tmp/loongson-cpu.png", NULL);
+    pb = gdk_pixbuf_new_from_file (ICONSDIR"loongson-perf.png", NULL);
     pb2 = gdk_pixbuf_scale_simple (pb, 120, 120, GDK_INTERP_BILINEAR);
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 12);
