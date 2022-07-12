@@ -89,6 +89,7 @@ add_global_link_arguments(
 gtk_req_version = '>= 3.0.0'
 gtk_deps = dependency('gtk+-3.0', version: gtk_req_version)
 polkit_deps = dependency('polkit-gobject-1')
+gtop_deps = dependency('libgtop-2.0')
 
 # Configure data
 conf = configuration_data()

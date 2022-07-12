@@ -13,7 +13,7 @@ sources = [
 
 executable('loongson-info',
   sources : sources,
-  dependencies : [gtk_deps],
+  dependencies : [gtk_deps,gtop_deps],
   include_directories: top_srcdir,
   install : true,
   install_dir : get_option('bindir')
