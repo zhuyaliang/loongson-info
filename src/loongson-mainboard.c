@@ -55,7 +55,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Product Name"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
 
-    label = gtk_label_new (_("Loongson-LS3A5000-7A1000-1w-EVB-V1.21"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
 
@@ -64,7 +64,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Memory"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
 
-    label = gtk_label_new (_("DDR4/8G"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 2, 1, 1);
 
@@ -73,7 +73,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("BIOS Information"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
-    label = gtk_label_new (_("Loongson-UDK2018-V2.0.04082-beta7"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
 
@@ -82,7 +82,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Microarchitecture"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
 
-    label = gtk_label_new (_("What is this"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 3, 1, 1);
 
@@ -91,7 +91,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("CPU Cache"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
 
-    label = gtk_label_new (_("L1d: 64K; L1i: 64K; L2: 256K; L3:16384K"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 4, 1, 1);
 
@@ -100,7 +100,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("MMU"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 5, 1, 1);
 
-    label = gtk_label_new (_("open"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 5, 1, 1);
 
@@ -109,7 +109,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Calculation part"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 6, 1, 1);
 
-    label = gtk_label_new (_("xxxxxxxxxxxx"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 6, 1, 1);
 
@@ -118,27 +118,18 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Extended instruction"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 7, 1, 1);
 
-    label = gtk_label_new (_("Mov Ldd Subi"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 7, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("External Clock"), TRUE);
+    set_lable_style (label, "gray", 12, _("Hardware assisted virtualization"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 8, 1, 1);
 
-    label = gtk_label_new (_("25 HZ"));
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 8, 1, 1);
-
-    label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("Hardware assisted virtualization"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 9, 1, 1);
-
-    label = gtk_label_new (_("25 HZ"));
-    gtk_label_set_xalign (GTK_LABEL(label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,label, 1, 9, 1, 1);
 }
 
 static GObject *
