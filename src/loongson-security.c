@@ -24,9 +24,33 @@
 struct _LoongsonSecurityPrivate
 {
     char *name;
+    char *firewalld;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonSecurity, loongson_security, GTK_TYPE_BOX)
+
+static char *loongson_firewalld_state (void)
+{
+    FILE *fp = NULL;
+    char  cmd[128] = "ps -efH | grep firewalld | grep -v grep";
+    char  buf[50] = { 0 };
+
+    fp = popen (cmd, "r");
+    if (fread (buf, 50, 1, fp) != 0)
+    {
+        fclose (fp);
+        return _("Enabled");
+    }
+
+    fclose (fp);
+    return _("Disabled");
+}
+
+static void loongson_security_set_data (LoongsonSecurity *security)
+{
+    security->priv->name = g_strdup (_("Loongson Security"));
+    security->priv->firewalld = g_strdup (loongson_firewalld_state ());
+}
 
 static void
 loongson_security_fill (LoongsonSecurity *security)
@@ -40,59 +64,50 @@ loongson_security_fill (LoongsonSecurity *security)
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
     gtk_box_pack_start (GTK_BOX (security), vbox, FALSE, FALSE, 0);
-    
+
     pb = gdk_pixbuf_new_from_file (ICONSDIR"loongson-security.png", NULL);
     pb2 = gdk_pixbuf_scale_simple (pb, 120, 120, GDK_INTERP_BILINEAR);
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 12);
-    
+
     table = grid_widget_new ();
     gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 6);
-    
+
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("key management"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
-    
-    label = gtk_label_new (_("What is this"));
+
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
-    
+
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Memory Check"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
-    
-    label = gtk_label_new (_("Single-bit ECC Check"));
+
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
-    
+
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Trusted start"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
-    
-    label = gtk_label_new (_("What is this"));
+
+    label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 2, 1, 1);
-    
+
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Firewall"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
-    
-    label = gtk_label_new (_("Enable"));
+
+    label = gtk_label_new (security->priv->firewalld);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 3, 1, 1);
-    
-    label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("SELinux"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
-    
-    label = gtk_label_new (_("Disable"));
-    gtk_label_set_xalign (GTK_LABEL(label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,label, 1, 4, 1, 1);
 
 }
 
@@ -121,6 +136,7 @@ loongson_security_destroy (GtkWidget *widget)
 
     security = LOONGSON_SECURITY (widget);
     g_free (security->priv->name);
+    g_free (security->priv->firewalld);
 }
 
 static void
@@ -138,7 +154,7 @@ loongson_security_init (LoongsonSecurity *security)
 {
     security->priv = loongson_security_get_instance_private (security);
     gtk_orientable_set_orientation (GTK_ORIENTABLE (security), GTK_ORIENTATION_VERTICAL);
-    security->priv->name = g_strdup (_("Loongson Security"));
+    loongson_security_set_data (security);
 }
 
 const char *loongson_security_get_name (LoongsonSecurity *security)
