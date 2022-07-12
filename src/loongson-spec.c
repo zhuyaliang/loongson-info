@@ -110,7 +110,6 @@ static void get_cpu_byte_order (LoongsonSpec *spec)
 
 static void set_spec_data (LoongsonSpec *spec)
 {
-
     spec->priv->name = g_strdup (_("Loongson Specifications"));
     get_cpu_byte_order (spec);
     get_cpu_machine (spec);
