@@ -69,6 +69,8 @@ static void get_cpu_info (LoongsonSpec *spec)
             get_str ("system type", spec->priv->vendor_id);
             get_str ("model name", spec->priv->model_name);
             get_str ("cpu family", spec->priv->cpu_family);
+            if (spec->priv->cpu_family == NULL)
+                get_str ("cpu model", spec->priv->cpu_family);
         }
         g_strfreev(tmp);
     }
