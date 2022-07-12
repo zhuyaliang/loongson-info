@@ -151,22 +151,22 @@ loongson_perf_constructor (GType                  type,
 }
 
 static void
-loongson_perf_dispose (GObject *object)
+loongson_perf_destroy (GtkWidget *widget)
 {
     LoongsonPerf *perf;
 
-    perf = LOONGSON_PERF (object);
+    perf = LOONGSON_PERF (widget);
     g_free (perf->priv->name);
-    G_OBJECT_CLASS (loongson_perf_parent_class)->dispose (object);
 }
 
 static void
 loongson_perf_class_init (LoongsonPerfClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_perf_constructor;
-    gobject_class->dispose = loongson_perf_dispose;
+    gtk_class->destroy = loongson_perf_destroy;
 }
 
 static void

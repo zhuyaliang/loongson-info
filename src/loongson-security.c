@@ -115,22 +115,22 @@ loongson_security_constructor (GType                  type,
 }
 
 static void
-loongson_security_dispose (GObject *object)
+loongson_security_destroy (GtkWidget *widget)
 {
     LoongsonSecurity *security;
 
-    security = LOONGSON_SECURITY (object);
+    security = LOONGSON_SECURITY (widget);
     g_free (security->priv->name);
-    G_OBJECT_CLASS (loongson_security_parent_class)->dispose (object);
 }
 
 static void
 loongson_security_class_init (LoongsonSecurityClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_security_constructor;
-    gobject_class->dispose = loongson_security_dispose;
+    gtk_class->destroy = loongson_security_destroy;
 }
 
 static void

@@ -20,13 +20,24 @@
 ************************************************************************/
 #include "loongson-spec.h"
 #include "loongson-utils.h"
+#include <sys/utsname.h>
 
 struct _LoongsonSpecPrivate
 {
     char *name;
+    char *machine;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonSpec, loongson_spec, GTK_TYPE_BOX)
+
+static void set_spec_data (LoongsonSpec *spec)
+{
+    struct utsname  u;
+
+    uname(&u);
+    spec->priv->name = g_strdup (_("Loongson Specifications"));
+    spec->priv->machine = g_strdup (u.machine);
+}
 
 static void
 loongson_spec_fill (LoongsonSpec *spec)
@@ -47,7 +58,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 0);
 
     label = gtk_label_new (NULL);
-    set_lable_style (label, "black", 13, "LoongArch64", TRUE);
+    set_lable_style (label, "black", 13, spec->priv->machine, TRUE);
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
     
     table = grid_widget_new ();
@@ -146,22 +157,23 @@ loongson_spec_constructor (GType                  type,
 }
 
 static void
-loongson_spec_dispose (GObject *object)
+loongson_spec_destroy (GtkWidget *widget)
 {
     LoongsonSpec *spec;
 
-    spec = LOONGSON_SPEC (object);
+    spec = LOONGSON_SPEC (widget);
     g_free (spec->priv->name);
-    G_OBJECT_CLASS (loongson_spec_parent_class)->dispose (object);
+    g_free (spec->priv->machine);
 }
 
 static void
 loongson_spec_class_init (LoongsonSpecClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_spec_constructor;
-    gobject_class->dispose = loongson_spec_dispose;
+    gtk_class->destroy = loongson_spec_destroy;
 }
 
 static void
@@ -169,7 +181,7 @@ loongson_spec_init (LoongsonSpec *spec)
 {
     spec->priv = loongson_spec_get_instance_private (spec);
     gtk_orientable_set_orientation (GTK_ORIENTABLE (spec), GTK_ORIENTATION_VERTICAL);
-    spec->priv->name = g_strdup (_("Loongson Specifications"));
+    set_spec_data (spec);
 }
 
 const char *loongson_spec_get_name (LoongsonSpec *spec)

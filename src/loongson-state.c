@@ -120,22 +120,22 @@ loongson_state_constructor (GType                  type,
 }
 
 static void
-loongson_state_dispose (GObject *object)
+loongson_state_destroy (GtkWidget *widget)
 {
     LoongsonState *state;
 
-    state = LOONGSON_STATE (object);
+    state = LOONGSON_STATE (widget);
     g_free (state->priv->name);
-    G_OBJECT_CLASS (loongson_state_parent_class)->dispose (object);
 }
 
 static void
 loongson_state_class_init (LoongsonStateClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_state_constructor;
-    gobject_class->dispose = loongson_state_dispose;
+    gtk_class->destroy = loongson_state_destroy;
 }
 
 static void

@@ -124,6 +124,7 @@ loongson_window_destroy (GtkWidget *widget)
     LoongsonWindow *loongsonwin;
 
     loongsonwin = LOONGSON_WINDOW (widget);
+
     //g_object_unref (loongsonwin->priv->proxy);
     gtk_main_quit ();
 }
