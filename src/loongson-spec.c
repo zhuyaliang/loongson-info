@@ -42,8 +42,8 @@ typedef struct loongson_cpu
 static struct loongson_cpu loongson_cpus [] =
 {
     {"Loongson-3A R4 (Loongson-3A4000)", "28nm"},
-    {"Loongson-3A5000", "28nm"},
-    {"Loongson-3C5000L", "28nm"},
+    {"Loongson-3A5000", "14nm"},
+    {"Loongson-3C5000L", "14nm"},
     {NULL, NULL},
 
 };
