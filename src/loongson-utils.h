@@ -9,6 +9,14 @@
 #include <glib/gi18n.h>
 #include "config.h"
 
+#define PROC_CPUINFO "/proc/cpuinfo"
+#define get_str(field_name,ptr)               \
+  if (g_str_has_prefix(tmp[0], field_name)) { \
+    ptr = g_strdup(tmp[1]);                   \
+    g_strfreev(tmp);                          \
+    continue;                                 \
+  }
+
 typedef enum
 {
     ERROR = 0,

@@ -24,6 +24,8 @@
 struct _LoongsonPerfPrivate
 {
     char *name;
+    char *current_cpu_hz;
+    char *bogomips;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonPerf, loongson_perf, GTK_TYPE_BOX)
