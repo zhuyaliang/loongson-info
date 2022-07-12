@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: loongson-info\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-10 16:31+0800\n"
+"POT-Creation-Date: 2022-07-12 20:04+0800\n"
 "PO-Revision-Date: 2022-07-07 20:35+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,245 +16,156 @@ msgstr ""
 "Content-Type: text/plain; charset=BIG5-HKSCS\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/loongson-window.c:156
+#: src/loongson-window.c:157
 msgid "Loongson Info"
 msgstr ""
 
-#: src/loongson-perf.c:54
-msgid "Physical Kernel"
-msgstr ""
-
-#: src/loongson-perf.c:57
-msgid "4"
-msgstr ""
-
-#: src/loongson-perf.c:63
-msgid "Maximum Memory frequency"
-msgstr ""
-
-#: src/loongson-perf.c:66 src/loongson-perf.c:84 src/loongson-perf.c:93
-msgid "2500 HZ"
-msgstr ""
-
-#: src/loongson-perf.c:72
-msgid "Memory channel"
-msgstr ""
-
-#: src/loongson-perf.c:75
-msgid "8"
-msgstr ""
-
-#: src/loongson-perf.c:81
-msgid "Maximum Frequency"
-msgstr ""
-
-#: src/loongson-perf.c:90
-msgid "Current Frequency"
-msgstr ""
-
-#: src/loongson-perf.c:99
-msgid "Maximum memory capacity"
-msgstr ""
-
-#: src/loongson-perf.c:102
-msgid "128 G"
-msgstr ""
-
-#: src/loongson-perf.c:108
-msgid "BogoMIPS"
-msgstr ""
-
-#: src/loongson-perf.c:111
-msgid "5000"
-msgstr ""
-
-#: src/loongson-perf.c:117
-msgid "Address sizes"
-msgstr ""
-
-#: src/loongson-perf.c:120
-msgid "48 bits physical, 48 bits virtual"
-msgstr ""
-
-#: src/loongson-perf.c:168
+#: src/loongson-perf.c:58
 msgid "Loongson Perf"
 msgstr ""
 
-#: src/loongson-state.c:54
+#: src/loongson-perf.c:86
+msgid "Physical Kernel"
+msgstr ""
+
+#: src/loongson-perf.c:95
+msgid "Maximum Memory frequency"
+msgstr ""
+
+#: src/loongson-perf.c:104
+msgid "Memory channel"
+msgstr ""
+
+#: src/loongson-perf.c:113
+msgid "Maximum Frequency"
+msgstr ""
+
+#: src/loongson-perf.c:122
+msgid "Current Frequency"
+msgstr ""
+
+#: src/loongson-perf.c:131
+msgid "Maximum memory capacity"
+msgstr ""
+
+#: src/loongson-perf.c:140
+msgid "Number of threads"
+msgstr ""
+
+#: src/loongson-perf.c:149
+msgid "BogoMIPS"
+msgstr ""
+
+#: src/loongson-state.c:183
 msgid "Temperature"
 msgstr ""
 
-#: src/loongson-state.c:58
-msgid "80"
-msgstr ""
-
-#: src/loongson-state.c:64
+#: src/loongson-state.c:192
 msgid "Fan speed"
 msgstr ""
 
-#: src/loongson-state.c:68
-msgid "30%"
-msgstr ""
-
-#: src/loongson-state.c:74
+#: src/loongson-state.c:201
 msgid "Memory Usage"
 msgstr ""
 
-#: src/loongson-state.c:78
-msgid "60%"
+#: src/loongson-state.c:210
+msgid "Swap Usage"
 msgstr ""
 
-#: src/loongson-state.c:84
+#: src/loongson-state.c:219
 msgid "CPU utilization"
 msgstr ""
 
-#: src/loongson-state.c:88
-msgid "50%"
+#: src/loongson-state.c:228
+msgid "Load average"
 msgstr ""
 
-#: src/loongson-state.c:94
-msgid "Network traffic"
-msgstr ""
-
-#: src/loongson-state.c:98
-msgid "Upload: 40Mb/s Download: 100Mb/s"
-msgstr ""
-
-#: src/loongson-state.c:146
+#: src/loongson-state.c:281
 msgid "Loongson State"
 msgstr ""
 
-#: src/loongson-security.c:54
-msgid "key management"
+#: src/loongson-security.c:42
+msgid "Enabled"
 msgstr ""
 
-#: src/loongson-security.c:57 src/loongson-security.c:75
-#: src/loongson-mainboard.c:85
-msgid "What is this"
+#: src/loongson-security.c:46
+msgid "Disabled"
 msgstr ""
 
-#: src/loongson-security.c:63
-msgid "Memory Check"
-msgstr ""
-
-#: src/loongson-security.c:66
-msgid "Single-bit ECC Check"
-msgstr ""
-
-#: src/loongson-security.c:72
-msgid "Trusted start"
-msgstr ""
-
-#: src/loongson-security.c:81
-msgid "Firewall"
-msgstr ""
-
-#: src/loongson-security.c:84
-msgid "Enable"
-msgstr ""
-
-#: src/loongson-security.c:90
-msgid "SELinux"
-msgstr ""
-
-#: src/loongson-security.c:93
-msgid "Disable"
-msgstr ""
-
-#: src/loongson-security.c:141
+#: src/loongson-security.c:51
 msgid "Loongson Security"
 msgstr ""
 
-#: src/loongson-spec.c:58
+#: src/loongson-security.c:78
+msgid "key management"
+msgstr ""
+
+#: src/loongson-security.c:87
+msgid "Memory Check"
+msgstr ""
+
+#: src/loongson-security.c:96
+msgid "Trusted start"
+msgstr ""
+
+#: src/loongson-security.c:105
+msgid "Firewall"
+msgstr ""
+
+#: src/loongson-spec.c:105
+msgid "big endian"
+msgstr ""
+
+#: src/loongson-spec.c:107
+msgid "little endian"
+msgstr ""
+
+#: src/loongson-spec.c:113
+msgid "Loongson Specifications"
+msgstr ""
+
+#: src/loongson-spec.c:147
 msgid "byte order"
 msgstr ""
 
-#: src/loongson-spec.c:61
-msgid "Little Endian"
-msgstr ""
-
-#: src/loongson-spec.c:67
+#: src/loongson-spec.c:156
 msgid "CPU Series"
 msgstr ""
 
-#: src/loongson-spec.c:70
-msgid "Loongson-64bit"
-msgstr ""
-
-#: src/loongson-spec.c:76
+#: src/loongson-spec.c:165
 msgid "CPU Model Name"
 msgstr ""
 
-#: src/loongson-spec.c:79
-msgid "Loongson-3A5000"
-msgstr ""
-
-#: src/loongson-spec.c:85
+#: src/loongson-spec.c:174
 msgid "Process Technology"
 msgstr ""
 
-#: src/loongson-spec.c:88
-msgid "28 nm"
-msgstr ""
-
-#: src/loongson-spec.c:94
+#: src/loongson-spec.c:183
 msgid "Power Dissipation"
 msgstr ""
 
-#: src/loongson-spec.c:97
-msgid "28 W"
-msgstr ""
-
-#: src/loongson-spec.c:103
+#: src/loongson-spec.c:192
 msgid "Junction Temperature "
 msgstr ""
 
-#: src/loongson-spec.c:106
-msgid "28 C"
-msgstr ""
-
-#: src/loongson-spec.c:112
+#: src/loongson-spec.c:201
 msgid "Packaging Method"
 msgstr ""
 
-#: src/loongson-spec.c:115
-msgid "PGA"
-msgstr ""
-
-#: src/loongson-spec.c:121
+#: src/loongson-spec.c:210
 msgid "Size"
-msgstr ""
-
-#: src/loongson-spec.c:124
-msgid "28 X 28 X 28"
-msgstr ""
-
-#: src/loongson-spec.c:172
-msgid "Loongson Specifications"
 msgstr ""
 
 #: src/loongson-mainboard.c:55
 msgid "Product Name"
 msgstr ""
 
-#: src/loongson-mainboard.c:58
-msgid "Loongson-LS3A5000-7A1000-1w-EVB-V1.21"
-msgstr ""
-
 #: src/loongson-mainboard.c:64
 msgid "Memory"
 msgstr ""
 
-#: src/loongson-mainboard.c:67
-msgid "DDR4/8G"
-msgstr ""
-
 #: src/loongson-mainboard.c:73
 msgid "BIOS Information"
-msgstr ""
-
-#: src/loongson-mainboard.c:76
-msgid "Loongson-UDK2018-V2.0.04082-beta7"
 msgstr ""
 
 #: src/loongson-mainboard.c:82
@@ -265,40 +176,20 @@ msgstr ""
 msgid "CPU Cache"
 msgstr ""
 
-#: src/loongson-mainboard.c:94
-msgid "L1d: 64K; L1i: 64K; L2: 256K; L3:16384K"
-msgstr ""
-
 #: src/loongson-mainboard.c:100
 msgid "MMU"
-msgstr ""
-
-#: src/loongson-mainboard.c:103
-msgid "open"
 msgstr ""
 
 #: src/loongson-mainboard.c:109
 msgid "Calculation part"
 msgstr ""
 
-#: src/loongson-mainboard.c:112
-msgid "xxxxxxxxxxxx"
-msgstr ""
-
 #: src/loongson-mainboard.c:118
 msgid "Extended instruction"
 msgstr ""
 
-#: src/loongson-mainboard.c:121
-msgid "Mov Ldd Subi"
-msgstr ""
-
 #: src/loongson-mainboard.c:127
-msgid "External Clock"
-msgstr ""
-
-#: src/loongson-mainboard.c:130
-msgid "25 HZ"
+msgid "Hardware assisted virtualization"
 msgstr ""
 
 #: src/loongson-mainboard.c:177
