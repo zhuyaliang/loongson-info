@@ -5,6 +5,13 @@ project('loongson-info', 'c',
   default_options : [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11'],
   )
 
+dbus_dep = dependency('dbus-1')
+ls_namespace = 'cn.loongson.info'
+ls_prefix = get_option('prefix')
+ls_sysconfdir = join_paths(ls_prefix, get_option('sysconfdir'))
+dbus_conf_dir = join_paths(dbus_dep.get_pkgconfig_variable('sysconfdir', define_variable: ['sysconfdir', ls_sysconfdir]), 'dbus-1', 'system.d')
+install_systemd_unit_dir = join_paths(ls_prefix, 'lib', 'systemd', 'system')
+
 # Compiler & Project arguments
 add_project_arguments([
   '-DHAVE_CONFIG_H',
