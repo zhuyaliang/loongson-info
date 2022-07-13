@@ -1,6 +1,6 @@
 <node>
 	<interface name="cn.loongson.info">
-		<method name="cpu-name">
+		<method name="CpuName">
 			<arg name="name" type="s" direction="out"/>
 		</method>
 	</interface>
