@@ -1,0 +1,7 @@
+<node>
+	<interface name="cn.loongson.info">
+		<method name="cpu-name">
+			<arg name="name" type="s" direction="out"/>
+		</method>
+	</interface>
+</node>

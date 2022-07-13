@@ -87,9 +87,12 @@ add_global_link_arguments(
 
 # Dependencies
 gtk_req_version = '>= 3.0.0'
+glib_req_version = '>= 2.32.0'
 gtk_deps = dependency('gtk+-3.0', version: gtk_req_version)
 polkit_deps = dependency('polkit-gobject-1')
 gtop_deps = dependency('libgtop-2.0')
+gio_dep = dependency('gio-2.0', method: 'pkg-config', version: glib_req_version)
+gio_os_dep = dependency('gio-unix-2.0', version: glib_req_version)
 
 # Configure data
 conf = configuration_data()
@@ -97,7 +100,7 @@ conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_VERSION', meson.project_version())
 conf.set_quoted('GETTEXT_PACKAGE', meson.project_name())
-conf.set_quoted('LUNAR_CALENDAR_LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
+conf.set_quoted('LOONGSON_INFO_LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set_quoted('DATADIR', join_paths(get_option('prefix'), get_option('datadir')))
 conf.set_quoted('LIBDIR', join_paths(get_option('prefix'), get_option('libdir')))
 conf.set_quoted('BINDIR', join_paths(get_option('prefix'), get_option('bindir')))

@@ -8,7 +8,7 @@ main (int argc, char **argv)
 {
     GtkWidget *window;
 
-    bindtextdomain (GETTEXT_PACKAGE, LUNAR_CALENDAR_LOCALEDIR);
+    bindtextdomain (GETTEXT_PACKAGE, LOONGSON_INFO_LOCALEDIR);
     textdomain (GETTEXT_PACKAGE);
 
     gtk_init (&argc, &argv);
