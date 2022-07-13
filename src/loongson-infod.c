@@ -54,15 +54,16 @@ static GParamSpec *properties[LAST_PROP] = { NULL };
 
 G_DEFINE_TYPE (InfoDaemon, info_daemon, G_TYPE_OBJECT)
 
-gboolean info_get_cpu_name(BusInfo *object,
-                           GDBusMethodInvocation *invocation,
-                           gpointer user_data)
+gboolean info_get_cpu_name (BusInfo *object,
+                            GDBusMethodInvocation *invocation,
+                            gpointer user_data)
 {
     gchar *cpu_name;
 
     cpu_name = g_strdup("3A5000");
     bus_info_complete_cpu_name (object, invocation, cpu_name);
     g_free(cpu_name);
+
     return TRUE;
 }
 

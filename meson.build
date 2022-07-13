@@ -8,7 +8,10 @@ project('loongson-info', 'c',
 dbus_dep = dependency('dbus-1')
 ls_namespace = 'cn.loongson.info'
 ls_prefix = get_option('prefix')
+data_dir = join_paths(meson.current_source_dir(), 'data')
 ls_sysconfdir = join_paths(ls_prefix, get_option('sysconfdir'))
+ls_datadir = join_paths(ls_prefix, get_option('datadir'))
+dbus_ifaces_dir = dbus_dep.get_pkgconfig_variable('interfaces_dir', define_variable: ['datadir', ls_datadir])
 dbus_conf_dir = join_paths(dbus_dep.get_pkgconfig_variable('sysconfdir', define_variable: ['sysconfdir', ls_sysconfdir]), 'dbus-1', 'system.d')
 install_systemd_unit_dir = join_paths(ls_prefix, 'lib', 'systemd', 'system')
 
