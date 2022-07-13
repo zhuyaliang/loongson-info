@@ -67,6 +67,284 @@ gboolean info_get_cpu_name (BusInfo *object,
     return TRUE;
 }
 
+static char *example_get_bios_name (void)
+{
+    return "bios_name";
+}
+
+static gboolean info_get_biso_name (BusInfo *object,
+                                    GDBusMethodInvocation *invocation,
+                                    gpointer user_data)
+{
+    gchar *bios_name;
+
+    bios_name = example_get_bios_name ();
+    bus_info_complete_bios_name (object, invocation, bios_name);
+
+    return TRUE;
+}
+
+static gboolean info_get_calculation_part (BusInfo *object,
+                                           GDBusMethodInvocation *invocation,
+                                           gpointer user_data)
+{
+    gchar *calculation_part = NULL;
+
+    bus_info_complete_calculation_part (object, invocation, calculation_part);
+
+    return TRUE;
+}
+static gboolean info_get_cpu_cache (BusInfo *object,
+                                    GDBusMethodInvocation *invocation,
+                                    gpointer user_data)
+{
+    gchar *cpu_cache = NULL;
+
+    bus_info_complete_cpu_cache (object, invocation, cpu_cache);
+
+    return TRUE;
+}
+static gboolean info_get_cpu_sizes (BusInfo *object,
+                                    GDBusMethodInvocation *invocation,
+                                    gpointer user_data)
+{
+    gchar *cpu_sizes = NULL;
+
+    bus_info_complete_cpu_sizes (object, invocation, cpu_sizes);
+
+    return TRUE;
+}
+static gboolean info_get_cpu_temperature (BusInfo *object,
+                                          GDBusMethodInvocation *invocation,
+                                          gpointer user_data)
+{
+    gchar *cpu_temperature = NULL;
+
+    bus_info_complete_cpu_temperature (object, invocation, cpu_temperature);
+
+    return TRUE;
+}
+static gboolean info_get_cpu_threads (BusInfo *object,
+                                      GDBusMethodInvocation *invocation,
+                                      gpointer user_data)
+{
+    gchar *cpu_threads = NULL;
+
+    bus_info_complete_cpu_threads (object, invocation, cpu_threads);
+
+    return TRUE;
+}
+static gboolean info_get_extended_instruction (BusInfo *object,
+                                               GDBusMethodInvocation *invocation,
+                                               gpointer user_data)
+{
+    gchar *instruction = NULL;
+
+    bus_info_complete_extended_instruction (object, invocation, instruction);
+
+    return TRUE;
+}
+static gboolean info_get_fan_speed (BusInfo *object,
+                                    GDBusMethodInvocation *invocation,
+                                    gpointer user_data)
+{
+    gchar *speed = NULL;
+
+    bus_info_complete_fan_speed (object, invocation, speed);
+
+    return TRUE;
+}
+static gboolean info_get_hardware_assisted_virtualization (BusInfo *object,
+                                                           GDBusMethodInvocation *invocation,
+                                                           gpointer user_data)
+{
+    gchar *virtualization = NULL;
+
+    bus_info_complete_hardware_assisted_virtualization (object, invocation, virtualization);
+
+    return TRUE;
+}
+static gboolean info_get_junction_temperature (BusInfo *object,
+                                               GDBusMethodInvocation *invocation,
+                                               gpointer user_data)
+{
+    gchar *temperature = NULL;
+
+    bus_info_complete_junction_temperature (object, invocation, temperature);
+
+    return TRUE;
+}
+static gboolean info_get_key_management (BusInfo *object,
+                                         GDBusMethodInvocation *invocation,
+                                         gpointer user_data)
+{
+    gchar *key = NULL;
+
+    bus_info_complete_key_management (object, invocation, key);
+
+    return TRUE;
+}
+static gboolean info_get_maximum_cpu_frequency (BusInfo *object,
+                                                GDBusMethodInvocation *invocation,
+                                                gpointer user_data)
+{
+    gchar *frequency = NULL;
+
+    bus_info_complete_maximum_cpu_frequency (object, invocation, frequency);
+
+    return TRUE;
+}
+static gboolean info_get_maximum_memory_capacity (BusInfo *object,
+                                                  GDBusMethodInvocation *invocation,
+                                                  gpointer user_data)
+{
+    gchar *capacity = NULL;
+
+    bus_info_complete_maximum_memory_capacity (object, invocation, capacity);
+
+    return TRUE;
+}
+static gboolean info_get_maximum_memory_frequency (BusInfo *object,
+                                                   GDBusMethodInvocation *invocation,
+                                                   gpointer user_data)
+{
+    gchar *frequency = NULL;
+
+    bus_info_complete_maximum_memory_frequency (object, invocation, frequency);
+
+    return TRUE;
+}
+static gboolean info_get_memory_channel (BusInfo *object,
+                                         GDBusMethodInvocation *invocation,
+                                         gpointer user_data)
+{
+    gchar *channel = NULL;
+
+    bus_info_complete_memory_channel (object, invocation, channel);
+
+    return TRUE;
+}
+static gboolean info_get_memory_style (BusInfo *object,
+                                       GDBusMethodInvocation *invocation,
+                                       gpointer user_data)
+{
+    gchar *memory = NULL;
+
+    bus_info_complete_memory_style (object, invocation, memory);
+
+    return TRUE;
+}
+static gboolean info_get_memory_verification (BusInfo *object,
+                                              GDBusMethodInvocation *invocation,
+                                              gpointer user_data)
+{
+    gchar *verification = NULL;
+
+    bus_info_complete_memory_verification (object, invocation, verification);
+
+    return TRUE;
+}
+static gboolean info_get_micro_architecture (BusInfo *object,
+                                             GDBusMethodInvocation *invocation,
+                                             gpointer user_data)
+{
+    gchar *architecture = NULL;
+
+    bus_info_complete_micro_architecture (object, invocation, architecture);
+
+    return TRUE;
+}
+static gboolean info_get_mmu_style (BusInfo *object,
+                                    GDBusMethodInvocation *invocation,
+                                    gpointer user_data)
+{
+    gchar *mmu = NULL;
+
+    bus_info_complete_mmu_style (object, invocation, mmu);
+
+    return TRUE;
+}
+static gboolean info_get_packaging_method (BusInfo *object,
+                                           GDBusMethodInvocation *invocation,
+                                           gpointer user_data)
+{
+    gchar *method = NULL;
+
+    bus_info_complete_packaging_method (object, invocation, method);
+
+    return TRUE;
+}
+static gboolean info_get_physical_kernel (BusInfo *object,
+                                          GDBusMethodInvocation *invocation,
+                                          gpointer user_data)
+{
+    gchar *kerenl = NULL;
+
+    bus_info_complete_physical_kernel (object, invocation, kerenl);
+
+    return TRUE;
+}
+static gboolean info_get_power_waste (BusInfo *object,
+                                      GDBusMethodInvocation *invocation,
+                                      gpointer user_data)
+{
+    gchar *power = NULL;
+
+    bus_info_complete_power_waste (object, invocation, power);
+
+    return TRUE;
+}
+static gboolean info_get_product_name (BusInfo *object,
+                                       GDBusMethodInvocation *invocation,
+                                       gpointer user_data)
+{
+    gchar *name = NULL;
+
+    bus_info_complete_product_name (object, invocation, name);
+
+    return TRUE;
+}
+static gboolean info_get_trusted_start (BusInfo *object,
+                                        GDBusMethodInvocation *invocation,
+                                        gpointer user_data)
+{
+    gchar *trusted_start = NULL;
+
+    bus_info_complete_trusted_start (object, invocation, trusted_start);
+
+    return TRUE;
+}
+
+static void set_dbus_signal_method (InfoDaemon *daemon)
+{
+    g_signal_connect (daemon->skeleton, "handle-bios-name", G_CALLBACK (info_get_biso_name), daemon);
+    g_signal_connect (daemon->skeleton, "handle-calculation-part", G_CALLBACK (info_get_calculation_part), daemon);
+    g_signal_connect (daemon->skeleton, "handle-cpu-cache", G_CALLBACK (info_get_cpu_cache), daemon);
+    g_signal_connect (daemon->skeleton, "handle-cpu-name", G_CALLBACK (info_get_cpu_name), daemon);
+    g_signal_connect (daemon->skeleton, "handle-cpu-sizes", G_CALLBACK (info_get_cpu_sizes), daemon);
+    g_signal_connect (daemon->skeleton, "handle-cpu-temperature", G_CALLBACK (info_get_cpu_temperature), daemon);
+    g_signal_connect (daemon->skeleton, "handle-cpu-threads", G_CALLBACK (info_get_cpu_threads), daemon);
+    g_signal_connect (daemon->skeleton, "handle-extended-instruction", G_CALLBACK (info_get_extended_instruction), daemon);
+    g_signal_connect (daemon->skeleton, "handle-fan-speed", G_CALLBACK (info_get_fan_speed), daemon);
+    g_signal_connect (daemon->skeleton, "handle-hardware-assisted-virtualization", G_CALLBACK (info_get_hardware_assisted_virtualization), daemon);
+    g_signal_connect (daemon->skeleton, "handle-junction-temperature", G_CALLBACK (info_get_junction_temperature), daemon);
+    g_signal_connect (daemon->skeleton, "handle-key-management", G_CALLBACK (info_get_key_management), daemon);
+    g_signal_connect (daemon->skeleton, "handle-maximum-cpu-frequency", G_CALLBACK (info_get_maximum_cpu_frequency), daemon);
+    g_signal_connect (daemon->skeleton, "handle-maximum-memory-capacity", G_CALLBACK (info_get_maximum_memory_capacity), daemon);
+    g_signal_connect (daemon->skeleton, "handle-maximum-memory-frequency", G_CALLBACK (info_get_maximum_memory_frequency), daemon);
+    g_signal_connect (daemon->skeleton, "handle-memory-channel", G_CALLBACK (info_get_memory_channel), daemon);
+    g_signal_connect (daemon->skeleton, "handle-memory-style", G_CALLBACK (info_get_memory_style), daemon);
+    g_signal_connect (daemon->skeleton, "handle-memory-verification", G_CALLBACK (info_get_memory_verification), daemon);
+    g_signal_connect (daemon->skeleton, "handle-micro-architecture", G_CALLBACK (info_get_micro_architecture), daemon);
+    g_signal_connect (daemon->skeleton, "handle-mmu-style", G_CALLBACK (info_get_mmu_style), daemon);
+    g_signal_connect (daemon->skeleton, "handle-packaging-method", G_CALLBACK (info_get_packaging_method), daemon);
+    g_signal_connect (daemon->skeleton, "handle-physical-kernel", G_CALLBACK (info_get_physical_kernel), daemon);
+    g_signal_connect (daemon->skeleton, "handle-power-waste", G_CALLBACK (info_get_power_waste), daemon);
+    g_signal_connect (daemon->skeleton, "handle-product-name", G_CALLBACK (info_get_product_name), daemon);
+    g_signal_connect (daemon->skeleton, "handle-trusted-start", G_CALLBACK (info_get_trusted_start), daemon);
+
+}
+
 static void bus_acquired_handler_cb (GDBusConnection *connection,
                                      const gchar     *name,
                                      gpointer         user_data)
@@ -78,8 +356,7 @@ static void bus_acquired_handler_cb (GDBusConnection *connection,
 
     daemon = INFO_DAEMON (user_data);
 
-    g_signal_connect (daemon->skeleton, "handle-cpu-name", G_CALLBACK (info_get_cpu_name), daemon);
-
+    set_dbus_signal_method (daemon);
     exported = g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (daemon->skeleton),
             connection, INFO_DBUS_PATH, &error);
 

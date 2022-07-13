@@ -1,7 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <node>
-	<interface name="cn.loongson.info">
-		<method name="CpuName">
-			<arg name="name" type="s" direction="out"/>
-		</method>
-	</interface>
+    <interface name="cn.loongson.info">
+        <method name="CpuName">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="PowerWaste">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="JunctionTemperature">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="PackagingMethod">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="CpuSizes">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="ProductName">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="BiosName">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MemoryStyle">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MicroArchitecture">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="CpuCache">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MmuStyle">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="CalculationPart">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="ExtendedInstruction">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="HardwareAssistedVirtualization">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="KeyManagement">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MemoryVerification">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="TrustedStart">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="CpuTemperature">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="PhysicalKernel">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MaximumMemoryFrequency">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MemoryChannel">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MaximumMemoryCapacity">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="MaximumCpuFrequency">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="CpuThreads">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+
+        <method name="FanSpeed">
+            <arg name="name" type="s" direction="out"/>
+        </method>
+    </interface>
 </node>
