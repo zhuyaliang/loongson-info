@@ -27,17 +27,25 @@ typedef enum
 
 G_BEGIN_DECLS
 
-void        set_lable_style         (GtkWidget  *lable ,
-                                     const char *color,
-                                     int         font_szie,
-                                     const char *text,
-                                     gboolean    blod);
+void        close_dbus_proxy        (void);
 
-int         loongson_message_dialog (const char *title,
-                                     MsgType     type,
-                                     const char *msg,...);
+gboolean    init_dbus_proxy         (GError    **error);
 
-GtkWidget   *grid_widget_new         (void);
+char       *loongson_dbus_call      (const gchar *method_name,
+                                     GError     **error);
+
+void        set_lable_style         (GtkWidget   *lable ,
+                                     const char  *color,
+                                     int          font_szie,
+                                     const char  *text,
+                                     gboolean     blod);
+
+int         loongson_message_dialog (const char  *title,
+                                     MsgType      type,
+                                     const char  *msg,...);
+
+GtkWidget   *grid_widget_new        (void);
+
 G_END_DECLS
 
 #endif

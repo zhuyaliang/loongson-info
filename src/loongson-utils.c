@@ -21,8 +21,58 @@
 #include "loongson-utils.h"
 
 #define MSGFORMAT           "<span foreground='red'font_desc='13'>%s </span>"
+#define LOONGSON_NAME       "cn.loongson.info"
+#define LOONGSON_PATH       "/cn/loongson/info"
 
-void set_lable_style (GtkWidget  *lable ,
+static GDBusProxy *proxy;
+
+void close_dbus_proxy (void)
+{
+    if (proxy != NULL)
+        g_object_unref (proxy);
+}
+
+gboolean init_dbus_proxy (GError **error)
+{
+    proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
+                                           G_DBUS_PROXY_FLAGS_NONE,
+                                           NULL,
+                                           LOONGSON_NAME,
+                                           LOONGSON_PATH,
+                                           LOONGSON_NAME,
+                                           NULL, error);
+
+    if (proxy == NULL)
+        return FALSE;
+
+    return TRUE;
+}
+
+char *loongson_dbus_call (const gchar *method_name,
+                          GError     **error)
+{
+    GVariant *result;
+    char     *strings = NULL;
+
+    result = g_dbus_proxy_call_sync (proxy,
+                                     method_name,
+                                     NULL,
+                                     G_DBUS_CALL_FLAGS_NONE,
+                                     -1,
+                                     NULL,
+                                     error);
+    if (!result)
+        return NULL;
+
+    if (g_variant_is_of_type (result, G_VARIANT_TYPE ("(s)")))
+        g_variant_get (result, "(s)", &strings);
+
+    g_variant_unref (result);
+
+    return strings;
+}
+
+void set_lable_style (GtkWidget  *lable,
                       const char *color,
                       int         font_szie,
                       const char *text,

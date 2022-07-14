@@ -31,6 +31,7 @@ struct _LoongsonSpecPrivate
     char *model_name;
     char *cpu_family;
     char *technology;
+    char *power_waste;
 };
 
 typedef struct loongson_cpu
@@ -110,6 +111,19 @@ static void get_cpu_byte_order (LoongsonSpec *spec)
 
 }
 
+static void get_cpu_power_waste (LoongsonSpec *spec)
+{
+    g_autoptr(GError) error = NULL;
+
+    spec->priv->power_waste = loongson_dbus_call ("PowerWaste", &error);
+    if (spec->priv->power_waste == NULL)
+    {
+        loongson_message_dialog (_("Get loongson spec"),
+                                 WARING,
+                                 "%s", "error->message");
+    }
+}
+
 static void set_spec_data (LoongsonSpec *spec)
 {
     spec->priv->name = g_strdup (_("Loongson Specifications"));
@@ -117,6 +131,7 @@ static void set_spec_data (LoongsonSpec *spec)
     get_cpu_machine (spec);
     get_cpu_info (spec);
     get_cpu_technology (spec);
+    get_cpu_power_waste (spec);
 }
 
 static void
@@ -185,7 +200,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Power Dissipation"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
 
-    label = gtk_label_new (NULL);
+    label = gtk_label_new (spec->priv->power_waste);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 4, 1, 1);
 

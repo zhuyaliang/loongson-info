@@ -24,9 +24,30 @@
 struct _LoongsonMainboardPrivate
 {
     char *name;
+    char *bios_name;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonMainboard, loongson_mainboard, GTK_TYPE_BOX)
+
+static void get_loongson_bios_name (LoongsonMainboard *mb)
+{
+    g_autoptr(GError) error = NULL;
+
+    mb->priv->bios_name = loongson_dbus_call ("BiosName", &error);
+    if (mb->priv->bios_name == NULL)
+    {
+        loongson_message_dialog (_("Get loongson mainboard"),
+                                 WARING,
+                                 "%s", "error->message");
+    }
+}
+
+static void set_mainboard_data (LoongsonMainboard *mb)
+{
+    mb->priv->name = g_strdup (_("Loongson Mainboard"));
+
+    get_loongson_bios_name (mb);
+}
 
 static void
 loongson_mainboard_fill (LoongsonMainboard *mainboard)
@@ -73,7 +94,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("BIOS Information"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
-    label = gtk_label_new (NULL);
+    label = gtk_label_new (mainboard->priv->bios_name);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
 
@@ -174,7 +195,7 @@ loongson_mainboard_init (LoongsonMainboard *mainboard)
 {
     mainboard->priv = loongson_mainboard_get_instance_private (mainboard);
     gtk_orientable_set_orientation (GTK_ORIENTABLE (mainboard), GTK_ORIENTATION_VERTICAL);
-    mainboard->priv->name = g_strdup (_("Loongson Mainboard"));
+    set_mainboard_data (mainboard);
 }
 
 const char *loongson_mainboard_get_name (LoongsonMainboard *mainboard)
