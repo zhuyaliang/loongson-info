@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include "info-dbus-generated.h"
 #include "loongson-infod.h"
+#include "hardinfo.h"
 
 #define INFO_DBUS_NAME "cn.loongson.info"
 #define INFO_DBUS_PATH "/cn/loongson/info"
@@ -59,17 +60,11 @@ gboolean info_get_cpu_name (BusInfo *object,
                             gpointer user_data)
 {
     gchar *cpu_name;
-
-    cpu_name = g_strdup("3A5000");
+    cpu_info_t *cpu = NULL;
+    cpu=get_cpu_info();
+    cpu_name = cpu->cpu_name;
     bus_info_complete_cpu_name (object, invocation, cpu_name);
-    g_free(cpu_name);
-
     return TRUE;
-}
-
-static char *example_get_bios_name (void)
-{
-    return "bios_name";
 }
 
 static gboolean info_get_biso_name (BusInfo *object,
@@ -78,7 +73,7 @@ static gboolean info_get_biso_name (BusInfo *object,
 {
     gchar *bios_name;
 
-    bios_name = example_get_bios_name ();
+    bios_name = get_bios_version();
     bus_info_complete_bios_name (object, invocation, bios_name);
 
     return TRUE;
@@ -99,7 +94,11 @@ static gboolean info_get_cpu_cache (BusInfo *object,
                                     gpointer user_data)
 {
     gchar *cpu_cache = NULL;
-
+    cpu_info_t *cpu = NULL;
+    gchar buffer[500];
+    cpu = get_cpu_info();
+    sprintf(buffer,"L1d:%s/L1i:%s/L2:%s/L3:%s",cpu->cacheL1d,cpu->cacheL1i,cpu->cacheL2,cpu->cacheL3);
+    cpu_cache = buffer;
     bus_info_complete_cpu_cache (object, invocation, cpu_cache);
 
     return TRUE;
@@ -119,8 +118,15 @@ static gboolean info_get_cpu_temperature (BusInfo *object,
                                           gpointer user_data)
 {
     gchar *cpu_temperature = NULL;
+    int temp;
+    ls_sensors_t sen;
+
+    get_sensors(&sen);
+    temp = (sen.cputemp0+sen.cputemp1)/2;
+    cpu_temperature = g_strdup_printf ("%d °C", temp);
 
     bus_info_complete_cpu_temperature (object, invocation, cpu_temperature);
+    g_free(cpu_temperature);
 
     return TRUE;
 }
@@ -129,6 +135,7 @@ static gboolean info_get_cpu_threads (BusInfo *object,
                                       gpointer user_data)
 {
     gchar *cpu_threads = NULL;
+    cpu_threads = get_cpu_thread_num();
 
     bus_info_complete_cpu_threads (object, invocation, cpu_threads);
 
@@ -169,7 +176,9 @@ static gboolean info_get_junction_temperature (BusInfo *object,
                                                gpointer user_data)
 {
     gchar *temperature = NULL;
-
+    cpu_info_t *cpu = NULL;
+    cpu = get_cpu_info();
+    temperature = cpu->cpu_jt_l;
     bus_info_complete_junction_temperature (object, invocation, temperature);
 
     return TRUE;
@@ -189,6 +198,8 @@ static gboolean info_get_maximum_cpu_frequency (BusInfo *object,
                                                 gpointer user_data)
 {
     gchar *frequency = NULL;
+
+    frequency  = get_cpu_max_speed();
 
     bus_info_complete_maximum_cpu_frequency (object, invocation, frequency);
 
@@ -249,6 +260,9 @@ static gboolean info_get_micro_architecture (BusInfo *object,
                                              gpointer user_data)
 {
     gchar *architecture = NULL;
+    cpu_info_t *cpu=NULL;
+    cpu = get_cpu_info();
+    architecture = cpu->microarch;
 
     bus_info_complete_micro_architecture (object, invocation, architecture);
 
@@ -280,6 +294,7 @@ static gboolean info_get_physical_kernel (BusInfo *object,
 {
     gchar *kerenl = NULL;
 
+    kerenl   = get_cpu_core_num();
     bus_info_complete_physical_kernel (object, invocation, kerenl);
 
     return TRUE;
@@ -300,6 +315,7 @@ static gboolean info_get_product_name (BusInfo *object,
 {
     gchar *name = NULL;
 
+    name   = get_product_name();
     bus_info_complete_product_name (object, invocation, name);
 
     return TRUE;
@@ -471,6 +487,39 @@ static void info_daemon_class_init (InfoDaemonClass *class)
 
 static void info_daemon_init (InfoDaemon *daemon)
 {
+#if 0
+    cpu_info_t *cpu=NULL;
+    cpu = get_cpu_info();
+    if(cpu==NULL)
+    {
+        printf("cpu info is no support!\n");
+    }
+    printf("cpu_name: %s\n",cpu->cpu_name);
+    printf("cpu_idh: 0x%llx\n",cpu->id.h);
+    printf("cpu_idl: 0x%llx\n",cpu->id.l);
+    printf("cpu_ver: %s\n",cpu->cpu_ver);
+    printf("technics: %s\n",cpu->technics);
+    printf("cpu_tdp: %s\n",cpu->cpu_tdp);
+    printf("cpu_jt_l: %s\n",cpu->cpu_jt_l);
+    printf("cpu_jt_h: %s\n",cpu->cpu_jt_h);
+    printf("cpu_pkg: %s\n",cpu->cpu_pkg);
+    printf("cpu_l: %s\n",cpu->cpu_l);
+    printf("cpu_w: %s\n",cpu->cpu_w);
+    printf("cpu_h: %s\n",cpu->cpu_h);
+    printf("cacheL1d: %s\n",cpu->cacheL1d);
+    printf("cacheL1i: %s\n",cpu->cacheL1i);
+    printf("cacheL2: %s\n",cpu->cacheL2);
+    printf("cacheL3: %s\n",cpu->cacheL3);
+    printf("microarch: %s\n",cpu->microarch);
+
+    printf("cpu_crrent_speed: %s\n",get_cpu_current_speed());
+    printf("cpu_max_speed: %s\n",get_cpu_max_speed());
+    printf("cpu_min_speed: %s\n",get_cpu_min_speed());
+    printf("cpu_arch: %s\n",get_cpu_arch());
+    printf("cpu_core_num: %s\n",get_cpu_core_num());
+    printf("cpu_thread_num: %s\n",get_cpu_thread_num());
+    printf("product_name: %s\n",get_product_name());
+#endif
     daemon->skeleton = bus_info_skeleton_new();
     //daemon->info = info_new();
 }

@@ -29,7 +29,7 @@ gdbus_src = gnome.gdbus_codegen(
 executable(
     'loongson-infod',
     gdbus_src,
-    sources : ['loongson-infod.h', 'loongson-infod.c', 'server.c'],
+    sources : ['loongson-infod.h', 'loongson-infod.c', 'server.c', 'hardinfo.c'],
     dependencies : [gio_dep, gio_os_dep],
     install : true,
     install_dir : join_paths(get_option('prefix'), get_option('libexecdir'), 'loongson-info')
