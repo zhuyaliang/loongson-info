@@ -39,16 +39,11 @@ G_DEFINE_TYPE_WITH_PRIVATE (LoongsonWindow, loongson_window, GTK_TYPE_WINDOW)
 static void
 loongson_window_fill (LoongsonWindow *loongwin)
 {
-    GtkWidget  *header;
     GtkWidget  *box;
     GtkWidget  *sidebar;
     GtkWidget  *stack;
     GtkWidget  *separator;
     const char *name;
-
-    header = gtk_header_bar_new ();
-    gtk_header_bar_set_show_close_button (GTK_HEADER_BAR(header), TRUE);
-    gtk_window_set_titlebar (GTK_WINDOW(loongwin), header);
 
     box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add (GTK_CONTAINER (loongwin), box);
