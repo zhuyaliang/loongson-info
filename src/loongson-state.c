@@ -53,6 +53,8 @@ struct _LoongsonStatePrivate
     GtkWidget *mem_label;
     GtkWidget *swap_label;
     GtkWidget *loadavg_label;
+    GtkWidget *tempe_label;
+    GtkWidget *fan_label;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonState, loongson_state, GTK_TYPE_BOX)
@@ -91,6 +93,7 @@ static float get_loongson_cpu_state (LoongsonState *state)
 #undef LAST
     return cpu_usage;
 }
+
 static float get_loongson_memory_state (LoongsonState *state)
 {
     float       mempercent;
@@ -126,6 +129,38 @@ static double get_loongson_loadavg_state (LoongsonState *state)
     return loadavg.loadavg[2];
 }
 
+static char *get_fan_speed (LoongsonState *state)
+{
+    g_autoptr(GError) error = NULL;
+    char *speed;
+
+    speed = loongson_dbus_call ("FanSpeed", &error);
+    if (speed == NULL)
+    {
+        loongson_message_dialog (_("Get loongson state"),
+                                 WARING,
+                                 "%s", "error->message");
+    }
+
+    return g_strdup (speed);
+}
+
+static char *get_cpu_temper (LoongsonState *state)
+{
+    g_autoptr(GError) error = NULL;
+    char *temper;
+
+    temper = loongson_dbus_call ("CpuTemperature", &error);
+    if (temper == NULL)
+    {
+        loongson_message_dialog (_("Get loongson state"),
+                                 WARING,
+                                 "%s", "error->message");
+    }
+
+    return g_strdup (temper);
+}
+
 static gboolean update_loongson_state (LoongsonState *state)
 {
     gchar   *text;
@@ -152,6 +187,14 @@ static gboolean update_loongson_state (LoongsonState *state)
     loadavg = get_loongson_loadavg_state (state);
     text = g_strdup_printf("%.1lf%%", loadavg * 100.0f);
     set_lable_style (state->priv->loadavg_label, "red", 12, text, TRUE);
+    g_free (text);
+
+    text = get_cpu_temper (state);
+    set_lable_style (state->priv->tempe_label, "red", 12, text, TRUE);
+    g_free (text);
+
+    text = get_fan_speed (state);
+    set_lable_style (state->priv->fan_label, "red", 12, text, TRUE);
     g_free (text);
 
     return TRUE;
@@ -183,18 +226,18 @@ loongson_state_fill (LoongsonState *state)
     set_lable_style (label, "gray", 12, _("Temperature"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
 
-    label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
+    state->priv->tempe_label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(state->priv->tempe_label), 0);
+    gtk_grid_attach (GTK_GRID (table), state->priv->tempe_label, 1, 0, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Fan speed"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
-    label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
+    state->priv->fan_label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(state->priv->fan_label), 0);
+    gtk_grid_attach (GTK_GRID (table), state->priv->fan_label, 1, 1, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
