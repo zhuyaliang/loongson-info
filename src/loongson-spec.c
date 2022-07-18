@@ -32,6 +32,9 @@ struct _LoongsonSpecPrivate
     char *cpu_family;
     char *technology;
     char *power_waste;
+    char *junction_temperature;
+    char *package_method;
+    char *size;
 };
 
 typedef struct loongson_cpu
@@ -124,6 +127,45 @@ static void get_cpu_power_waste (LoongsonSpec *spec)
     }
 }
 
+static void get_cpu_junction_temperature (LoongsonSpec *spec)
+{
+    g_autoptr(GError) error = NULL;
+
+    spec->priv->junction_temperature = loongson_dbus_call ("JunctionTemperature", &error);
+    if (spec->priv->junction_temperature == NULL)
+    {
+        loongson_message_dialog (_("Get loongson spec"),
+                                 WARING,
+                                 "%s", "error->message");
+    }
+}
+
+static void get_cpu_packaging_method (LoongsonSpec *spec)
+{
+    g_autoptr(GError) error = NULL;
+
+    spec->priv->package_method = loongson_dbus_call ("PackagingMethod", &error);
+    if (spec->priv->package_method == NULL)
+    {
+        loongson_message_dialog (_("Get loongson spec"),
+                                 WARING,
+                                 "%s", "error->message");
+    }
+}
+
+static void get_cpu_size (LoongsonSpec *spec)
+{
+    g_autoptr(GError) error = NULL;
+
+    spec->priv->size = loongson_dbus_call ("CpuSizes", &error);
+    if (spec->priv->size == NULL)
+    {
+        loongson_message_dialog (_("Get loongson spec"),
+                                 WARING,
+                                 "%s", "error->message");
+    }
+}
+
 static void set_spec_data (LoongsonSpec *spec)
 {
     spec->priv->name = g_strdup (_("Loongson Specifications"));
@@ -132,6 +174,9 @@ static void set_spec_data (LoongsonSpec *spec)
     get_cpu_info (spec);
     get_cpu_technology (spec);
     get_cpu_power_waste (spec);
+    get_cpu_junction_temperature (spec);
+    get_cpu_packaging_method (spec);
+    get_cpu_size (spec);
 }
 
 static void
@@ -206,10 +251,10 @@ loongson_spec_fill (LoongsonSpec *spec)
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("Junction Temperature "), TRUE);
+    set_lable_style (label, "gray", 12, _("Junction Temperature"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 5, 1, 1);
 
-    label = gtk_label_new (NULL);
+    label = gtk_label_new (spec->priv->junction_temperature);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 5, 1, 1);
 
@@ -218,7 +263,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Packaging Method"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 6, 1, 1);
 
-    label = gtk_label_new (NULL);
+    label = gtk_label_new (spec->priv->package_method);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 6, 1, 1);
 
@@ -227,7 +272,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Size"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 7, 1, 1);
 
-    label = gtk_label_new (NULL);
+    label = gtk_label_new (spec->priv->size);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 7, 1, 1);
 
