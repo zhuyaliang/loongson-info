@@ -41,12 +41,12 @@ static char *loongson_firewalld_state (void)
     fp = popen (cmd, "r");
     if (fread (buf, 50, 1, fp) != 0)
     {
-        fclose (fp);
-        return _("Enabled");
+        pclose (fp);
+        return g_strdup (_("Enabled"));
     }
 
-    fclose (fp);
-    return _("Disabled");
+    pclose (fp);
+    return g_strdup (_("Disabled"));
 }
 
 static void get_cpu_trusted_start (LoongsonSecurity *se)
@@ -91,7 +91,7 @@ static void get_cpu_key_manager (LoongsonSecurity *se)
 static void loongson_security_set_data (LoongsonSecurity *security)
 {
     security->priv->name = g_strdup (_("Loongson Security"));
-    security->priv->firewalld = g_strdup (loongson_firewalld_state ());
+    security->priv->firewalld = loongson_firewalld_state ();
     get_cpu_key_manager (security);
     get_cpu_memory_verifi (security);
     get_cpu_trusted_start (security);
