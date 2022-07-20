@@ -193,7 +193,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     gtk_box_pack_start (GTK_BOX (spec), vbox, FALSE, FALSE, 0);
 
     pb = gdk_pixbuf_new_from_file (ICONSDIR"loongson-spec.png", NULL);
-    pb2 = gdk_pixbuf_scale_simple (pb, 150, 106, GDK_INTERP_BILINEAR);
+    pb2 = gdk_pixbuf_scale_simple (pb, 180, 50, GDK_INTERP_BILINEAR);
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 0);
 
