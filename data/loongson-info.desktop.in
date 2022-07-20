@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Loongson CPU Tool
+Comment=Loongson CPU information viewing tool 
+Categories=GTK;Settings;System;Utility;
+Keywords=Configuration;Utility;
+Exec=loongson-info
+Icon=loongson-info
+Terminal=false
+Type=Application
