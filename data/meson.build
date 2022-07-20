@@ -1,4 +1,5 @@
 subdir('icons')
+subdir('hicolor')
 
 i18n = import('i18n')
 

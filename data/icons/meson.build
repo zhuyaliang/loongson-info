@@ -3,6 +3,7 @@ images = [
    ['loongson-state.png'],
    ['loongson-mb.png'],
    ['loongson-spec.png'],
+   ['loongson.png'],
    ['loongson-security.png']
   ]
 foreach image: images
