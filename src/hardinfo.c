@@ -12,18 +12,18 @@
 #include <sys/time.h>
 #include "hardinfo.h"
 cpu_info_t cpu_info[] ={
-    {"3A5000",      {LS3A5000_VERSION,      0}, "3A5000",   "14nm",  "35",  "0", "70", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3A5000LL",    {LS3A5000LL_VERSION,    0}, "3A5000LL", "14nm",  "30",  "0", "70", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3A5000M",     {LS3A5000M_VERSION,     0}, "3A5000M",  "14nm",  "18",  "0", "70", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3B5000",      {LS3B5000_VERSION,      0}, "3B5000",   "14nm",  "25",  "0", "70", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3C5000L",     {LS3C5000L_VERSION,     0}, "3C5000L",  "14nm",  "200", "0", "70", "LGA","70", "44","4", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3C5000L",     {LS3C5000LL_VERSION,    0}, "3C5000LL", "14nm",  "160", "0", "85", "LGA","70", "44","4", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3C5000I",     {LS3A5000I_VERSION,     0}, "3A5000I",  "14nm",  "18",  "0", "85", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3C5000i",     {LS3A5000i_VERSION,     0}, "3A5000i",  "14nm",  "18" , "0", "85", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3A5000BM",    {LS3A5000BM_VERSION,    0}, "3A5000BM", "14nm",  "18",  "0", "70", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3A5000HV",    {LS3A5000HV_VERSION,    0}, "3A5000HV", "14nm",  "35",  "0", "70", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "LA464"},
-    {"3A4000",      {LS3A4000_VERSION,      0}, "3A4000",   "28nm",  "35",  "0", "70", "LGA","37", "37","3", "64K", "64K", "256K", "16384K", "GS464V"},
-    {"UNKNOW",      {0,                     0}, "UNKNOW",   "0nm",   "0",   "0", "0",  "LGA","0",  "0", "0", "0K",  "0K",  "0K",   "0K",     "UNKNOW"}
+    {"3A5000",      {LS3A5000_VERSION,      0}, "3A5000",   "14nm",  "35 W",  "0 ~ 70", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3A5000LL",    {LS3A5000LL_VERSION,    0}, "3A5000LL", "14nm",  "30 W",  "0 ~ 70", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3A5000M",     {LS3A5000M_VERSION,     0}, "3A5000M",  "14nm",  "18 W",  "0 ~ 70", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3B5000",      {LS3B5000_VERSION,      0}, "3B5000",   "14nm",  "25 W",  "0 ~ 70", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3C5000L",     {LS3C5000L_VERSION,     0}, "3C5000L",  "14nm",  "200 W", "0 ~ 70", "LGA","70x44x4 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3C5000L",     {LS3C5000LL_VERSION,    0}, "3C5000LL", "14nm",  "160 W", "0 ~ 85", "LGA","70x44x4 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3C5000I",     {LS3A5000I_VERSION,     0}, "3A5000I",  "14nm",  "18 W",  "0 ~ 85", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3C5000i",     {LS3A5000i_VERSION,     0}, "3A5000i",  "14nm",  "18 W" , "0 ~ 85", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3A5000BM",    {LS3A5000BM_VERSION,    0}, "3A5000BM", "14nm",  "18 W",  "0 ~ 70", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3A5000HV",    {LS3A5000HV_VERSION,    0}, "3A5000HV", "14nm",  "35 W",  "0 ~ 70", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "LA464"},
+    {"3A4000",      {LS3A4000_VERSION,      0}, "3A4000",   "28nm",  "35 W",  "0 ~ 70", "LGA","37x37x3 mm", "64K", "64K", "256K", "16384K", "GS464V"},
+    {"UNKNOW",      {0,                     0}, "UNKNOW",   "0nm",   "0 W",   "0 ~ 0",  "LGA","0x0x0 mm", "0K",  "0K",  "0K",   "0K",     "UNKNOW"}
 };
 static char buffer[100];
 
@@ -574,6 +574,106 @@ cpu_info_t *get_cpu_info (void)
     sprintf(cpu_info[i].cacheL2,"%s",get_cpu_cacheL2());
     sprintf(cpu_info[i].cacheL3,"%s",get_cpu_cacheL3());
     return &cpu_info[i];
+}
+
+char *get_memory_capacity(void)
+{
+  char *data=NULL;
+  char *tmp=NULL;
+   
+  data=app_system("dmidecode -t 19 | grep Size");
+  if(data==NULL)
+  {
+    sprintf (buffer,"%s","unknow");
+    return buffer;
+  }
+  sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
+  if((tmp = strstr(buffer, "\n")))
+    *tmp = '\0';
+
+  if(data!=NULL)
+    app_free(data);
+  return buffer;
+}
+
+char *get_memory_frequency(void)
+{
+  char *data=NULL;
+  char *tmp=NULL;
+    
+  data=app_system("dmidecode -t 17 | grep Speed");
+  if(data==NULL)
+  {
+    sprintf (buffer,"%s","unknow");
+    return buffer;
+  }
+  sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
+  if((tmp = strstr(buffer, "\n")))
+    *tmp = '\0';
+    
+  if(data!=NULL)
+    app_free(data);
+  return buffer;
+}
+
+char *get_memory_channel(void)
+{
+  char *data=NULL;
+  char *tmp=NULL;
+    
+  data=app_system("dmidecode -t 17 | grep Locator");
+  if(data==NULL)
+  {
+    sprintf (buffer,"%s","unknow");
+    return buffer;
+  }
+  sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
+  if((tmp = strstr(buffer, "\n")))
+    *tmp = '\0';
+    
+  if(data!=NULL)
+    app_free(data);
+  return buffer;
+}
+
+char *get_memory_style(void)
+{
+  char *data=NULL;
+  char *tmp=NULL;
+    
+  data=app_system("dmidecode -t 17 | grep 'Type:'");
+  if(data==NULL)
+  {
+    sprintf (buffer,"%s","unknow");
+    return buffer;
+  }
+  sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
+  if((tmp = strstr(buffer, "\n")))
+    *tmp = '\0';
+    
+  if(data!=NULL)
+    app_free(data);
+  return buffer;
+}
+
+char *get_memory_verification(void)
+{
+  char *data=NULL;
+  char *tmp=NULL;
+    
+  data=app_system("dmidecode -t 16 | grep 'Error Correction Type:'");
+  if(data==NULL)
+  {
+    sprintf (buffer,"%s","unknow");
+    return buffer;
+  }
+  sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
+  if((tmp = strstr(buffer, "\n")))
+    *tmp = '\0';
+    
+  if(data!=NULL)
+    app_free(data);
+  return buffer;
 }
 
 char *get_product_name (void)

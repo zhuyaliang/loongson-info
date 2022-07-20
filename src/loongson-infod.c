@@ -108,7 +108,10 @@ static gboolean info_get_cpu_sizes (BusInfo *object,
                                     gpointer user_data)
 {
     gchar *cpu_sizes = NULL;
+    cpu_info_t *cpu = NULL;
 
+    cpu = get_cpu_info ();
+    cpu_sizes = cpu->cpu_l_w_h;
     bus_info_complete_cpu_sizes (object, invocation, cpu_sizes);
 
     return TRUE;
@@ -177,8 +180,8 @@ static gboolean info_get_junction_temperature (BusInfo *object,
 {
     gchar *temperature = NULL;
     cpu_info_t *cpu = NULL;
-    cpu = get_cpu_info();
-    temperature = cpu->cpu_jt_l;
+    cpu = get_cpu_info ();
+    temperature = cpu->junctiontemperature;
     bus_info_complete_junction_temperature (object, invocation, temperature);
 
     return TRUE;
@@ -199,7 +202,7 @@ static gboolean info_get_maximum_cpu_frequency (BusInfo *object,
 {
     gchar *frequency = NULL;
 
-    frequency  = get_cpu_max_speed();
+    frequency  = get_cpu_max_speed ();
 
     bus_info_complete_maximum_cpu_frequency (object, invocation, frequency);
 
@@ -211,6 +214,7 @@ static gboolean info_get_maximum_memory_capacity (BusInfo *object,
 {
     gchar *capacity = NULL;
 
+    capacity = get_memory_capacity ();
     bus_info_complete_maximum_memory_capacity (object, invocation, capacity);
 
     return TRUE;
@@ -221,6 +225,7 @@ static gboolean info_get_maximum_memory_frequency (BusInfo *object,
 {
     gchar *frequency = NULL;
 
+    frequency = get_memory_frequency ();
     bus_info_complete_maximum_memory_frequency (object, invocation, frequency);
 
     return TRUE;
@@ -231,6 +236,7 @@ static gboolean info_get_memory_channel (BusInfo *object,
 {
     gchar *channel = NULL;
 
+    channel = get_memory_channel ();
     bus_info_complete_memory_channel (object, invocation, channel);
 
     return TRUE;
@@ -241,6 +247,7 @@ static gboolean info_get_memory_style (BusInfo *object,
 {
     gchar *memory = NULL;
 
+    memory = get_memory_style ();
     bus_info_complete_memory_style (object, invocation, memory);
 
     return TRUE;
@@ -251,6 +258,7 @@ static gboolean info_get_memory_verification (BusInfo *object,
 {
     gchar *verification = NULL;
 
+    verification = get_memory_verification ();
     bus_info_complete_memory_verification (object, invocation, verification);
 
     return TRUE;
@@ -283,7 +291,10 @@ static gboolean info_get_packaging_method (BusInfo *object,
                                            gpointer user_data)
 {
     gchar *method = NULL;
+    cpu_info_t *cpu = NULL;
 
+    cpu = get_cpu_info ();
+    method = cpu->cpu_pkg;
     bus_info_complete_packaging_method (object, invocation, method);
 
     return TRUE;
@@ -304,7 +315,10 @@ static gboolean info_get_power_waste (BusInfo *object,
                                       gpointer user_data)
 {
     gchar *power = NULL;
+    cpu_info_t *cpu = NULL;
 
+    cpu = get_cpu_info ();
+    power = cpu->cpu_tdp;
     bus_info_complete_power_waste (object, invocation, power);
 
     return TRUE;

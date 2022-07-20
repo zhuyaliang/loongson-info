@@ -89,12 +89,9 @@ typedef struct _cpu_info_t_{
     char cpu_ver[100];
     char technics[100];
     char cpu_tdp[8];
-    char cpu_jt_l[8]; //Junction Temperature
-    char cpu_jt_h[8]; //Junction Temperature
+    char junctiontemperature[20]; //Junction Temperature
     char cpu_pkg[8];
-    char cpu_l[8];
-    char cpu_w[8];
-    char cpu_h[8];
+    char cpu_l_w_h[20];
     char cacheL1d[100];
     char cacheL1i[100];
     char cacheL2[100];
@@ -127,5 +124,10 @@ int get_sensors (ls_sensors_t *sen);
 char *get_bios_version (void);
 char *get_product_name (void);
 cpu_info_t *get_cpu_info (void);
+char *get_memory_capacity(void);
+char *get_memory_frequency(void);
+char *get_memory_channel(void);
+char *get_memory_style(void);
+char *get_memory_verification(void);
 
 #endif
