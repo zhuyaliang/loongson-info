@@ -25,6 +25,7 @@ add_project_arguments([
 test_args = [
   '-fstack-protector-strong',
   '-g',
+  '-mloongson-csr',
   '-Waggregate-return',
   '-Warray-bounds',
   '-Wcast-align',

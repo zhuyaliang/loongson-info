@@ -130,4 +130,33 @@ char *get_memory_channel(void);
 char *get_memory_style(void);
 char *get_memory_verification(void);
 
+#define CPUCFG_0  0
+#define CPUCFG_1  1
+#define CPUCFG_2  2
+#define CPUCFG_3  3
+#define CPUCFG_4  4
+#define CPUCFG_5  5
+#define CPUCFG_6  6
+#define CPUCFG_7  7
+#define CPUCFG_8  8
+#define CPUCFG_9  9
+#define CPUCFG_10 10
+#define CPUCFG_11 11
+#define CPUCFG_12 12
+#define CPUCFG_13 13
+#define CPUCFG_14 14
+
+#define loongarch_get_cpucfg(val, reg)            \
+do {                                            \
+        U64 __res;                           \
+        /* cpucfg val, reg */                   \
+        __asm__ __volatile__(                   \
+                "cpucfg  %0, %1 \n\t"           \
+                :"=r"(__res)                    \
+                :"r"(reg)                       \
+                :                               \
+                );                              \
+        val = (U32)__res;                    \
+} while(0)
+
 #endif

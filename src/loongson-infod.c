@@ -84,6 +84,23 @@ static gboolean info_get_calculation_part (BusInfo *object,
                                            gpointer user_data)
 {
     gchar *calculation_part = NULL;
+    gchar string_init[100] = {};
+    gchar *string[20] = {" FP "," FP_SP "," FP_DP "," COMPLEX "," CRYPTO "};
+    U32 val;
+
+    loongarch_get_cpucfg(val, CPUCFG_2);
+    calculation_part = string_init;
+    
+    if(val & 0x1)    
+      strcat(calculation_part , string[0]);    
+    if(val & 0x2)   
+      strcat(calculation_part , string[1]);    
+    if(val & 0x4)
+      strcat(calculation_part , string[2]);    
+    if(val & 0x100)
+      strcat(calculation_part , string[3]);    
+    if(val & 0x200)
+      strcat(calculation_part , string[4]);    
 
     bus_info_complete_calculation_part (object, invocation, calculation_part);
 
@@ -149,6 +166,22 @@ static gboolean info_get_extended_instruction (BusInfo *object,
                                                gpointer user_data)
 {
     gchar *instruction = NULL;
+    gchar string_init[100] = {};
+    gchar *string[20] = {" LSX "," LASX "," LBT "," LVZ "};
+    U32 val;
+
+    loongarch_get_cpucfg(val, CPUCFG_2);
+    printf("val = 0x%x\n", val);
+    instruction = string_init;
+    
+    if(val & 0x40)    
+      strcat(instruction, string[0]);    
+    if(val & 0x80)   
+      strcat(instruction, string[1]);    
+    if(val & 0x100000)
+      strcat(instruction, string[2]);    
+    if(val & 0x400)
+      strcat(instruction, string[3]);    
 
     bus_info_complete_extended_instruction (object, invocation, instruction);
 
@@ -169,6 +202,12 @@ static gboolean info_get_hardware_assisted_virtualization (BusInfo *object,
                                                            gpointer user_data)
 {
     gchar *virtualization = NULL;
+    U32 val;
+    gchar string_init[20];
+
+    loongarch_get_cpucfg(val, CPUCFG_2);
+    virtualization = string_init; 
+    sprintf(virtualization , "V%d", (val >> 11) & 0x7);
 
     bus_info_complete_hardware_assisted_virtualization (object, invocation, virtualization);
 
@@ -201,9 +240,11 @@ static gboolean info_get_maximum_cpu_frequency (BusInfo *object,
                                                 gpointer user_data)
 {
     gchar *frequency = NULL;
+    gchar string[20] = {"2200 MHz"};
 
-    frequency  = get_cpu_max_speed ();
-
+    frequency = get_cpu_max_speed ();
+    if(!strcmp(frequency, "Unknown"))
+      frequency = string;
     bus_info_complete_maximum_cpu_frequency (object, invocation, frequency);
 
     return TRUE;
@@ -246,8 +287,11 @@ static gboolean info_get_memory_style (BusInfo *object,
                                        gpointer user_data)
 {
     gchar *memory = NULL;
+    gchar string[20] = {"DDR4"};
 
     memory = get_memory_style ();
+    if(!strcmp(memory, "<OUT OF SPEC>"))
+      memory = string;
     bus_info_complete_memory_style (object, invocation, memory);
 
     return TRUE;
@@ -281,6 +325,15 @@ static gboolean info_get_mmu_style (BusInfo *object,
                                     gpointer user_data)
 {
     gchar *mmu = NULL;
+    gchar string1[20] = {"Not Support"};
+    gchar string2[20] = {"Support"};
+    U32 val;
+
+    loongarch_get_cpucfg(val, CPUCFG_1);
+    mmu = string1;
+    
+    if(val & 0x4)    
+      mmu = string2;    
 
     bus_info_complete_mmu_style (object, invocation, mmu);
 
