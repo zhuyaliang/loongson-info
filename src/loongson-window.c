@@ -30,7 +30,7 @@ struct _LoongsonWindowPrivate
     GtkWidget    *loongspec;  //  规格 型号、制成、功耗、结温、封装、尺寸
     GtkWidget    *loongmb;    //  主板信息 支持内存类型、微架构、CPU缓存(cache)、MMU、扩展指令
     GtkWidget    *loongperf;   //  性能 核数、内存频率、内存通道数、支持最大内存容量、主频、末级Cache容量
-    GtkWidget    *loongsec;   //  安全 ECC 校验 
+    GtkWidget    *loongsec;   //  安全 ECC 校验
     GtkWidget    *loongstate;  //  属性 例如cpu 温度，风扇转速
 };
 
@@ -151,7 +151,7 @@ loongson_window_new (void)
     LoongsonWindow *loongsonwin;
     gboolean        ret;
     g_autoptr(GError) error = NULL;
-    
+
     ret = init_dbus_proxy (&error);
     if (ret == FALSE)
     {

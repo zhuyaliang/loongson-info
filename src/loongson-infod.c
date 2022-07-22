@@ -90,17 +90,17 @@ static gboolean info_get_calculation_part (BusInfo *object,
 
     loongarch_get_cpucfg(val, CPUCFG_2);
     calculation_part = string_init;
-    
-    if(val & 0x1)    
-      strcat(calculation_part , string[0]);    
-    if(val & 0x2)   
-      strcat(calculation_part , string[1]);    
+
+    if(val & 0x1)
+      strcat(calculation_part , string[0]);
+    if(val & 0x2)
+      strcat(calculation_part , string[1]);
     if(val & 0x4)
-      strcat(calculation_part , string[2]);    
+      strcat(calculation_part , string[2]);
     if(val & 0x100)
-      strcat(calculation_part , string[3]);    
+      strcat(calculation_part , string[3]);
     if(val & 0x200)
-      strcat(calculation_part , string[4]);    
+      strcat(calculation_part , string[4]);
 
     bus_info_complete_calculation_part (object, invocation, calculation_part);
 
@@ -173,15 +173,15 @@ static gboolean info_get_extended_instruction (BusInfo *object,
     loongarch_get_cpucfg(val, CPUCFG_2);
     printf("val = 0x%x\n", val);
     instruction = string_init;
-    
-    if(val & 0x40)    
-      strcat(instruction, string[0]);    
-    if(val & 0x80)   
-      strcat(instruction, string[1]);    
+
+    if(val & 0x40)
+      strcat(instruction, string[0]);
+    if(val & 0x80)
+      strcat(instruction, string[1]);
     if(val & 0x100000)
-      strcat(instruction, string[2]);    
+      strcat(instruction, string[2]);
     if(val & 0x400)
-      strcat(instruction, string[3]);    
+      strcat(instruction, string[3]);
 
     bus_info_complete_extended_instruction (object, invocation, instruction);
 
@@ -206,7 +206,7 @@ static gboolean info_get_hardware_assisted_virtualization (BusInfo *object,
     gchar string_init[20];
 
     loongarch_get_cpucfg(val, CPUCFG_2);
-    virtualization = string_init; 
+    virtualization = string_init;
     sprintf(virtualization , "V%d", (val >> 11) & 0x7);
 
     bus_info_complete_hardware_assisted_virtualization (object, invocation, virtualization);
@@ -331,9 +331,9 @@ static gboolean info_get_mmu_style (BusInfo *object,
 
     loongarch_get_cpucfg(val, CPUCFG_1);
     mmu = string1;
-    
-    if(val & 0x4)    
-      mmu = string2;    
+
+    if(val & 0x4)
+      mmu = string2;
 
     bus_info_complete_mmu_style (object, invocation, mmu);
 

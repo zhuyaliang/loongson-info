@@ -1,21 +1,21 @@
 /*************************************************************************
  File Name: loongson-perf.c
  Author: zhuyaliang
- 
+
  Copyright (C) 2022  zhuyaliang https://github.com/zhuyaliang/
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- 
+
  Created Time: 2022年07月07日 星期四 20时06分47秒
 ************************************************************************/
 #include "loongson-perf.h"
@@ -140,7 +140,7 @@ static void get_cpu_physical_kernel (LoongsonPerf *perf)
 static void set_perf_data (LoongsonPerf *perf)
 {
     perf->priv->name = g_strdup (_("Loongson Perf"));
-    
+
     get_cpu_perf_data (perf);
     get_cpu_physical_kernel (perf);
     get_cpu_max_mem_fre (perf);

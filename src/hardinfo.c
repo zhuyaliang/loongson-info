@@ -174,7 +174,7 @@ out:
 
     return p;
 }
-static void read_mm (U64 pbase, unsigned char * datas, int read_cnt) 
+static void read_mm (U64 pbase, unsigned char * datas, int read_cnt)
 {
     void * vaddr = NULL;
     vaddr=ls_mem_chunk (pbase, read_cnt, "/dev/mem");
@@ -184,26 +184,26 @@ static void read_mm (U64 pbase, unsigned char * datas, int read_cnt)
         free (vaddr);
     }
 }
-static void read_mm_byte (U64 pbase, U8 *datas) 
+static void read_mm_byte (U64 pbase, U8 *datas)
 {
     unsigned char buf[8] ={0};
     read_mm (pbase, buf, 1);
     *datas = (buf[0]<<0);
 }
-static void read_mm_hword (U64 pbase, U16 *datas) 
+static void read_mm_hword (U64 pbase, U16 *datas)
 {
     unsigned char buf[8] ={0};
     read_mm (pbase, buf, 2);
     *datas = (buf[1]<<8)+(buf[0]<<0);
 }
-static void read_mm_word (U64 pbase, U32 *datas) 
+static void read_mm_word (U64 pbase, U32 *datas)
 {
     unsigned char buf[8] ={0};
     read_mm (pbase, buf, 4);
     *datas = (buf[3]<<24)+(buf[2]<<16)+(buf[1]<<8)+(buf[0]<<0);
 }
 
-static void read_mm_dword (U64 pbase, U64 *datas) 
+static void read_mm_dword (U64 pbase, U64 *datas)
 {
     unsigned char buf[8] ={0};
     U32 data_h,data_l;
@@ -221,7 +221,7 @@ static void read_mm_dword (U64 pbase, U64 *datas)
     *datas=((*datas&0xffffffff)<<32);
     *datas|=data_l;
 }
-static void app_mm_read (U64 pbase, U64 *datas, int read_cnt) 
+static void app_mm_read (U64 pbase, U64 *datas, int read_cnt)
 {
     switch(read_cnt)
     {
@@ -580,7 +580,7 @@ char *get_memory_capacity(void)
 {
   char *data=NULL;
   char *tmp=NULL;
-   
+
   data=app_system("dmidecode -t 19 | grep Size");
   if(data==NULL)
   {
@@ -600,7 +600,7 @@ char *get_memory_frequency(void)
 {
   char *data=NULL;
   char *tmp=NULL;
-    
+
   data=app_system("dmidecode -t 17 | grep Speed");
   if(data==NULL)
   {
@@ -610,7 +610,7 @@ char *get_memory_frequency(void)
   sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
   if((tmp = strstr(buffer, "\n")))
     *tmp = '\0';
-    
+
   if(data!=NULL)
     app_free(data);
   return buffer;
@@ -620,7 +620,7 @@ char *get_memory_channel(void)
 {
   char *data=NULL;
   char *tmp=NULL;
-    
+
   data=app_system("dmidecode -t 17 | grep Locator");
   if(data==NULL)
   {
@@ -630,7 +630,7 @@ char *get_memory_channel(void)
   sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
   if((tmp = strstr(buffer, "\n")))
     *tmp = '\0';
-    
+
   if(data!=NULL)
     app_free(data);
   return buffer;
@@ -640,7 +640,7 @@ char *get_memory_style(void)
 {
   char *data=NULL;
   char *tmp=NULL;
-    
+
   data=app_system("dmidecode -t 17 | grep 'Type:'");
   if(data==NULL)
   {
@@ -650,7 +650,7 @@ char *get_memory_style(void)
   sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
   if((tmp = strstr(buffer, "\n")))
     *tmp = '\0';
-    
+
   if(data!=NULL)
     app_free(data);
   return buffer;
@@ -660,7 +660,7 @@ char *get_memory_verification(void)
 {
   char *data=NULL;
   char *tmp=NULL;
-    
+
   data=app_system("dmidecode -t 16 | grep 'Error Correction Type:'");
   if(data==NULL)
   {
@@ -670,7 +670,7 @@ char *get_memory_verification(void)
   sprintf(buffer,"%s",strstr(data,":")+1+strspn(strstr(data,":")+1," "));
   if((tmp = strstr(buffer, "\n")))
     *tmp = '\0';
-    
+
   if(data!=NULL)
     app_free(data);
   return buffer;

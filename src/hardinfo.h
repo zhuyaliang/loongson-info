@@ -100,9 +100,9 @@ typedef struct _cpu_info_t_{
 }cpu_info_t;
 
 typedef struct _ls_sensors_t_{
-    U32 cputemp0; 
+    U32 cputemp0;
     U32 cputemp1;
-    U32 ls7atemp0; 
+    U32 ls7atemp0;
     U32 ls7atemp1;
     U32 fan0;
     U32 fan1;
