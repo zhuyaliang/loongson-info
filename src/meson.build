@@ -13,7 +13,7 @@ sources = [
 
 executable('loongson-info',
   sources : sources,
-  dependencies : [gtk_deps,gtop_deps],
+  dependencies : [gtk_deps, gtop_dep],
   include_directories: top_srcdir,
   install : true,
   install_dir : get_option('bindir')
@@ -30,7 +30,7 @@ executable(
     'loongson-infod',
     gdbus_src,
     sources : ['loongson-infod.h', 'loongson-infod.c', 'server.c', 'hardinfo.c'],
-    dependencies : [gio_dep, gio_os_dep],
+    dependencies : [gio_dep, gio_os_dep, gtop_dep],
     install : true,
     install_dir : join_paths(get_option('prefix'), get_option('libexecdir'), 'loongson-info')
     )

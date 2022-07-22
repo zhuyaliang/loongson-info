@@ -101,7 +101,7 @@ gtk_req_version = '>= 3.0.0'
 glib_req_version = '>= 2.32.0'
 gtk_deps = dependency('gtk+-3.0', version: gtk_req_version)
 polkit_deps = dependency('polkit-gobject-1')
-gtop_deps = dependency('libgtop-2.0')
+gtop_dep = dependency('libgtop-2.0')
 gio_dep = dependency('gio-2.0', method: 'pkg-config', version: glib_req_version)
 gio_os_dep = dependency('gio-unix-2.0', version: glib_req_version)
 
@@ -119,6 +119,7 @@ conf.set_quoted('SYSCONFDIR', join_paths(get_option('prefix'), get_option('sysco
 conf.set_quoted('LOCALSTATEDIR', join_paths(get_option('prefix'), get_option('localstatedir')))
 conf.set_quoted('LIBEXECDIR', join_paths(get_option('prefix'), get_option('libexecdir')))
 conf.set_quoted('ICONSDIR', join_paths(get_option('prefix'), get_option('datadir'), meson.project_name(), 'icons/'))
+conf.set10('TIME_WITH_SYS_TIME', cc.has_header('sys/time.h'))
 
 configure_file(
   output : 'config.h',

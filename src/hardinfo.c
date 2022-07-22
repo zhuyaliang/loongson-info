@@ -25,6 +25,7 @@ cpu_info_t cpu_info [] ={
 };
 
 static char buffer[100];
+static glibtop_sysinfo *sysinfo = NULL;
 
 static void app_free (void *pData)
 {
@@ -263,79 +264,6 @@ static U8 lscpu_tempdetect (U32 *temp0,U32 *temp1)
     *temp1 = TempSensorAnalog1;
 
     return 0;
-}
-
-static char *get_cpu_name (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("cat /proc/cpuinfo | grep 'model name'");
-    if (data == NULL)
-    {
-        sprintf (buffer, "%s", "unknow");
-        goto done;
-    }
-
-    sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
-static char *get_cpu_version (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("dmidecode -t processor | grep 'Version:'");
-    if ( data == NULL)
-    {
-        sprintf (buffer, "%s", "unknow");
-        goto done;
-    }
-
-    sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
-char *get_cpu_current_speed (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("cat /proc/cpuinfo | grep 'cpu MHz'");
-    if (data == NULL)
-    {
-        data = app_system ("cat /proc/cpuinfo | grep 'CPU MHz'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-    }
-
-    sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-    if ((tmp = strstr(buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
 }
 
 char *get_cpu_max_speed (void)
@@ -615,8 +543,6 @@ cpu_info_t *get_cpu_info (void)
             break;
     }
 
-    sprintf (cpu_info[i].cpu_name, "%s", get_cpu_name ());
-    sprintf (cpu_info[i].cpu_ver, "%s", get_cpu_version ());
     sprintf (cpu_info[i].cacheL1d, "%s", get_cpu_cacheL1d ());
     sprintf (cpu_info[i].cacheL1i, "%s", get_cpu_cacheL1i ());
     sprintf (cpu_info[i].cacheL2, "%s", get_cpu_cacheL2 ());
@@ -765,4 +691,33 @@ int get_sensors (ls_sensors_t *sen)
 {
     lscpu_tempdetect (&sen->cputemp0, &sen->cputemp1);
     return 0;
+}
+
+const gchar *hardinfo_get_sysinfo (const gchar *key)
+{
+    if (sysinfo == NULL)
+        sysinfo = glibtop_get_sysinfo ();
+    return g_hash_table_lookup (sysinfo->cpuinfo[0].values, key);
+}
+
+const gchar *hardinfo_get_cpu_name (void)
+{
+    gchar *cpu_name = NULL;
+    guint i;
+
+    const char * const keys[] = {"model name", "Model Name"};
+
+    for (i = 0; cpu_name == NULL && i < G_N_ELEMENTS (keys); i++)
+    {
+        cpu_name = hardinfo_get_sysinfo (keys[i]);
+    }
+
+    return cpu_name;
+}
+
+const gchar *hardinfo_get_cpu_current_speed (void)
+{
+    gchar *current_speed = NULL;
+    current_speed = hardinfo_get_sysinfo ("CPU MHz");
+    return current_speed;
 }

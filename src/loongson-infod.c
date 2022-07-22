@@ -58,14 +58,14 @@ static gboolean info_get_cpu_name (BusInfo *object,
                                    GDBusMI *invocation,
                                    gpointer user_data)
 {
-    gchar      *cpu_name;
-    cpu_info_t *cpu = NULL;
+    gchar *cpu_name = NULL;
 
-    cpu = get_cpu_info ();
-    cpu_name = cpu->cpu_name;
-
-    bus_info_complete_cpu_name (object, invocation, cpu_name);
-
+    cpu_name = hardinfo_get_cpu_name ();
+    if (cpu_name == NULL) {
+        bus_info_complete_cpu_name (object, invocation, g_strdup (_("Unknown")));
+    } else {
+        bus_info_complete_cpu_name (object, invocation, g_strdup (cpu_name));
+    }
     return TRUE;
 }
 
@@ -642,7 +642,6 @@ static void info_daemon_init (InfoDaemon *daemon)
     printf("product_name: %s\n",get_product_name());
 #endif
     daemon->skeleton = bus_info_skeleton_new();
-    //daemon->info = info_new();
 }
 
 InfoDaemon* info_daemon_new (GMainLoop *loop, gboolean replace)
