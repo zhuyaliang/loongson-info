@@ -133,6 +133,22 @@ static gboolean info_get_cpu_sizes (BusInfo *object,
 
     return TRUE;
 }
+
+static gboolean info_get_cpu_technology (BusInfo *object,
+                                         GDBusMethodInvocation *invocation,
+                                         gpointer user_data)
+{
+    gchar      *cpu_technology = NULL;
+    cpu_info_t *cpu = NULL;
+
+    cpu = get_cpu_info ();
+    cpu_technology = cpu->technics;
+
+    bus_info_complete_cpu_technology (object, invocation, cpu_technology);
+
+    return TRUE;
+}
+
 static gboolean info_get_cpu_temperature (BusInfo *object,
                                           GDBusMethodInvocation *invocation,
                                           gpointer user_data)
@@ -405,6 +421,7 @@ static void set_dbus_signal_method (InfoDaemon *daemon)
     g_signal_connect (daemon->skeleton, "handle-cpu-cache", G_CALLBACK (info_get_cpu_cache), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-name", G_CALLBACK (info_get_cpu_name), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-sizes", G_CALLBACK (info_get_cpu_sizes), daemon);
+    g_signal_connect (daemon->skeleton, "handle-cpu-technology", G_CALLBACK (info_get_cpu_technology), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-temperature", G_CALLBACK (info_get_cpu_temperature), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-threads", G_CALLBACK (info_get_cpu_threads), daemon);
     g_signal_connect (daemon->skeleton, "handle-extended-instruction", G_CALLBACK (info_get_extended_instruction), daemon);

@@ -37,20 +37,6 @@ struct _LoongsonSpecPrivate
     char *size;
 };
 
-typedef struct loongson_cpu
-{
-    char *model_name;
-    char *technology;
-}loongson_cpu;
-
-static struct loongson_cpu loongson_cpus [] =
-{
-    {"Loongson-3A R4 (Loongson-3A4000)", "28nm"},
-    {"Loongson-3A5000", "14nm"},
-    {"Loongson-3C5000L", "14nm"},
-    {NULL, NULL},
-
-};
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonSpec, loongson_spec, GTK_TYPE_BOX)
 
@@ -83,15 +69,14 @@ static void get_cpu_info (LoongsonSpec *spec)
 
 static void get_cpu_technology (LoongsonSpec *spec)
 {
-    int i = 0;
+    g_autoptr(GError) error = NULL;
 
-    while (loongson_cpus[i].model_name != NULL)
+    spec->priv->technology = loongson_dbus_call ("CpuTechnology", &error);
+    if (spec->priv->technology == NULL)
     {
-        if (g_strcmp0 (loongson_cpus[i].model_name, spec->priv->model_name) == 0)
-        {
-            spec->priv->technology = g_strdup (loongson_cpus[i].technology);
-        }
-        i++;
+        loongson_message_dialog (_("Get loongson spec"),
+                                 WARING,
+                                 "%s", "error->message");
     }
 }
 
