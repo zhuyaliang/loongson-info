@@ -25,9 +25,7 @@ struct _LoongsonSecurityPrivate
 {
     char *name;
     char *firewalld;
-    char *key_manager;
     char *memory_verifi;
-    char *trusted_start;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonSecurity, loongson_security, GTK_TYPE_BOX)
@@ -49,19 +47,6 @@ static char *loongson_firewalld_state (void)
     return g_strdup (_("Disabled"));
 }
 
-static void get_cpu_trusted_start (LoongsonSecurity *se)
-{
-    g_autoptr(GError) error = NULL;
-
-    se->priv->trusted_start = loongson_dbus_call ("TrustedStart", &error);
-    if (se->priv->trusted_start == NULL)
-    {
-        loongson_message_dialog (_("Get loongson security"),
-                                 WARING,
-                                 "%s", "error->message");
-    }
-}
-
 static void get_cpu_memory_verifi (LoongsonSecurity *se)
 {
     g_autoptr(GError) error = NULL;
@@ -75,26 +60,11 @@ static void get_cpu_memory_verifi (LoongsonSecurity *se)
     }
 }
 
-static void get_cpu_key_manager (LoongsonSecurity *se)
-{
-    g_autoptr(GError) error = NULL;
-
-    se->priv->key_manager = loongson_dbus_call ("KeyManagement", &error);
-    if (se->priv->key_manager == NULL)
-    {
-        loongson_message_dialog (_("Get loongson security"),
-                                 WARING,
-                                 "%s", "error->message");
-    }
-}
-
 static void loongson_security_set_data (LoongsonSecurity *security)
 {
     security->priv->name = g_strdup (_("Loongson Security"));
     security->priv->firewalld = loongson_firewalld_state ();
-    get_cpu_key_manager (security);
     get_cpu_memory_verifi (security);
-    get_cpu_trusted_start (security);
 }
 
 static void
@@ -120,39 +90,21 @@ loongson_security_fill (LoongsonSecurity *security)
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("key management"), TRUE);
+    set_lable_style (label, "gray", 12, _("Memory Check"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
 
-    label = gtk_label_new (security->priv->key_manager);
+    label = gtk_label_new (security->priv->memory_verifi);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("Memory Check"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
-
-    label = gtk_label_new (security->priv->memory_verifi);
-    gtk_label_set_xalign (GTK_LABEL(label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
-
-    label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("Trusted start"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
-
-    label = gtk_label_new (security->priv->trusted_start);
-    gtk_label_set_xalign (GTK_LABEL(label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,label, 1, 2, 1, 1);
-
-    label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Firewall"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
     label = gtk_label_new (security->priv->firewalld);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,label, 1, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
 }
 
 static GObject *

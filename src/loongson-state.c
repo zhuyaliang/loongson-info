@@ -54,7 +54,6 @@ struct _LoongsonStatePrivate
     GtkWidget *swap_label;
     GtkWidget *loadavg_label;
     GtkWidget *tempe_label;
-    GtkWidget *fan_label;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (LoongsonState, loongson_state, GTK_TYPE_BOX)
@@ -129,22 +128,6 @@ static double get_loongson_loadavg_state (LoongsonState *state)
     return loadavg.loadavg[2];
 }
 
-static char *get_fan_speed (LoongsonState *state)
-{
-    g_autoptr(GError) error = NULL;
-    char *speed;
-
-    speed = loongson_dbus_call ("FanSpeed", &error);
-    if (speed == NULL)
-    {
-        loongson_message_dialog (_("Get loongson state"),
-                                 WARING,
-                                 "%s", "error->message");
-    }
-
-    return g_strdup (speed);
-}
-
 static char *get_cpu_temper (LoongsonState *state)
 {
     g_autoptr(GError) error = NULL;
@@ -193,10 +176,6 @@ static gboolean update_loongson_state (LoongsonState *state)
     set_lable_style (state->priv->tempe_label, "red", 12, text, TRUE);
     g_free (text);
 
-    text = get_fan_speed (state);
-    set_lable_style (state->priv->fan_label, "red", 12, text, TRUE);
-    g_free (text);
-
     return TRUE;
 }
 
@@ -232,48 +211,39 @@ loongson_state_fill (LoongsonState *state)
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
-    set_lable_style (label, "gray", 12, _("Fan speed"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
-
-    state->priv->fan_label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(state->priv->fan_label), 0);
-    gtk_grid_attach (GTK_GRID (table), state->priv->fan_label, 1, 1, 1, 1);
-
-    label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Memory Usage"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
     state->priv->mem_label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(state->priv->mem_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->mem_label, 1, 2, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,state->priv->mem_label, 1, 1, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Swap Usage"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
 
     state->priv->swap_label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(state->priv->swap_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->swap_label, 1, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,state->priv->swap_label, 1, 2, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("CPU utilization"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
 
     state->priv->cpu_label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(state->priv->cpu_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->cpu_label, 1, 4, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,state->priv->cpu_label, 1, 3, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Load average"), TRUE);
-    gtk_grid_attach (GTK_GRID (table) ,label, 0, 5, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
 
     state->priv->loadavg_label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(state->priv->loadavg_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->loadavg_label, 1, 5, 1, 1);
+    gtk_grid_attach (GTK_GRID (table) ,state->priv->loadavg_label, 1, 4, 1, 1);
 
 }
 
