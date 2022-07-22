@@ -264,24 +264,25 @@ loongson_perf_constructor (GType                  type,
 }
 
 static void
-loongson_perf_destroy (GtkWidget *widget)
+loongson_perf_finalize (GObject *object)
 {
     LoongsonPerf *perf;
 
-    perf = LOONGSON_PERF (widget);
+    perf = LOONGSON_PERF (object);
     g_free (perf->name);
     g_free (perf->current_cpu_hz);
     g_free (perf->bogomips);
+
+    G_OBJECT_CLASS (loongson_perf_parent_class)->finalize (object);
 }
 
 static void
 loongson_perf_class_init (LoongsonPerfClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_perf_constructor;
-    gtk_class->destroy = loongson_perf_destroy;
+    gobject_class->finalize = loongson_perf_finalize;
 }
 
 static void

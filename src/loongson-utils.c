@@ -29,7 +29,10 @@ static GDBusProxy *proxy;
 void close_dbus_proxy (void)
 {
     if (proxy != NULL)
+    {
         g_object_unref (proxy);
+        proxy = NULL;
+    }
 }
 
 gboolean init_dbus_proxy (GError **error)

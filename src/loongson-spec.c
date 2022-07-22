@@ -283,11 +283,11 @@ loongson_spec_constructor (GType                  type,
 }
 
 static void
-loongson_spec_destroy (GtkWidget *widget)
+loongson_spec_finalize (GObject *object)
 {
     LoongsonSpec *spec;
 
-    spec = LOONGSON_SPEC (widget);
+    spec = LOONGSON_SPEC (object);
     g_free (spec->name);
     g_free (spec->machine);
     g_free (spec->byte_order);
@@ -295,16 +295,17 @@ loongson_spec_destroy (GtkWidget *widget)
     g_free (spec->model_name);
     g_free (spec->cpu_family);
     g_free (spec->technology);
+
+    G_OBJECT_CLASS (loongson_spec_parent_class)->finalize (object);
 }
 
 static void
 loongson_spec_class_init (LoongsonSpecClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_spec_constructor;
-    gtk_class->destroy = loongson_spec_destroy;
+    gobject_class->finalize = loongson_spec_finalize;
 }
 
 static void

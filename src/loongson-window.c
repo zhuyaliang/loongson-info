@@ -113,11 +113,13 @@ loongson_window_constructor (GType                  type,
 static void
 loongson_window_destroy (GtkWidget *widget)
 {
-    LoongsonWindow *loongsonwin;
+    //LoongsonWindow *loongsonwin;
 
-    loongsonwin = LOONGSON_WINDOW (widget);
+    //loongsonwin = LOONGSON_WINDOW (widget);
 
     close_dbus_proxy ();
+    GTK_WIDGET_CLASS (loongson_window_parent_class)->destroy (widget);
+
     gtk_main_quit ();
 }
 

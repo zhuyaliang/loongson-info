@@ -127,23 +127,24 @@ loongson_security_constructor (GType                  type,
 }
 
 static void
-loongson_security_destroy (GtkWidget *widget)
+loongson_security_finalize (GObject *object)
 {
     LoongsonSecurity *security;
 
-    security = LOONGSON_SECURITY (widget);
+    security = LOONGSON_SECURITY (object);
     g_free (security->name);
     g_free (security->firewalld);
+
+    G_OBJECT_CLASS (loongson_security_parent_class)->finalize (object);
 }
 
 static void
 loongson_security_class_init (LoongsonSecurityClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_security_constructor;
-    gtk_class->destroy = loongson_security_destroy;
+    gobject_class->finalize = loongson_security_finalize;
 }
 
 static void

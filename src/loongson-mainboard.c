@@ -294,22 +294,23 @@ loongson_mainboard_constructor (GType                  type,
 }
 
 static void
-loongson_mainboard_destroy (GtkWidget *widget)
+loongson_mainboard_finalize (GObject *object)
 {
     LoongsonMainboard *mainboard;
 
-    mainboard = LOONGSON_MAINBOARD (widget);
+    mainboard = LOONGSON_MAINBOARD (object);
     g_free (mainboard->name);
+
+    G_OBJECT_CLASS (loongson_mainboard_parent_class)->finalize (object);
 }
 
 static void
 loongson_mainboard_class_init (LoongsonMainboardClass *klass)
 {
     GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-    GtkWidgetClass *gtk_class = GTK_WIDGET_CLASS (klass);
 
     gobject_class->constructor = loongson_mainboard_constructor;
-    gtk_class->destroy = loongson_mainboard_destroy;
+    gobject_class->finalize = loongson_mainboard_finalize;
 }
 
 static void
