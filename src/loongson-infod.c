@@ -223,7 +223,7 @@ static gboolean info_get_hardware_assisted_virtualization (BusInfo *object,
 
     loongarch_get_cpucfg(val, CPUCFG_2);
     virtualization = string_init;
-    sprintf(virtualization , "V%d", (val >> 11) & 0x7);
+    sprintf(virtualization , "V%u", (val >> 11) & 0x7);
 
     bus_info_complete_hardware_assisted_virtualization (object, invocation, virtualization);
 
@@ -341,18 +341,18 @@ static gboolean info_get_mmu_style (BusInfo *object,
                                     gpointer user_data)
 {
     gchar *mmu = NULL;
-    gchar string1[20] = {"Not Support"};
-    gchar string2[20] = {"Support"};
-    U32 val;
+    U32    val;
 
     loongarch_get_cpucfg(val, CPUCFG_1);
-    mmu = string1;
 
     if(val & 0x4)
-      mmu = string2;
+        mmu = g_strdup (_("Support"));
+    else
+        mmu = g_strdup (_("Not Support"));
 
     bus_info_complete_mmu_style (object, invocation, mmu);
 
+    g_free (mmu);
     return TRUE;
 }
 static gboolean info_get_packaging_method (BusInfo *object,

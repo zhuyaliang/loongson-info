@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: loongson-info\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-12 20:04+0800\n"
+"POT-Creation-Date: 2022-07-22 13:48+0800\n"
 "PO-Revision-Date: 2022-07-10 16:41+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,195 +17,225 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: src/loongson-window.c:157
+#: src/loongson-window.c:140
 msgid "Loongson Info"
 msgstr "龙芯信息"
 
-#: src/loongson-perf.c:58
+#: src/loongson-window.c:157
+msgid "init loongson-infod gdbus"
+msgstr "初始化 loongson infod gdbus"
+
+#: src/loongson-perf.c:70 src/loongson-perf.c:83 src/loongson-perf.c:96
+#: src/loongson-perf.c:109 src/loongson-perf.c:122 src/loongson-perf.c:135
+msgid "Get loongson perf"
+msgstr "获取龙芯性能"
+
+#: src/loongson-perf.c:143
 msgid "Loongson Perf"
 msgstr "龙芯性能"
 
-#: src/loongson-perf.c:86
+#: src/loongson-perf.c:177
 msgid "Physical Kernel"
 msgstr "物理核"
 
-#: src/loongson-perf.c:95
+#: src/loongson-perf.c:186
 msgid "Maximum Memory frequency"
 msgstr "最大内存频率"
 
-#: src/loongson-perf.c:104
+#: src/loongson-perf.c:195
 msgid "Memory channel"
 msgstr "内存涌道"
 
-#: src/loongson-perf.c:113
+#: src/loongson-perf.c:204
 msgid "Maximum Frequency"
 msgstr "最大主频"
 
-#: src/loongson-perf.c:122
+#: src/loongson-perf.c:213
 msgid "Current Frequency"
 msgstr "当前主频"
 
-#: src/loongson-perf.c:131
+#: src/loongson-perf.c:222
 msgid "Maximum memory capacity"
 msgstr "最大内存容量"
 
-#: src/loongson-perf.c:140
+#: src/loongson-perf.c:231
 msgid "Number of threads"
 msgstr "线程数"
 
-#: src/loongson-perf.c:149
+#: src/loongson-perf.c:240
 msgid "BogoMIPS"
 msgstr ""
 
-#: src/loongson-state.c:183
+#: src/loongson-state.c:140
+msgid "Get loongson state"
+msgstr "获取龙芯状态"
+
+#: src/loongson-state.c:206
 msgid "Temperature"
 msgstr "温度"
 
-#: src/loongson-state.c:192
-msgid "Fan speed"
-msgstr "风扇转速"
-
-#: src/loongson-state.c:201
+#: src/loongson-state.c:215
 msgid "Memory Usage"
 msgstr "内存使用率"
 
-#: src/loongson-state.c:210
+#: src/loongson-state.c:224
 msgid "Swap Usage"
 msgstr "交换分区利用率"
 
-#: src/loongson-state.c:219
+#: src/loongson-state.c:233
 msgid "CPU utilization"
 msgstr "CPU利用率"
 
-#: src/loongson-state.c:228
+#: src/loongson-state.c:242
 msgid "Load average"
 msgstr "平均负载"
 
-#: src/loongson-state.c:281
+#: src/loongson-state.c:294
 msgid "Loongson State"
 msgstr "龙芯状态"
 
-#: src/loongson-security.c:42
+#: src/loongson-security.c:44
 msgid "Enabled"
 msgstr "打开"
 
-#: src/loongson-security.c:46
+#: src/loongson-security.c:48
 msgid "Disabled"
 msgstr "关闭"
 
-#: src/loongson-security.c:51
+#: src/loongson-security.c:58
+msgid "Get loongson security"
+msgstr "获取龙芯安全"
+
+#: src/loongson-security.c:66
 msgid "Loongson Security"
 msgstr "龙芯安全"
 
-#: src/loongson-security.c:78
-msgid "key management"
-msgstr "密钥管理"
-
-#: src/loongson-security.c:87
+#: src/loongson-security.c:94
 msgid "Memory Check"
 msgstr "内存检查"
 
-#: src/loongson-security.c:96
-msgid "Trusted start"
-msgstr "可信启动"
-
-#: src/loongson-security.c:105
+#: src/loongson-security.c:103
 msgid "Firewall"
 msgstr "防火墙"
 
-#: src/loongson-spec.c:105
+#: src/loongson-spec.c:78 src/loongson-spec.c:110 src/loongson-spec.c:123
+#: src/loongson-spec.c:136 src/loongson-spec.c:149
+msgid "Get loongson spec"
+msgstr "获取龙芯性能"
+
+#: src/loongson-spec.c:97
 msgid "big endian"
 msgstr "大端"
 
-#: src/loongson-spec.c:107
+#: src/loongson-spec.c:99
 msgid "little endian"
 msgstr "小端"
 
-#: src/loongson-spec.c:113
+#: src/loongson-spec.c:157
 msgid "Loongson Specifications"
 msgstr "龙芯规格"
 
-#: src/loongson-spec.c:147
+#: src/loongson-spec.c:195
 msgid "byte order"
 msgstr "字节序"
 
-#: src/loongson-spec.c:156
+#: src/loongson-spec.c:204
 msgid "CPU Series"
 msgstr "CPU系列"
 
-#: src/loongson-spec.c:165
+#: src/loongson-spec.c:213
 msgid "CPU Model Name"
 msgstr "CPU型号名称"
 
-#: src/loongson-spec.c:174
+#: src/loongson-spec.c:222
 msgid "Process Technology"
-msgstr "工艺制成"
+msgstr "工艺"
 
-#: src/loongson-spec.c:183
+#: src/loongson-spec.c:231
 msgid "Power Dissipation"
 msgstr "功耗"
 
-#: src/loongson-spec.c:192
-msgid "Junction Temperature "
+#: src/loongson-spec.c:240
+msgid "Junction Temperature"
 msgstr "结温"
 
-#: src/loongson-spec.c:201
+#: src/loongson-spec.c:249
 msgid "Packaging Method"
 msgstr "封装方法"
 
-#: src/loongson-spec.c:210
+#: src/loongson-spec.c:258
 msgid "Size"
 msgstr "尺寸"
 
-#: src/loongson-mainboard.c:55
-msgid "Product Name"
-msgstr "产品名字"
+#: src/loongson-mainboard.c:48 src/loongson-mainboard.c:61
+#: src/loongson-mainboard.c:74 src/loongson-mainboard.c:87
+#: src/loongson-mainboard.c:100 src/loongson-mainboard.c:113
+#: src/loongson-mainboard.c:126 src/loongson-mainboard.c:139
+#: src/loongson-mainboard.c:152
+msgid "Get loongson mainboard"
+msgstr "获取龙芯主板"
 
-#: src/loongson-mainboard.c:64
-msgid "Memory"
-msgstr "内存"
-
-#: src/loongson-mainboard.c:73
-msgid "BIOS Information"
-msgstr "BIOS 信息"
-
-#: src/loongson-mainboard.c:82
-msgid "Microarchitecture"
-msgstr "微架构"
-
-#: src/loongson-mainboard.c:91
-msgid "CPU Cache"
-msgstr "CPU 缓存"
-
-#: src/loongson-mainboard.c:100
-msgid "MMU"
-msgstr ""
-
-#: src/loongson-mainboard.c:109
-msgid "Calculation part"
-msgstr "计算部分"
-
-#: src/loongson-mainboard.c:118
-msgid "Extended instruction"
-msgstr "扩展指令"
-
-#: src/loongson-mainboard.c:127
-msgid "Hardware assisted virtualization"
-msgstr "硬件辅助虚拟化"
-
-#: src/loongson-mainboard.c:177
+#: src/loongson-mainboard.c:161
 msgid "Loongson Mainboard"
 msgstr "龙芯主板"
 
-#: src/loongson-utils.c:118
+#: src/loongson-mainboard.c:198
+msgid "Product Name"
+msgstr "产品名字"
+
+#: src/loongson-mainboard.c:207
+msgid "Memory"
+msgstr "内存"
+
+#: src/loongson-mainboard.c:216
+msgid "BIOS Information"
+msgstr "BIOS 信息"
+
+#: src/loongson-mainboard.c:225
+msgid "Microarchitecture"
+msgstr "微架构"
+
+#: src/loongson-mainboard.c:234
+msgid "CPU Cache"
+msgstr "CPU 缓存"
+
+#: src/loongson-mainboard.c:243
+msgid "MMU"
+msgstr ""
+
+#: src/loongson-mainboard.c:252
+msgid "Calculation part"
+msgstr "计算部分"
+
+#: src/loongson-mainboard.c:261
+msgid "Extended instruction"
+msgstr "扩展指令"
+
+#: src/loongson-mainboard.c:270
+msgid "Hardware assisted virtualization"
+msgstr "硬件辅助虚拟化"
+
+#: src/loongson-utils.c:168
 msgid "Message"
 msgstr "信息"
 
-#~ msgid "Address sizes"
-#~ msgstr "地址大小"
+#: src/server.c:39
+msgid "Enable debugging code"
+msgstr "启用调试代码"
 
-#~ msgid "Network traffic"
-#~ msgstr "网络流量"
+#: src/server.c:45
+msgid "Replace a currently running application"
+msgstr "替换当前运行的应用程序"
 
-#~ msgid "External Clock"
-#~ msgstr "外部时钟"
+#: src/server.c:65
+#, c-format
+msgid "Failed to parse command line arguments: %s"
+msgstr "无法分析命令行参数"
+
+#: src/loongson-infod.c:349
+msgid "Support"
+msgstr "支持"
+
+#: src/loongson-infod.c:351
+msgid "Not Support"
+msgstr "不支持"

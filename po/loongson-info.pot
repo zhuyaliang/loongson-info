@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: loongson-info\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-12 20:04+0800\n"
+"POT-Creation-Date: 2022-07-22 13:48+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,186 +17,225 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/loongson-window.c:157
+#: src/loongson-window.c:140
 msgid "Loongson Info"
 msgstr ""
 
-#: src/loongson-perf.c:58
+#: src/loongson-window.c:157
+msgid "init loongson-infod gdbus"
+msgstr ""
+
+#: src/loongson-perf.c:70 src/loongson-perf.c:83 src/loongson-perf.c:96
+#: src/loongson-perf.c:109 src/loongson-perf.c:122 src/loongson-perf.c:135
+msgid "Get loongson perf"
+msgstr ""
+
+#: src/loongson-perf.c:143
 msgid "Loongson Perf"
 msgstr ""
 
-#: src/loongson-perf.c:86
+#: src/loongson-perf.c:177
 msgid "Physical Kernel"
 msgstr ""
 
-#: src/loongson-perf.c:95
+#: src/loongson-perf.c:186
 msgid "Maximum Memory frequency"
 msgstr ""
 
-#: src/loongson-perf.c:104
+#: src/loongson-perf.c:195
 msgid "Memory channel"
 msgstr ""
 
-#: src/loongson-perf.c:113
+#: src/loongson-perf.c:204
 msgid "Maximum Frequency"
 msgstr ""
 
-#: src/loongson-perf.c:122
+#: src/loongson-perf.c:213
 msgid "Current Frequency"
 msgstr ""
 
-#: src/loongson-perf.c:131
+#: src/loongson-perf.c:222
 msgid "Maximum memory capacity"
 msgstr ""
 
-#: src/loongson-perf.c:140
+#: src/loongson-perf.c:231
 msgid "Number of threads"
 msgstr ""
 
-#: src/loongson-perf.c:149
+#: src/loongson-perf.c:240
 msgid "BogoMIPS"
 msgstr ""
 
-#: src/loongson-state.c:183
+#: src/loongson-state.c:140
+msgid "Get loongson state"
+msgstr ""
+
+#: src/loongson-state.c:206
 msgid "Temperature"
 msgstr ""
 
-#: src/loongson-state.c:192
-msgid "Fan speed"
-msgstr ""
-
-#: src/loongson-state.c:201
+#: src/loongson-state.c:215
 msgid "Memory Usage"
 msgstr ""
 
-#: src/loongson-state.c:210
+#: src/loongson-state.c:224
 msgid "Swap Usage"
 msgstr ""
 
-#: src/loongson-state.c:219
+#: src/loongson-state.c:233
 msgid "CPU utilization"
 msgstr ""
 
-#: src/loongson-state.c:228
+#: src/loongson-state.c:242
 msgid "Load average"
 msgstr ""
 
-#: src/loongson-state.c:281
+#: src/loongson-state.c:294
 msgid "Loongson State"
 msgstr ""
 
-#: src/loongson-security.c:42
+#: src/loongson-security.c:44
 msgid "Enabled"
 msgstr ""
 
-#: src/loongson-security.c:46
+#: src/loongson-security.c:48
 msgid "Disabled"
 msgstr ""
 
-#: src/loongson-security.c:51
+#: src/loongson-security.c:58
+msgid "Get loongson security"
+msgstr ""
+
+#: src/loongson-security.c:66
 msgid "Loongson Security"
 msgstr ""
 
-#: src/loongson-security.c:78
-msgid "key management"
-msgstr ""
-
-#: src/loongson-security.c:87
+#: src/loongson-security.c:94
 msgid "Memory Check"
 msgstr ""
 
-#: src/loongson-security.c:96
-msgid "Trusted start"
-msgstr ""
-
-#: src/loongson-security.c:105
+#: src/loongson-security.c:103
 msgid "Firewall"
 msgstr ""
 
-#: src/loongson-spec.c:105
+#: src/loongson-spec.c:78 src/loongson-spec.c:110 src/loongson-spec.c:123
+#: src/loongson-spec.c:136 src/loongson-spec.c:149
+msgid "Get loongson spec"
+msgstr ""
+
+#: src/loongson-spec.c:97
 msgid "big endian"
 msgstr ""
 
-#: src/loongson-spec.c:107
+#: src/loongson-spec.c:99
 msgid "little endian"
 msgstr ""
 
-#: src/loongson-spec.c:113
+#: src/loongson-spec.c:157
 msgid "Loongson Specifications"
 msgstr ""
 
-#: src/loongson-spec.c:147
+#: src/loongson-spec.c:195
 msgid "byte order"
 msgstr ""
 
-#: src/loongson-spec.c:156
+#: src/loongson-spec.c:204
 msgid "CPU Series"
 msgstr ""
 
-#: src/loongson-spec.c:165
+#: src/loongson-spec.c:213
 msgid "CPU Model Name"
 msgstr ""
 
-#: src/loongson-spec.c:174
+#: src/loongson-spec.c:222
 msgid "Process Technology"
 msgstr ""
 
-#: src/loongson-spec.c:183
+#: src/loongson-spec.c:231
 msgid "Power Dissipation"
 msgstr ""
 
-#: src/loongson-spec.c:192
-msgid "Junction Temperature "
+#: src/loongson-spec.c:240
+msgid "Junction Temperature"
 msgstr ""
 
-#: src/loongson-spec.c:201
+#: src/loongson-spec.c:249
 msgid "Packaging Method"
 msgstr ""
 
-#: src/loongson-spec.c:210
+#: src/loongson-spec.c:258
 msgid "Size"
 msgstr ""
 
-#: src/loongson-mainboard.c:55
-msgid "Product Name"
+#: src/loongson-mainboard.c:48 src/loongson-mainboard.c:61
+#: src/loongson-mainboard.c:74 src/loongson-mainboard.c:87
+#: src/loongson-mainboard.c:100 src/loongson-mainboard.c:113
+#: src/loongson-mainboard.c:126 src/loongson-mainboard.c:139
+#: src/loongson-mainboard.c:152
+msgid "Get loongson mainboard"
 msgstr ""
 
-#: src/loongson-mainboard.c:64
-msgid "Memory"
-msgstr ""
-
-#: src/loongson-mainboard.c:73
-msgid "BIOS Information"
-msgstr ""
-
-#: src/loongson-mainboard.c:82
-msgid "Microarchitecture"
-msgstr ""
-
-#: src/loongson-mainboard.c:91
-msgid "CPU Cache"
-msgstr ""
-
-#: src/loongson-mainboard.c:100
-msgid "MMU"
-msgstr ""
-
-#: src/loongson-mainboard.c:109
-msgid "Calculation part"
-msgstr ""
-
-#: src/loongson-mainboard.c:118
-msgid "Extended instruction"
-msgstr ""
-
-#: src/loongson-mainboard.c:127
-msgid "Hardware assisted virtualization"
-msgstr ""
-
-#: src/loongson-mainboard.c:177
+#: src/loongson-mainboard.c:161
 msgid "Loongson Mainboard"
 msgstr ""
 
-#: src/loongson-utils.c:118
+#: src/loongson-mainboard.c:198
+msgid "Product Name"
+msgstr ""
+
+#: src/loongson-mainboard.c:207
+msgid "Memory"
+msgstr ""
+
+#: src/loongson-mainboard.c:216
+msgid "BIOS Information"
+msgstr ""
+
+#: src/loongson-mainboard.c:225
+msgid "Microarchitecture"
+msgstr ""
+
+#: src/loongson-mainboard.c:234
+msgid "CPU Cache"
+msgstr ""
+
+#: src/loongson-mainboard.c:243
+msgid "MMU"
+msgstr ""
+
+#: src/loongson-mainboard.c:252
+msgid "Calculation part"
+msgstr ""
+
+#: src/loongson-mainboard.c:261
+msgid "Extended instruction"
+msgstr ""
+
+#: src/loongson-mainboard.c:270
+msgid "Hardware assisted virtualization"
+msgstr ""
+
+#: src/loongson-utils.c:168
 msgid "Message"
+msgstr ""
+
+#: src/server.c:39
+msgid "Enable debugging code"
+msgstr ""
+
+#: src/server.c:45
+msgid "Replace a currently running application"
+msgstr ""
+
+#: src/server.c:65
+#, c-format
+msgid "Failed to parse command line arguments: %s"
+msgstr ""
+
+#: src/loongson-infod.c:349
+msgid "Support"
+msgstr ""
+
+#: src/loongson-infod.c:351
+msgid "Not Support"
 msgstr ""

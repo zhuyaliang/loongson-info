@@ -6,3 +6,5 @@ src/loongson-security.c
 src/loongson-spec.c
 src/loongson-mainboard.c
 src/loongson-utils.c
+src/server.c
+src/loongson-infod.c
