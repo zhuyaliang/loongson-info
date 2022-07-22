@@ -22,8 +22,9 @@
 #include "loongson-utils.h"
 #include <sys/utsname.h>
 
-struct _LoongsonSpecPrivate
+struct _LoongsonSpec
 {
+    GtkBox box;
     char *name;
     char *machine;
     char *byte_order;
@@ -38,7 +39,7 @@ struct _LoongsonSpecPrivate
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (LoongsonSpec, loongson_spec, GTK_TYPE_BOX)
+G_DEFINE_TYPE (LoongsonSpec, loongson_spec, GTK_TYPE_BOX)
 
 static void get_cpu_info (LoongsonSpec *spec)
 {
@@ -56,11 +57,11 @@ static void get_cpu_info (LoongsonSpec *spec)
             tmp[0] = g_strstrip(tmp[0]);
             tmp[1] = g_strstrip(tmp[1]);
 
-            get_str ("system type", spec->priv->vendor_id);
-            get_str ("model name", spec->priv->model_name);
-            get_str ("cpu family", spec->priv->cpu_family);
-            if (spec->priv->cpu_family == NULL)
-                get_str ("cpu model", spec->priv->cpu_family);
+            get_str ("system type", spec->vendor_id);
+            get_str ("model name", spec->model_name);
+            get_str ("cpu family", spec->cpu_family);
+            if (spec->cpu_family == NULL)
+                get_str ("cpu model", spec->cpu_family);
         }
         g_strfreev(tmp);
     }
@@ -71,8 +72,8 @@ static void get_cpu_technology (LoongsonSpec *spec)
 {
     g_autoptr(GError) error = NULL;
 
-    spec->priv->technology = loongson_dbus_call ("CpuTechnology", &error);
-    if (spec->priv->technology == NULL)
+    spec->technology = loongson_dbus_call ("CpuTechnology", &error);
+    if (spec->technology == NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
@@ -85,7 +86,7 @@ static void get_cpu_machine (LoongsonSpec *spec)
     struct utsname  u;
 
     uname(&u);
-    spec->priv->machine = g_strdup (u.machine);
+    spec->machine = g_strdup (u.machine);
 }
 
 static void get_cpu_byte_order (LoongsonSpec *spec)
@@ -93,9 +94,9 @@ static void get_cpu_byte_order (LoongsonSpec *spec)
     int a = 0x12345678;
 
     if (*((char *)&a) == 0x12)
-        spec->priv->byte_order = g_strdup (_("big endian"));
+        spec->byte_order = g_strdup (_("big endian"));
     else
-        spec->priv->byte_order = g_strdup (_("little endian"));
+        spec->byte_order = g_strdup (_("little endian"));
 
 }
 
@@ -103,8 +104,8 @@ static void get_cpu_power_waste (LoongsonSpec *spec)
 {
     g_autoptr(GError) error = NULL;
 
-    spec->priv->power_waste = loongson_dbus_call ("PowerWaste", &error);
-    if (spec->priv->power_waste == NULL)
+    spec->power_waste = loongson_dbus_call ("PowerWaste", &error);
+    if (spec->power_waste == NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
@@ -116,8 +117,8 @@ static void get_cpu_junction_temperature (LoongsonSpec *spec)
 {
     g_autoptr(GError) error = NULL;
 
-    spec->priv->junction_temperature = loongson_dbus_call ("JunctionTemperature", &error);
-    if (spec->priv->junction_temperature == NULL)
+    spec->junction_temperature = loongson_dbus_call ("JunctionTemperature", &error);
+    if (spec->junction_temperature == NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
@@ -129,8 +130,8 @@ static void get_cpu_packaging_method (LoongsonSpec *spec)
 {
     g_autoptr(GError) error = NULL;
 
-    spec->priv->package_method = loongson_dbus_call ("PackagingMethod", &error);
-    if (spec->priv->package_method == NULL)
+    spec->package_method = loongson_dbus_call ("PackagingMethod", &error);
+    if (spec->package_method == NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
@@ -142,8 +143,8 @@ static void get_cpu_size (LoongsonSpec *spec)
 {
     g_autoptr(GError) error = NULL;
 
-    spec->priv->size = loongson_dbus_call ("CpuSizes", &error);
-    if (spec->priv->size == NULL)
+    spec->size = loongson_dbus_call ("CpuSizes", &error);
+    if (spec->size == NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
@@ -153,7 +154,7 @@ static void get_cpu_size (LoongsonSpec *spec)
 
 static void set_spec_data (LoongsonSpec *spec)
 {
-    spec->priv->name = g_strdup (_("Loongson Specifications"));
+    spec->name = g_strdup (_("Loongson Specifications"));
     get_cpu_byte_order (spec);
     get_cpu_machine (spec);
     get_cpu_info (spec);
@@ -183,7 +184,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     gtk_box_pack_start (GTK_BOX (vbox), image, FALSE, FALSE, 0);
 
     label = gtk_label_new (NULL);
-    set_lable_style (label, "black", 13, spec->priv->machine, TRUE);
+    set_lable_style (label, "black", 13, spec->machine, TRUE);
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
     table = grid_widget_new ();
@@ -194,7 +195,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("byte order"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
 
-    label = gtk_label_new (spec->priv->byte_order);
+    label = gtk_label_new (spec->byte_order);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
 
@@ -203,7 +204,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("CPU Series"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
-    label = gtk_label_new (spec->priv->cpu_family);
+    label = gtk_label_new (spec->cpu_family);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
 
@@ -212,7 +213,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("CPU Model Name"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
 
-    label = gtk_label_new (spec->priv->model_name);
+    label = gtk_label_new (spec->model_name);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 2, 1, 1);
 
@@ -221,7 +222,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Process Technology"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
 
-    label = gtk_label_new (spec->priv->technology);
+    label = gtk_label_new (spec->technology);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 3, 1, 1);
 
@@ -230,7 +231,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Power Dissipation"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
 
-    label = gtk_label_new (spec->priv->power_waste);
+    label = gtk_label_new (spec->power_waste);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 4, 1, 1);
 
@@ -239,7 +240,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Junction Temperature"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 5, 1, 1);
 
-    label = gtk_label_new (spec->priv->junction_temperature);
+    label = gtk_label_new (spec->junction_temperature);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 5, 1, 1);
 
@@ -248,7 +249,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Packaging Method"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 6, 1, 1);
 
-    label = gtk_label_new (spec->priv->package_method);
+    label = gtk_label_new (spec->package_method);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 6, 1, 1);
 
@@ -257,7 +258,7 @@ loongson_spec_fill (LoongsonSpec *spec)
     set_lable_style (label, "gray", 12, _("Size"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 7, 1, 1);
 
-    label = gtk_label_new (spec->priv->size);
+    label = gtk_label_new (spec->size);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 7, 1, 1);
 
@@ -287,13 +288,13 @@ loongson_spec_destroy (GtkWidget *widget)
     LoongsonSpec *spec;
 
     spec = LOONGSON_SPEC (widget);
-    g_free (spec->priv->name);
-    g_free (spec->priv->machine);
-    g_free (spec->priv->byte_order);
-    g_free (spec->priv->vendor_id);
-    g_free (spec->priv->model_name);
-    g_free (spec->priv->cpu_family);
-    g_free (spec->priv->technology);
+    g_free (spec->name);
+    g_free (spec->machine);
+    g_free (spec->byte_order);
+    g_free (spec->vendor_id);
+    g_free (spec->model_name);
+    g_free (spec->cpu_family);
+    g_free (spec->technology);
 }
 
 static void
@@ -309,14 +310,13 @@ loongson_spec_class_init (LoongsonSpecClass *klass)
 static void
 loongson_spec_init (LoongsonSpec *spec)
 {
-    spec->priv = loongson_spec_get_instance_private (spec);
     gtk_orientable_set_orientation (GTK_ORIENTABLE (spec), GTK_ORIENTATION_VERTICAL);
     set_spec_data (spec);
 }
 
 const char *loongson_spec_get_name (LoongsonSpec *spec)
 {
-    return spec->priv->name;
+    return spec->name;
 }
 
 GtkWidget *

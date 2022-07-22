@@ -21,28 +21,29 @@
 #include "loongson-mainboard.h"
 #include "loongson-utils.h"
 
-struct _LoongsonMainboardPrivate
+struct _LoongsonMainboard
 {
-    char *name;
-    char *bios_name;
-    char *product_name;
-    char *memory_style;
-    char *micro_architecture;
-    char *cpu_cache;
-    char *mmu;
-    char *calculation_part;
-    char *extended_instruction;
-    char *hw_virt;
+    GtkBox box;
+    char  *name;
+    char  *bios_name;
+    char  *product_name;
+    char  *memory_style;
+    char  *micro_architecture;
+    char  *cpu_cache;
+    char  *mmu;
+    char  *calculation_part;
+    char  *extended_instruction;
+    char  *hw_virt;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (LoongsonMainboard, loongson_mainboard, GTK_TYPE_BOX)
+G_DEFINE_TYPE (LoongsonMainboard, loongson_mainboard, GTK_TYPE_BOX)
 
 static void get_loongson_bios_name (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->bios_name = loongson_dbus_call ("BiosName", &error);
-    if (mb->priv->bios_name == NULL)
+    mb->bios_name = loongson_dbus_call ("BiosName", &error);
+    if (mb->bios_name == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -54,8 +55,8 @@ static void get_loongson_product_name (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->product_name = loongson_dbus_call ("ProductName", &error);
-    if (mb->priv->product_name == NULL)
+    mb->product_name = loongson_dbus_call ("ProductName", &error);
+    if (mb->product_name == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -67,8 +68,8 @@ static void get_loongson_memory_style (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->memory_style = loongson_dbus_call ("MemoryStyle", &error);
-    if (mb->priv->memory_style == NULL)
+    mb->memory_style = loongson_dbus_call ("MemoryStyle", &error);
+    if (mb->memory_style == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -80,8 +81,8 @@ static void get_loongson_micro_architecture (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->micro_architecture = loongson_dbus_call ("MicroArchitecture", &error);
-    if (mb->priv->micro_architecture == NULL)
+    mb->micro_architecture = loongson_dbus_call ("MicroArchitecture", &error);
+    if (mb->micro_architecture == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -93,8 +94,8 @@ static void get_loongson_cpu_cache (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->cpu_cache = loongson_dbus_call ("CpuCache", &error);
-    if (mb->priv->cpu_cache == NULL)
+    mb->cpu_cache = loongson_dbus_call ("CpuCache", &error);
+    if (mb->cpu_cache == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -106,8 +107,8 @@ static void get_loongson_mmu (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->mmu = loongson_dbus_call ("MmuStyle", &error);
-    if (mb->priv->mmu == NULL)
+    mb->mmu = loongson_dbus_call ("MmuStyle", &error);
+    if (mb->mmu == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -119,8 +120,8 @@ static void get_loongson_calculation_part (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->calculation_part = loongson_dbus_call ("CalculationPart", &error);
-    if (mb->priv->calculation_part == NULL)
+    mb->calculation_part = loongson_dbus_call ("CalculationPart", &error);
+    if (mb->calculation_part == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -132,8 +133,8 @@ static void get_loongson_extended_instruction (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->extended_instruction = loongson_dbus_call ("ExtendedInstruction", &error);
-    if (mb->priv->extended_instruction == NULL)
+    mb->extended_instruction = loongson_dbus_call ("ExtendedInstruction", &error);
+    if (mb->extended_instruction == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -145,8 +146,8 @@ static void get_loongson_hw_virt (LoongsonMainboard *mb)
 {
     g_autoptr(GError) error = NULL;
 
-    mb->priv->hw_virt = loongson_dbus_call ("HardwareAssistedVirtualization", &error);
-    if (mb->priv->hw_virt == NULL)
+    mb->hw_virt = loongson_dbus_call ("HardwareAssistedVirtualization", &error);
+    if (mb->hw_virt == NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
@@ -157,7 +158,7 @@ static void get_loongson_hw_virt (LoongsonMainboard *mb)
 
 static void set_mainboard_data (LoongsonMainboard *mb)
 {
-    mb->priv->name = g_strdup (_("Loongson Mainboard"));
+    mb->name = g_strdup (_("Loongson Mainboard"));
 
     get_loongson_bios_name (mb);
     get_loongson_product_name (mb);
@@ -197,7 +198,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Product Name"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->product_name);
+    label = gtk_label_new (mainboard->product_name);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
 
@@ -206,7 +207,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Memory"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->memory_style);
+    label = gtk_label_new (mainboard->memory_style);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 2, 1, 1);
 
@@ -215,7 +216,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("BIOS Information"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->bios_name);
+    label = gtk_label_new (mainboard->bios_name);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
 
@@ -224,7 +225,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Microarchitecture"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->micro_architecture);
+    label = gtk_label_new (mainboard->micro_architecture);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 3, 1, 1);
 
@@ -233,7 +234,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("CPU Cache"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->cpu_cache);
+    label = gtk_label_new (mainboard->cpu_cache);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 4, 1, 1);
 
@@ -242,7 +243,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("MMU"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 5, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->mmu);
+    label = gtk_label_new (mainboard->mmu);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 5, 1, 1);
 
@@ -251,7 +252,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Calculation part"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 6, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->calculation_part);
+    label = gtk_label_new (mainboard->calculation_part);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 6, 1, 1);
 
@@ -260,7 +261,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Extended instruction"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 7, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->extended_instruction);
+    label = gtk_label_new (mainboard->extended_instruction);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 7, 1, 1);
 
@@ -269,7 +270,7 @@ loongson_mainboard_fill (LoongsonMainboard *mainboard)
     set_lable_style (label, "gray", 12, _("Hardware assisted virtualization"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 8, 1, 1);
 
-    label = gtk_label_new (mainboard->priv->hw_virt);
+    label = gtk_label_new (mainboard->hw_virt);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 8, 1, 1);
 }
@@ -298,7 +299,7 @@ loongson_mainboard_destroy (GtkWidget *widget)
     LoongsonMainboard *mainboard;
 
     mainboard = LOONGSON_MAINBOARD (widget);
-    g_free (mainboard->priv->name);
+    g_free (mainboard->name);
 }
 
 static void
@@ -314,14 +315,13 @@ loongson_mainboard_class_init (LoongsonMainboardClass *klass)
 static void
 loongson_mainboard_init (LoongsonMainboard *mainboard)
 {
-    mainboard->priv = loongson_mainboard_get_instance_private (mainboard);
     gtk_orientable_set_orientation (GTK_ORIENTABLE (mainboard), GTK_ORIENTATION_VERTICAL);
     set_mainboard_data (mainboard);
 }
 
 const char *loongson_mainboard_get_name (LoongsonMainboard *mainboard)
 {
-    return mainboard->priv->name;
+    return mainboard->name;
 }
 
 GtkWidget *

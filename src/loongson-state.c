@@ -34,8 +34,9 @@ enum
     N_CPU_STATES
 };
 
-struct _LoongsonStatePrivate
+struct _LoongsonState
 {
+    GtkBox box;
     char   *name;
     guint   time_id;
     guint64 ncpu;
@@ -56,27 +57,27 @@ struct _LoongsonStatePrivate
     GtkWidget *tempe_label;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (LoongsonState, loongson_state, GTK_TYPE_BOX)
+G_DEFINE_TYPE (LoongsonState, loongson_state, GTK_TYPE_BOX)
 
 static float get_loongson_cpu_state (LoongsonState *state)
 {
 #undef  NOW
 #undef  LAST
-#define NOW  (state->priv->cpu.times[state->priv->cpu.now])
-#define LAST (state->priv->cpu.times[state->priv->cpu.now ^ 1])
+#define NOW  (state->cpu.times[state->cpu.now])
+#define LAST (state->cpu.times[state->cpu.now ^ 1])
     guint       i;
     float       cpu_usage = 0.0;
     glibtop_cpu cpu;
 
     glibtop_get_cpu (&cpu);
 
-    for (i = 0; i < state->priv->ncpu; i++)
+    for (i = 0; i < state->ncpu; i++)
     {
         NOW[i][CPU_TOTAL] = cpu.xcpu_total[i];
         NOW[i][CPU_USED] = cpu.xcpu_user[i] + cpu.xcpu_nice[i] + cpu.xcpu_sys[i];
     }
 
-    for (i = 0; i < state->priv->ncpu; i++)
+    for (i = 0; i < state->ncpu; i++)
     {
         float load;
         float total, used;
@@ -87,7 +88,7 @@ static float get_loongson_cpu_state (LoongsonState *state)
         load = used / MAX(total, 1.0f);
         cpu_usage += load + 0.1;
     }
-    state->priv->cpu.now ^= 1;
+    state->cpu.now ^= 1;
 #undef NOW
 #undef LAST
     return cpu_usage;
@@ -123,7 +124,7 @@ static double get_loongson_loadavg_state (LoongsonState *state)
 
     glibtop_get_loadavg (&loadavg);
 
-    state->priv->tasks = loadavg.nr_tasks;
+    state->tasks = loadavg.nr_tasks;
 
     return loadavg.loadavg[2];
 }
@@ -153,27 +154,27 @@ static gboolean update_loongson_state (LoongsonState *state)
     double   loadavg;
 
     cpu = get_loongson_cpu_state (state);
-    text = g_strdup_printf("%.1f%%", (cpu / state->priv->ncpu) * 100.0f);
-    set_lable_style (state->priv->cpu_label, "red", 12, text, TRUE);
+    text = g_strdup_printf("%.1f%%", (cpu / state->ncpu) * 100.0f);
+    set_lable_style (state->cpu_label, "red", 12, text, TRUE);
     g_free (text);
 
     mem  = get_loongson_memory_state (state);
     text = g_strdup_printf("%.1f%%", mem * 100.0f);
-    set_lable_style (state->priv->mem_label, "red", 12, text, TRUE);
+    set_lable_style (state->mem_label, "red", 12, text, TRUE);
     g_free (text);
 
     swap = get_loongson_swap_state (state);
     text = g_strdup_printf("%.1f%%", swap * 100.0f);
-    set_lable_style (state->priv->swap_label, "red", 12, text, TRUE);
+    set_lable_style (state->swap_label, "red", 12, text, TRUE);
     g_free (text);
 
     loadavg = get_loongson_loadavg_state (state);
     text = g_strdup_printf("%.1lf%%", loadavg * 100.0f);
-    set_lable_style (state->priv->loadavg_label, "red", 12, text, TRUE);
+    set_lable_style (state->loadavg_label, "red", 12, text, TRUE);
     g_free (text);
 
     text = get_cpu_temper (state);
-    set_lable_style (state->priv->tempe_label, "red", 12, text, TRUE);
+    set_lable_style (state->tempe_label, "red", 12, text, TRUE);
     g_free (text);
 
     return TRUE;
@@ -205,45 +206,45 @@ loongson_state_fill (LoongsonState *state)
     set_lable_style (label, "gray", 12, _("Temperature"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
 
-    state->priv->tempe_label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(state->priv->tempe_label), 0);
-    gtk_grid_attach (GTK_GRID (table), state->priv->tempe_label, 1, 0, 1, 1);
+    state->tempe_label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(state->tempe_label), 0);
+    gtk_grid_attach (GTK_GRID (table), state->tempe_label, 1, 0, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Memory Usage"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
-    state->priv->mem_label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(state->priv->mem_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->mem_label, 1, 1, 1, 1);
+    state->mem_label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(state->mem_label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,state->mem_label, 1, 1, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Swap Usage"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 2, 1, 1);
 
-    state->priv->swap_label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(state->priv->swap_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->swap_label, 1, 2, 1, 1);
+    state->swap_label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(state->swap_label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,state->swap_label, 1, 2, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("CPU utilization"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 3, 1, 1);
 
-    state->priv->cpu_label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(state->priv->cpu_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->cpu_label, 1, 3, 1, 1);
+    state->cpu_label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(state->cpu_label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,state->cpu_label, 1, 3, 1, 1);
 
     label = gtk_label_new (NULL);
     gtk_label_set_xalign (GTK_LABEL(label), 1);
     set_lable_style (label, "gray", 12, _("Load average"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 4, 1, 1);
 
-    state->priv->loadavg_label = gtk_label_new (NULL);
-    gtk_label_set_xalign (GTK_LABEL(state->priv->loadavg_label), 0);
-    gtk_grid_attach (GTK_GRID (table) ,state->priv->loadavg_label, 1, 4, 1, 1);
+    state->loadavg_label = gtk_label_new (NULL);
+    gtk_label_set_xalign (GTK_LABEL(state->loadavg_label), 0);
+    gtk_grid_attach (GTK_GRID (table) ,state->loadavg_label, 1, 4, 1, 1);
 
 }
 
@@ -271,8 +272,8 @@ loongson_state_destroy (GtkWidget *widget)
     LoongsonState *state;
 
     state = LOONGSON_STATE (widget);
-    g_free (state->priv->name);
-    g_source_remove (state->priv->time_id);
+    g_free (state->name);
+    g_source_remove (state->time_id);
 }
 
 static void
@@ -289,16 +290,15 @@ static void
 loongson_state_init (LoongsonState *state)
 {
 
-    state->priv = loongson_state_get_instance_private (state);
     gtk_orientable_set_orientation (GTK_ORIENTABLE (state), GTK_ORIENTATION_VERTICAL);
-    state->priv->name = g_strdup (_("Loongson State"));
-    state->priv->ncpu = glibtop_get_sysinfo ()->ncpu;
-    state->priv->time_id = g_timeout_add (1000, (GSourceFunc) update_loongson_state, state);
+    state->name = g_strdup (_("Loongson State"));
+    state->ncpu = glibtop_get_sysinfo ()->ncpu;
+    state->time_id = g_timeout_add (1000, (GSourceFunc) update_loongson_state, state);
 }
 
 const char *loongson_state_get_name (LoongsonState *state)
 {
-    return state->priv->name;
+    return state->name;
 }
 
 GtkWidget *

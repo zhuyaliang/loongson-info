@@ -21,14 +21,15 @@
 #include "loongson-security.h"
 #include "loongson-utils.h"
 
-struct _LoongsonSecurityPrivate
+struct _LoongsonSecurity
 {
+    GtkBox box;
     char *name;
     char *firewalld;
     char *memory_verifi;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (LoongsonSecurity, loongson_security, GTK_TYPE_BOX)
+G_DEFINE_TYPE (LoongsonSecurity, loongson_security, GTK_TYPE_BOX)
 
 static char *loongson_firewalld_state (void)
 {
@@ -51,8 +52,8 @@ static void get_cpu_memory_verifi (LoongsonSecurity *se)
 {
     g_autoptr(GError) error = NULL;
 
-    se->priv->memory_verifi = loongson_dbus_call ("MemoryVerification", &error);
-    if (se->priv->memory_verifi == NULL)
+    se->memory_verifi = loongson_dbus_call ("MemoryVerification", &error);
+    if (se->memory_verifi == NULL)
     {
         loongson_message_dialog (_("Get loongson security"),
                                  WARING,
@@ -62,8 +63,8 @@ static void get_cpu_memory_verifi (LoongsonSecurity *se)
 
 static void loongson_security_set_data (LoongsonSecurity *security)
 {
-    security->priv->name = g_strdup (_("Loongson Security"));
-    security->priv->firewalld = loongson_firewalld_state ();
+    security->name = g_strdup (_("Loongson Security"));
+    security->firewalld = loongson_firewalld_state ();
     get_cpu_memory_verifi (security);
 }
 
@@ -93,7 +94,7 @@ loongson_security_fill (LoongsonSecurity *security)
     set_lable_style (label, "gray", 12, _("Memory Check"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 0, 1, 1);
 
-    label = gtk_label_new (security->priv->memory_verifi);
+    label = gtk_label_new (security->memory_verifi);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 0, 1, 1);
 
@@ -102,7 +103,7 @@ loongson_security_fill (LoongsonSecurity *security)
     set_lable_style (label, "gray", 12, _("Firewall"), TRUE);
     gtk_grid_attach (GTK_GRID (table) ,label, 0, 1, 1, 1);
 
-    label = gtk_label_new (security->priv->firewalld);
+    label = gtk_label_new (security->firewalld);
     gtk_label_set_xalign (GTK_LABEL(label), 0);
     gtk_grid_attach (GTK_GRID (table) ,label, 1, 1, 1, 1);
 }
@@ -131,8 +132,8 @@ loongson_security_destroy (GtkWidget *widget)
     LoongsonSecurity *security;
 
     security = LOONGSON_SECURITY (widget);
-    g_free (security->priv->name);
-    g_free (security->priv->firewalld);
+    g_free (security->name);
+    g_free (security->firewalld);
 }
 
 static void
@@ -148,14 +149,13 @@ loongson_security_class_init (LoongsonSecurityClass *klass)
 static void
 loongson_security_init (LoongsonSecurity *security)
 {
-    security->priv = loongson_security_get_instance_private (security);
     gtk_orientable_set_orientation (GTK_ORIENTABLE (security), GTK_ORIENTATION_VERTICAL);
     loongson_security_set_data (security);
 }
 
 const char *loongson_security_get_name (LoongsonSecurity *security)
 {
-    return security->priv->name;
+    return security->name;
 }
 
 GtkWidget *
