@@ -28,25 +28,7 @@ G_BEGIN_DECLS
 
 #define INFO_TYPE_DAEMON           (info_daemon_get_type ())
 
-#if GLIB_CHECK_VERSION(2, 44, 0)
 G_DECLARE_FINAL_TYPE (InfoDaemon, info_daemon, INFO, DAEMON, GObject);
-#else
-#define INFO_DAEMON(obj)                 (G_TYPE_CHECK_INSTANCE_CAST ((obj), INFO_TYPE_DAEMON, InfoDaemon))
-#define INFO_DAEMON_CLASS(klass)         (G_TYPE_CHECK_CLASS_CAST ((klass), INFO_TYPE_DAEMON, InfoDaemonClass))
-#define INFO_IS_DAEMON(obj)              (G_TYPE_CHECK_INSTANCE_TYPE ((obj), INFO_TYPE_DAEMON))
-#define INFO_IS_DAEMON_CLASS(klass)      (G_TYPE_CHECK_CLASS_TYPE ((klass), INFO_TYPE_DAEMON))
-#define INFO_DAEMON_GET_CLASS(obj)       (G_TYPE_INSTANCE_GET_CLASS ((obj), INFO_TYPE_DAEMON, InfoDaemonClass))
-
-typedef struct _InfoDaemon                InfoDaemon;
-typedef struct _InfoDaemonClass           InfoDaemonClass;
-typedef struct _InfoDaemonPrivate         InfoDaemonPrivate;
-
-struct _InfoDaemonClass
-{
-       GObjectClass     parent_class;
-};
-GType     info_daemon_get_type                   (void) G_GNUC_CONST;
-#endif
 
 InfoDaemon*     info_daemon_new    (GMainLoop *loop, gboolean replace);
 

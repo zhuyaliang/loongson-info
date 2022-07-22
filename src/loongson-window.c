@@ -25,8 +25,9 @@
 #include "loongson-security.h"
 #include "loongson-mainboard.h"
 
-struct _LoongsonWindowPrivate
+struct _LoongsonWindow
 {
+    GtkWindow     window;
     GtkWidget    *loongspec;  //  规格 型号、制成、功耗、结温、封装、尺寸
     GtkWidget    *loongmb;    //  主板信息 支持内存类型、微架构、CPU缓存(cache)、MMU、扩展指令
     GtkWidget    *loongperf;   //  性能 核数、内存频率、内存通道数、支持最大内存容量、主频、末级Cache容量
@@ -34,7 +35,7 @@ struct _LoongsonWindowPrivate
     GtkWidget    *loongstate;  //  属性 例如cpu 温度，风扇转速
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (LoongsonWindow, loongson_window, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE (LoongsonWindow, loongson_window, GTK_TYPE_WINDOW)
 
 static void
 loongson_window_fill (LoongsonWindow *loongwin)
@@ -59,35 +60,35 @@ loongson_window_fill (LoongsonWindow *loongwin)
     separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
     gtk_box_pack_start (GTK_BOX(box), separator, FALSE, FALSE, 6);
 
-    loongwin->priv->loongspec = loongson_spec_new ();
-    name = loongson_spec_get_name (LOONGSON_SPEC (loongwin->priv->loongspec));
-    gtk_stack_add_named (GTK_STACK (stack), loongwin->priv->loongspec, name);
-    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->priv->loongspec, "title", name, NULL);
-    gtk_widget_show (loongwin->priv->loongspec);
+    loongwin->loongspec = loongson_spec_new ();
+    name = loongson_spec_get_name (LOONGSON_SPEC (loongwin->loongspec));
+    gtk_stack_add_named (GTK_STACK (stack), loongwin->loongspec, name);
+    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->loongspec, "title", name, NULL);
+    gtk_widget_show (loongwin->loongspec);
 
-    loongwin->priv->loongmb = loongson_mainboard_new ();
-    name = loongson_mainboard_get_name (LOONGSON_MAINBOARD (loongwin->priv->loongmb));
-    gtk_stack_add_named (GTK_STACK (stack), loongwin->priv->loongmb, name);
-    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->priv->loongmb, "title", name, NULL);
-    gtk_widget_show (loongwin->priv->loongmb);
+    loongwin->loongmb = loongson_mainboard_new ();
+    name = loongson_mainboard_get_name (LOONGSON_MAINBOARD (loongwin->loongmb));
+    gtk_stack_add_named (GTK_STACK (stack), loongwin->loongmb, name);
+    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->loongmb, "title", name, NULL);
+    gtk_widget_show (loongwin->loongmb);
 
-    loongwin->priv->loongsec = loongson_security_new ();
-    name = loongson_security_get_name (LOONGSON_SECURITY (loongwin->priv->loongsec));
-    gtk_stack_add_named (GTK_STACK (stack), loongwin->priv->loongsec, name);
-    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->priv->loongsec, "title", name, NULL);
-    gtk_widget_show (loongwin->priv->loongsec);
+    loongwin->loongsec = loongson_security_new ();
+    name = loongson_security_get_name (LOONGSON_SECURITY (loongwin->loongsec));
+    gtk_stack_add_named (GTK_STACK (stack), loongwin->loongsec, name);
+    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->loongsec, "title", name, NULL);
+    gtk_widget_show (loongwin->loongsec);
 
-    loongwin->priv->loongstate = loongson_state_new ();
-    name = loongson_state_get_name (LOONGSON_STATE (loongwin->priv->loongstate));
-    gtk_stack_add_named (GTK_STACK (stack), loongwin->priv->loongstate, name);
-    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->priv->loongstate, "title", name, NULL);
-    gtk_widget_show (loongwin->priv->loongstate);
+    loongwin->loongstate = loongson_state_new ();
+    name = loongson_state_get_name (LOONGSON_STATE (loongwin->loongstate));
+    gtk_stack_add_named (GTK_STACK (stack), loongwin->loongstate, name);
+    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->loongstate, "title", name, NULL);
+    gtk_widget_show (loongwin->loongstate);
 
-    loongwin->priv->loongperf = loongson_perf_new ();
-    name = loongson_perf_get_name (LOONGSON_PERF (loongwin->priv->loongperf));
-    gtk_stack_add_named (GTK_STACK (stack), loongwin->priv->loongperf, name);
-    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->priv->loongperf, "title", name, NULL);
-    gtk_widget_show (loongwin->priv->loongperf);
+    loongwin->loongperf = loongson_perf_new ();
+    name = loongson_perf_get_name (LOONGSON_PERF (loongwin->loongperf));
+    gtk_stack_add_named (GTK_STACK (stack), loongwin->loongperf, name);
+    gtk_container_child_set (GTK_CONTAINER (stack), loongwin->loongperf, "title", name, NULL);
+    gtk_widget_show (loongwin->loongperf);
 
 }
 
@@ -134,8 +135,6 @@ static void
 loongson_window_init (LoongsonWindow *loongsonwin)
 {
     GtkWindow  *window;
-
-    loongsonwin->priv = loongson_window_get_instance_private (loongsonwin);
 
     window = GTK_WINDOW (loongsonwin);
     gtk_window_set_title (GTK_WINDOW (window), _("Loongson Info"));
