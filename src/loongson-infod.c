@@ -48,27 +48,29 @@ enum {
     LAST_PROP
 };
 
-gboolean info_get_cpu_name (BusInfo *object,
-                           GDBusMethodInvocation *invocation,
-                           gpointer user_data);
+typedef GDBusMethodInvocation GDBusMI;
+
 static GParamSpec *properties[LAST_PROP] = { NULL };
 
 G_DEFINE_TYPE (InfoDaemon, info_daemon, G_TYPE_OBJECT)
 
-gboolean info_get_cpu_name (BusInfo *object,
-                            GDBusMethodInvocation *invocation,
-                            gpointer user_data)
+static gboolean info_get_cpu_name (BusInfo *object,
+                                   GDBusMI *invocation,
+                                   gpointer user_data)
 {
-    gchar *cpu_name;
+    gchar      *cpu_name;
     cpu_info_t *cpu = NULL;
-    cpu=get_cpu_info();
+
+    cpu = get_cpu_info ();
     cpu_name = cpu->cpu_name;
+
     bus_info_complete_cpu_name (object, invocation, cpu_name);
+
     return TRUE;
 }
 
 static gboolean info_get_biso_name (BusInfo *object,
-                                    GDBusMethodInvocation *invocation,
+                                    GDBusMI *invocation,
                                     gpointer user_data)
 {
     gchar *bios_name;
@@ -80,62 +82,67 @@ static gboolean info_get_biso_name (BusInfo *object,
 }
 
 static gboolean info_get_calculation_part (BusInfo *object,
-                                           GDBusMethodInvocation *invocation,
+                                           GDBusMI *invocation,
                                            gpointer user_data)
 {
     gchar *calculation_part = NULL;
-    gchar string_init[100] = {};
+    gchar  string_init[100] = {};
     gchar *string[20] = {" FP "," FP_SP "," FP_DP "," COMPLEX "," CRYPTO "};
-    U32 val;
+    U32    val;
 
-    loongarch_get_cpucfg(val, CPUCFG_2);
+    loongarch_get_cpucfg (val, CPUCFG_2);
     calculation_part = string_init;
 
-    if(val & 0x1)
-      strcat(calculation_part , string[0]);
-    if(val & 0x2)
-      strcat(calculation_part , string[1]);
-    if(val & 0x4)
-      strcat(calculation_part , string[2]);
-    if(val & 0x100)
-      strcat(calculation_part , string[3]);
-    if(val & 0x200)
-      strcat(calculation_part , string[4]);
+    if (val & 0x1)
+        strcat (calculation_part , string[0]);
+    if (val & 0x2)
+        strcat (calculation_part , string[1]);
+    if (val & 0x4)
+        strcat (calculation_part , string[2]);
+    if (val & 0x100)
+        strcat (calculation_part , string[3]);
+    if (val & 0x200)
+        strcat (calculation_part , string[4]);
 
     bus_info_complete_calculation_part (object, invocation, calculation_part);
 
     return TRUE;
 }
+
 static gboolean info_get_cpu_cache (BusInfo *object,
-                                    GDBusMethodInvocation *invocation,
+                                    GDBusMI *invocation,
                                     gpointer user_data)
 {
-    gchar *cpu_cache = NULL;
+    gchar      *cpu_cache = NULL;
     cpu_info_t *cpu = NULL;
-    gchar buffer[500];
-    cpu = get_cpu_info();
-    sprintf(buffer,"L1d:%s/L1i:%s/L2:%s/L3:%s",cpu->cacheL1d,cpu->cacheL1i,cpu->cacheL2,cpu->cacheL3);
+    gchar       buffer[500];
+
+    cpu = get_cpu_info ();
+    sprintf (buffer, "L1d:%s/L1i:%s/L2:%s/L3:%s", cpu->cacheL1d, cpu->cacheL1i, cpu->cacheL2, cpu->cacheL3);
     cpu_cache = buffer;
+
     bus_info_complete_cpu_cache (object, invocation, cpu_cache);
 
     return TRUE;
 }
+
 static gboolean info_get_cpu_sizes (BusInfo *object,
-                                    GDBusMethodInvocation *invocation,
+                                    GDBusMI *invocation,
                                     gpointer user_data)
 {
-    gchar *cpu_sizes = NULL;
+    gchar      *cpu_sizes = NULL;
     cpu_info_t *cpu = NULL;
 
     cpu = get_cpu_info ();
     cpu_sizes = cpu->cpu_l_w_h;
+
     bus_info_complete_cpu_sizes (object, invocation, cpu_sizes);
 
     return TRUE;
 }
 
 static gboolean info_get_cpu_technology (BusInfo *object,
-                                         GDBusMethodInvocation *invocation,
+                                         GDBusMI *invocation,
                                          gpointer user_data)
 {
     gchar      *cpu_technology = NULL;
@@ -150,61 +157,65 @@ static gboolean info_get_cpu_technology (BusInfo *object,
 }
 
 static gboolean info_get_cpu_temperature (BusInfo *object,
-                                          GDBusMethodInvocation *invocation,
+                                          GDBusMI *invocation,
                                           gpointer user_data)
 {
-    gchar *cpu_temperature = NULL;
-    int temp;
+    gchar       *cpu_temperature = NULL;
     ls_sensors_t sen;
+    int          temp;
 
-    get_sensors(&sen);
-    temp = (sen.cputemp0+sen.cputemp1)/2;
+    get_sensors (&sen);
+    temp = (sen.cputemp0 + sen.cputemp1) / 2;
     cpu_temperature = g_strdup_printf ("%d °C", temp);
 
     bus_info_complete_cpu_temperature (object, invocation, cpu_temperature);
-    g_free(cpu_temperature);
+
+    g_free (cpu_temperature);
 
     return TRUE;
 }
+
 static gboolean info_get_cpu_threads (BusInfo *object,
-                                      GDBusMethodInvocation *invocation,
+                                      GDBusMI *invocation,
                                       gpointer user_data)
 {
     gchar *cpu_threads = NULL;
+
     cpu_threads = get_cpu_thread_num();
 
     bus_info_complete_cpu_threads (object, invocation, cpu_threads);
 
     return TRUE;
 }
+
 static gboolean info_get_extended_instruction (BusInfo *object,
-                                               GDBusMethodInvocation *invocation,
+                                               GDBusMI *invocation,
                                                gpointer user_data)
 {
     gchar *instruction = NULL;
-    gchar string_init[100] = {};
+    gchar  string_init[100] = {};
     gchar *string[20] = {" LSX "," LASX "," LBT "," LVZ "};
-    U32 val;
+    U32    val;
 
-    loongarch_get_cpucfg(val, CPUCFG_2);
-    printf("val = 0x%x\n", val);
+    loongarch_get_cpucfg (val, CPUCFG_2);
     instruction = string_init;
 
-    if(val & 0x40)
-      strcat(instruction, string[0]);
-    if(val & 0x80)
-      strcat(instruction, string[1]);
-    if(val & 0x100000)
-      strcat(instruction, string[2]);
-    if(val & 0x400)
-      strcat(instruction, string[3]);
+    if (val & 0x40)
+        strcat (instruction, string[0]);
+    if (val & 0x80)
+        strcat (instruction, string[1]);
+    if (val & 0x100000)
+        strcat (instruction, string[2]);
+    if (val & 0x400)
+        strcat (instruction, string[3]);
 
     bus_info_complete_extended_instruction (object, invocation, instruction);
 
     return TRUE;
 }
+
 static gboolean info_get_fan_speed (BusInfo *object,
-                                    GDBusMethodInvocation *invocation,
+                                    GDBusMI *invocation,
                                     gpointer user_data)
 {
     gchar *speed = NULL;
@@ -213,36 +224,41 @@ static gboolean info_get_fan_speed (BusInfo *object,
 
     return TRUE;
 }
+
 static gboolean info_get_hardware_assisted_virtualization (BusInfo *object,
-                                                           GDBusMethodInvocation *invocation,
+                                                           GDBusMI *invocation,
                                                            gpointer user_data)
 {
     gchar *virtualization = NULL;
-    U32 val;
-    gchar string_init[20];
+    U32    val;
+    gchar  string_init[20];
 
-    loongarch_get_cpucfg(val, CPUCFG_2);
+    loongarch_get_cpucfg (val, CPUCFG_2);
     virtualization = string_init;
-    sprintf(virtualization , "V%u", (val >> 11) & 0x7);
+    sprintf (virtualization , "V%u", (val >> 11) & 0x7);
 
     bus_info_complete_hardware_assisted_virtualization (object, invocation, virtualization);
 
     return TRUE;
 }
+
 static gboolean info_get_junction_temperature (BusInfo *object,
-                                               GDBusMethodInvocation *invocation,
+                                               GDBusMI *invocation,
                                                gpointer user_data)
 {
-    gchar *temperature = NULL;
     cpu_info_t *cpu = NULL;
+    gchar      *temperature = NULL;
+
     cpu = get_cpu_info ();
     temperature = cpu->junctiontemperature;
+
     bus_info_complete_junction_temperature (object, invocation, temperature);
 
     return TRUE;
 }
+
 static gboolean info_get_key_management (BusInfo *object,
-                                         GDBusMethodInvocation *invocation,
+                                         GDBusMI *invocation,
                                          gpointer user_data)
 {
     gchar *key = NULL;
@@ -251,22 +267,26 @@ static gboolean info_get_key_management (BusInfo *object,
 
     return TRUE;
 }
+
 static gboolean info_get_maximum_cpu_frequency (BusInfo *object,
-                                                GDBusMethodInvocation *invocation,
+                                                GDBusMI *invocation,
                                                 gpointer user_data)
 {
     gchar *frequency = NULL;
-    gchar string[20] = {"2200 MHz"};
+    gchar  string[20] = {"2200 MHz"};
 
     frequency = get_cpu_max_speed ();
-    if(!strcmp(frequency, "Unknown"))
-      frequency = string;
+
+    if(!strcmp(frequency, "unknown"))
+        frequency = string;
+
     bus_info_complete_maximum_cpu_frequency (object, invocation, frequency);
 
     return TRUE;
 }
+
 static gboolean info_get_maximum_memory_capacity (BusInfo *object,
-                                                  GDBusMethodInvocation *invocation,
+                                                  GDBusMI *invocation,
                                                   gpointer user_data)
 {
     gchar *capacity = NULL;
@@ -276,8 +296,9 @@ static gboolean info_get_maximum_memory_capacity (BusInfo *object,
 
     return TRUE;
 }
+
 static gboolean info_get_maximum_memory_frequency (BusInfo *object,
-                                                   GDBusMethodInvocation *invocation,
+                                                   GDBusMI *invocation,
                                                    gpointer user_data)
 {
     gchar *frequency = NULL;
@@ -287,8 +308,9 @@ static gboolean info_get_maximum_memory_frequency (BusInfo *object,
 
     return TRUE;
 }
+
 static gboolean info_get_memory_channel (BusInfo *object,
-                                         GDBusMethodInvocation *invocation,
+                                         GDBusMI *invocation,
                                          gpointer user_data)
 {
     gchar *channel = NULL;
@@ -298,46 +320,53 @@ static gboolean info_get_memory_channel (BusInfo *object,
 
     return TRUE;
 }
+
 static gboolean info_get_memory_style (BusInfo *object,
-                                       GDBusMethodInvocation *invocation,
+                                       GDBusMI *invocation,
                                        gpointer user_data)
 {
     gchar *memory = NULL;
-    gchar string[20] = {"DDR4"};
+    gchar  string[20] = {"DDR4"};
 
     memory = get_memory_style ();
     if(!strcmp(memory, "<OUT OF SPEC>"))
-      memory = string;
+        memory = string;
+
     bus_info_complete_memory_style (object, invocation, memory);
 
     return TRUE;
 }
+
 static gboolean info_get_memory_verification (BusInfo *object,
-                                              GDBusMethodInvocation *invocation,
+                                              GDBusMI *invocation,
                                               gpointer user_data)
 {
     gchar *verification = NULL;
 
     verification = get_memory_verification ();
+
     bus_info_complete_memory_verification (object, invocation, verification);
 
     return TRUE;
 }
+
 static gboolean info_get_micro_architecture (BusInfo *object,
-                                             GDBusMethodInvocation *invocation,
+                                             GDBusMI *invocation,
                                              gpointer user_data)
 {
-    gchar *architecture = NULL;
     cpu_info_t *cpu=NULL;
-    cpu = get_cpu_info();
+    gchar      *architecture = NULL;
+
+    cpu = get_cpu_info ();
     architecture = cpu->microarch;
 
     bus_info_complete_micro_architecture (object, invocation, architecture);
 
     return TRUE;
 }
+
 static gboolean info_get_mmu_style (BusInfo *object,
-                                    GDBusMethodInvocation *invocation,
+                                    GDBusMI *invocation,
                                     gpointer user_data)
 {
     gchar *mmu = NULL;
@@ -355,56 +384,64 @@ static gboolean info_get_mmu_style (BusInfo *object,
     g_free (mmu);
     return TRUE;
 }
+
 static gboolean info_get_packaging_method (BusInfo *object,
-                                           GDBusMethodInvocation *invocation,
+                                           GDBusMI *invocation,
                                            gpointer user_data)
 {
-    gchar *method = NULL;
     cpu_info_t *cpu = NULL;
+    gchar      *method = NULL;
 
     cpu = get_cpu_info ();
     method = cpu->cpu_pkg;
+
     bus_info_complete_packaging_method (object, invocation, method);
 
     return TRUE;
 }
+
 static gboolean info_get_physical_kernel (BusInfo *object,
-                                          GDBusMethodInvocation *invocation,
+                                          GDBusMI *invocation,
                                           gpointer user_data)
 {
     gchar *kerenl = NULL;
 
-    kerenl   = get_cpu_core_num();
+    kerenl = get_cpu_core_num ();
+
     bus_info_complete_physical_kernel (object, invocation, kerenl);
 
     return TRUE;
 }
+
 static gboolean info_get_power_waste (BusInfo *object,
-                                      GDBusMethodInvocation *invocation,
+                                      GDBusMI *invocation,
                                       gpointer user_data)
 {
-    gchar *power = NULL;
     cpu_info_t *cpu = NULL;
+    gchar      *power = NULL;
 
     cpu = get_cpu_info ();
     power = cpu->cpu_tdp;
+
     bus_info_complete_power_waste (object, invocation, power);
 
     return TRUE;
 }
+
 static gboolean info_get_product_name (BusInfo *object,
-                                       GDBusMethodInvocation *invocation,
+                                       GDBusMI *invocation,
                                        gpointer user_data)
 {
     gchar *name = NULL;
 
-    name   = get_product_name();
+    name = get_product_name();
     bus_info_complete_product_name (object, invocation, name);
 
     return TRUE;
 }
+
 static gboolean info_get_trusted_start (BusInfo *object,
-                                        GDBusMethodInvocation *invocation,
+                                        GDBusMI *invocation,
                                         gpointer user_data)
 {
     gchar *trusted_start = NULL;
