@@ -104,5 +104,9 @@
         <method name="CpuTechnology">
             <arg name="name" type="s" direction="out"/>
         </method>
+
+        <method name="CpuCurrentSpeed">
+            <arg name="name" type="s" direction="out"/>
+        </method>
     </interface>
 </node>

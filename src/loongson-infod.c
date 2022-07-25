@@ -126,6 +126,23 @@ static gboolean info_get_cpu_cache (BusInfo *object,
     return TRUE;
 }
 
+static gboolean info_get_cpu_current_speed (BusInfo *object,
+                                            GDBusMI *invocation,
+                                            gpointer user_data)
+{
+    gchar *current_speed = NULL;
+
+    current_speed = hardinfo_get_cpu_current_speed ();
+
+    if (current_speed == NULL) {
+        bus_info_complete_cpu_current_speed (object, invocation, g_strdup (_("Unknown")));
+    } else {
+        bus_info_complete_cpu_current_speed (object, invocation, g_strdup (current_speed));
+    }
+
+    return TRUE;
+}
+
 static gboolean info_get_cpu_sizes (BusInfo *object,
                                     GDBusMI *invocation,
                                     gpointer user_data)
@@ -456,6 +473,7 @@ static void set_dbus_signal_method (InfoDaemon *daemon)
     g_signal_connect (daemon->skeleton, "handle-bios-name", G_CALLBACK (info_get_biso_name), daemon);
     g_signal_connect (daemon->skeleton, "handle-calculation-part", G_CALLBACK (info_get_calculation_part), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-cache", G_CALLBACK (info_get_cpu_cache), daemon);
+    g_signal_connect (daemon->skeleton, "handle-cpu-current-speed", G_CALLBACK (info_get_cpu_current_speed), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-name", G_CALLBACK (info_get_cpu_name), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-sizes", G_CALLBACK (info_get_cpu_sizes), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-technology", G_CALLBACK (info_get_cpu_technology), daemon);

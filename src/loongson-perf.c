@@ -52,12 +52,24 @@ static void get_cpu_perf_data (LoongsonPerf *perf)
             tmp[0] = g_strstrip(tmp[0]);
             tmp[1] = g_strstrip(tmp[1]);
 
-            get_str ("CPU MHz", perf->current_cpu_hz);
             get_str ("BogoMIPS", perf->bogomips);
         }
         g_strfreev(tmp);
     }
     fclose(cpuinfo);
+}
+
+static void get_cpu_current_cpu_hz (LoongsonPerf *perf)
+{
+    g_autoptr(GError) error = NULL;
+
+    perf->current_cpu_hz = loongson_dbus_call ("CpuCurrentSpeed", &error);
+    if (perf->current_cpu_hz == NULL)
+    {
+        loongson_message_dialog (_("Get loongson perf"),
+                                 WARING,
+                                 "%s", error->message);
+    }
 }
 
 static void get_cpu_max_cpu_hz (LoongsonPerf *perf)
@@ -149,6 +161,7 @@ static void set_perf_data (LoongsonPerf *perf)
     get_cpu_max_mem_capacity (perf);
     get_cpu_cpu_threads (perf);
     get_cpu_max_cpu_hz (perf);
+    get_cpu_current_cpu_hz (perf);
 }
 
 static void
@@ -270,7 +283,6 @@ loongson_perf_finalize (GObject *object)
 
     perf = LOONGSON_PERF (object);
     g_free (perf->name);
-    g_free (perf->current_cpu_hz);
     g_free (perf->bogomips);
 
     G_OBJECT_CLASS (loongson_perf_parent_class)->finalize (object);
