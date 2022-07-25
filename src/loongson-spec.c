@@ -58,7 +58,6 @@ static void get_cpu_info (LoongsonSpec *spec)
             tmp[1] = g_strstrip(tmp[1]);
 
             get_str ("system type", spec->vendor_id);
-            get_str ("model name", spec->model_name);
             get_str ("cpu family", spec->cpu_family);
             if (spec->cpu_family == NULL)
                 get_str ("cpu model", spec->cpu_family);
@@ -66,6 +65,20 @@ static void get_cpu_info (LoongsonSpec *spec)
         g_strfreev(tmp);
     }
     fclose(cpuinfo);
+}
+
+static void get_cpu_model (LoongsonSpec *spec)
+{
+    g_autoptr(GError) error = NULL;
+
+    spec->model_name = loongson_dbus_call ("CpuName", &error);
+    if (spec->model_name == NULL)
+    {
+        loongson_message_dialog (_("Get loongson spec"),
+                                 WARING,
+                                 "%s", error->message);
+    }
+
 }
 
 static void get_cpu_technology (LoongsonSpec *spec)
@@ -156,6 +169,7 @@ static void set_spec_data (LoongsonSpec *spec)
 {
     spec->name = g_strdup (_("Loongson Specifications"));
     get_cpu_byte_order (spec);
+    get_cpu_model (spec);
     get_cpu_machine (spec);
     get_cpu_info (spec);
     get_cpu_technology (spec);
@@ -292,7 +306,6 @@ loongson_spec_finalize (GObject *object)
     g_free (spec->machine);
     g_free (spec->byte_order);
     g_free (spec->vendor_id);
-    g_free (spec->model_name);
     g_free (spec->cpu_family);
     g_free (spec->technology);
 
