@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/utsname.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -312,34 +313,18 @@ done:
     return buffer;
 }
 
-char *get_cpu_arch (void)
+/**
+ * get_cpu_arch:
+ *
+ * get the hardware identifier
+ *
+ * Return value: a newly-allocated string or NULL.
+ **/
+gchar *get_cpu_arch (void)
 {
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("lscpu | grep 'Architecture:'");
-    if (data == NULL)
-    {
-        data = app_system ("lscpu | grep '架构：'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-        else
-            sprintf (buffer, "%s", strstr (data, "：") + 3 + strspn (strstr (data, "：") + 3, " "));
-    }
-    else
-        sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
+    struct utsname un;
+    uname (&un);
+    return g_strdup (un.machine);
 }
 
 char *get_cpu_core_num (void)
