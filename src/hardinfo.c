@@ -387,125 +387,6 @@ done:
     return buffer;
 }
 
-static char *get_cpu_cacheL1d (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-    data = app_system ("lscpu | grep 'L1d cache:'");
-    if (data == NULL)
-    {
-        data = app_system ("lscpu | grep 'L1d 缓存：'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-        else
-            sprintf (buffer, "%s", strstr (data, "：") + 3 + strspn (strstr (data, "：") + 3, " "));
-    }
-    else
-        sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
-static char *get_cpu_cacheL1i (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("lscpu | grep 'L1i cache:'");
-    if (data == NULL)
-    {
-        data = app_system ("lscpu | grep 'L1i 缓存：'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-        else
-            sprintf (buffer, "%s", strstr (data, "：") + 3 + strspn (strstr (data, "：") + 3, " "));
-    }
-    else
-        sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
-static char *get_cpu_cacheL2 (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("lscpu | grep 'L2 cache:'");
-    if (data == NULL)
-    {
-        data = app_system ("lscpu | grep 'L2 缓存：'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-        else
-            sprintf (buffer, "%s", strstr (data, "：") + 3 + strspn (strstr (data, "：") + 3, " "));
-    }
-    else
-        sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
-static char *get_cpu_cacheL3 (void)
-{
-    char *data= NULL;
-    char *tmp= NULL;
-
-    data = app_system ("lscpu | grep 'L3 cache:'");
-    if (data == NULL)
-    {
-        data = app_system ("lscpu | grep 'L3 缓存：'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-        else
-            sprintf (buffer, "%s", strstr (data, "：") + 3 + strspn (strstr (data, "：") + 3, " "));
-    }
-    else
-        sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
 cpu_info_t *get_cpu_info (void)
 {
     S32 i;
@@ -527,11 +408,6 @@ cpu_info_t *get_cpu_info (void)
         if (strcmp (cpu_info[i].cpu_name, "UNKNOW") == 0 || cpu_info[i].id.l == 0)
             break;
     }
-
-    sprintf (cpu_info[i].cacheL1d, "%s", get_cpu_cacheL1d ());
-    sprintf (cpu_info[i].cacheL1i, "%s", get_cpu_cacheL1i ());
-    sprintf (cpu_info[i].cacheL2, "%s", get_cpu_cacheL2 ());
-    sprintf (cpu_info[i].cacheL3, "%s", get_cpu_cacheL3 ());
 
     return &cpu_info[i];
 }
@@ -705,4 +581,111 @@ const gchar *hardinfo_get_cpu_current_speed (void)
     gchar *current_speed = NULL;
     current_speed = hardinfo_get_sysinfo ("CPU MHz");
     return current_speed;
+}
+#define PATH_SYS_CPU    "/sys/devices/system/cpu"
+static int
+path_exist (int idx, int ncaches)
+{
+    g_autofree gchar *file_name;
+
+    file_name = g_strdup_printf (PATH_SYS_CPU "/cpu%d/cache/index%d", idx, ncaches);
+
+    return access (file_name, F_OK) == 0;
+}
+
+static gboolean
+read_cache_data (char *result, size_t len, int idx, int cache, const char *file)
+{
+    FILE *fd;
+    g_autofree gchar *file_name = NULL;
+
+    file_name = g_strdup_printf (PATH_SYS_CPU "/cpu%d/cache/index%d/%s", idx, cache, file);
+
+    fd = fopen (file_name, "r");
+    if (fd == NULL)
+        return FALSE;
+
+    if (!fgets (result, len, fd))
+    {
+        fclose(fd);
+        return FALSE;
+    }
+    len = strlen (result);
+    if (result[len - 1] == '\n')
+        result[len - 1] = '\0';
+
+    return TRUE;
+}
+
+static gboolean
+read_cache (GHashTable *ht, int idx)
+{
+    int      ncaches = 0;
+    int      i = 0;
+    gboolean state;
+    char     buf[256] = { 0 };
+
+    while (path_exist (idx, ncaches))
+        ncaches++;
+
+    for (i = 0; i < ncaches; i++)
+    {
+        int      type;
+        gboolean ret;
+        char    *name;
+
+        state = FALSE;
+
+        /* cache type */
+        ret = read_cache_data (buf, sizeof(buf), idx, i, "type");
+        if (ret == FALSE)
+            break;
+
+        if (!strcmp (buf, "Data"))
+            type = 'd';
+        else if (!strcmp (buf, "Instruction"))
+            type = 'i';
+        else
+            type = 0;
+
+        /* cache level */
+        ret = read_cache_data (buf, sizeof(buf), idx, i, "level");
+        if (ret == FALSE)
+            break;
+
+        if (type)
+            name = g_strdup_printf ("L%s%c", buf, type);
+        else
+            name = g_strdup_printf ("L%s", buf);
+
+        /* cache size */
+        ret = read_cache_data (buf, sizeof(buf), idx, i, "size");
+        if (ret == FALSE)
+            break;
+
+        g_hash_table_insert (ht, name, g_strdup (buf));
+        state = TRUE;
+    }
+
+    return state;
+}
+
+GHashTable *get_cpu_caches (void)
+{
+    GHashTable *ht;
+    guint64     ncpu;
+    gboolean    ret;
+    guint64     i = 0;
+
+    ncpu = glibtop_get_sysinfo ()->ncpu;
+    ht = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+    for (i = 0; i < ncpu; i++)
+    {
+        ret = read_cache (ht, i);
+        if (ret == TRUE)
+            break;
+    }
+
+    return ht;
 }

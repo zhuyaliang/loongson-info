@@ -114,15 +114,18 @@ static gboolean info_get_cpu_cache (BusInfo *object,
                                     gpointer user_data)
 {
     gchar      *cpu_cache = NULL;
-    cpu_info_t *cpu = NULL;
-    gchar       buffer[500];
+    GHashTable *ht;
 
-    cpu = get_cpu_info ();
-    sprintf (buffer, "L1d:%s/L1i:%s/L2:%s/L3:%s", cpu->cacheL1d, cpu->cacheL1i, cpu->cacheL2, cpu->cacheL3);
-    cpu_cache = buffer;
+    ht = get_cpu_caches ();
 
+    cpu_cache = g_strdup_printf ("L1d:%s/ L1i:%s/ L2:%s/ L3:%s", (char *)g_hash_table_lookup (ht, "L1d"),
+                                                                 (char *)g_hash_table_lookup (ht, "L1i"),
+                                                                 (char *)g_hash_table_lookup (ht, "L2"),
+                                                                 (char *)g_hash_table_lookup (ht, "L3"));
     bus_info_complete_cpu_cache (object, invocation, cpu_cache);
 
+    g_hash_table_destroy (ht);
+    g_free (cpu_cache);
     return TRUE;
 }
 

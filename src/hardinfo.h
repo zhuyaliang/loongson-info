@@ -133,6 +133,7 @@ char       *get_memory_verification    (void);
 const gchar *hardinfo_get_sysinfo           (const gchar *key);
 const gchar *hardinfo_get_cpu_name          (void);
 const gchar *hardinfo_get_cpu_current_speed (void);
+GHashTable  *get_cpu_caches                 (void);
 
 #define CPUCFG_0  0
 #define CPUCFG_1  1
