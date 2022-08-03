@@ -75,6 +75,30 @@ char *loongson_dbus_call (const gchar *method_name,
     return strings;
 }
 
+int loongson_dbus_call_int (const gchar *method_name,
+                            GError     **error)
+{
+    GVariant *result;
+    int       num;
+
+    result = g_dbus_proxy_call_sync (proxy,
+                                     method_name,
+                                     NULL,
+                                     G_DBUS_CALL_FLAGS_NONE,
+                                     -1,
+                                     NULL,
+                                     error);
+    if (!result)
+        return -1;
+
+    if (g_variant_is_of_type (result, G_VARIANT_TYPE ("(i)")))
+        g_variant_get (result, "(i)", &num);
+
+    g_variant_unref (result);
+
+    return num;
+}
+
 void set_lable_style (GtkWidget  *lable,
                       const char *color,
                       int         font_szie,

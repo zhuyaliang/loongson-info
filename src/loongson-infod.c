@@ -199,11 +199,11 @@ static gboolean info_get_cpu_threads (BusInfo *object,
                                       GDBusMI *invocation,
                                       gpointer user_data)
 {
-    gchar *cpu_threads = NULL;
+    int    thread;
 
-    cpu_threads = get_cpu_thread_num();
+    thread = get_cpu_thread_num ();
 
-    bus_info_complete_cpu_threads (object, invocation, cpu_threads);
+    bus_info_complete_cpu_threads (object, invocation, thread);
 
     return TRUE;
 }
@@ -424,11 +424,11 @@ static gboolean info_get_physical_kernel (BusInfo *object,
                                           GDBusMI *invocation,
                                           gpointer user_data)
 {
-    gchar *kerenl = NULL;
+    int core;
 
-    kerenl = get_cpu_core_num ();
+    core = get_cpu_core_num ();
 
-    bus_info_complete_physical_kernel (object, invocation, kerenl);
+    bus_info_complete_physical_kernel (object, invocation, core);
 
     return TRUE;
 }

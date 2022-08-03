@@ -88,14 +88,17 @@ static void get_cpu_max_cpu_hz (LoongsonPerf *perf)
 static void get_cpu_cpu_threads (LoongsonPerf *perf)
 {
     g_autoptr(GError) error = NULL;
+    int thread;
 
-    perf->cpu_threads = loongson_dbus_call ("CpuThreads", &error);
-    if (perf->cpu_threads == NULL)
+    thread = loongson_dbus_call_int ("CpuThreads", &error);
+    if (thread < 0)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
+
+    perf->cpu_threads = g_strdup_printf ("%d", thread);
 }
 
 static void get_cpu_max_mem_capacity (LoongsonPerf *perf)
@@ -140,14 +143,17 @@ static void get_cpu_max_mem_fre (LoongsonPerf *perf)
 static void get_cpu_physical_kernel (LoongsonPerf *perf)
 {
     g_autoptr(GError) error = NULL;
+    int core;
 
-    perf->physical_kernel = loongson_dbus_call ("PhysicalKernel", &error);
-    if (perf->physical_kernel == NULL)
+    core = loongson_dbus_call_int ("PhysicalKernel", &error);
+    if (core < 0)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
+
+    perf->physical_kernel = g_strdup_printf ("%d", core);
 }
 
 static void set_perf_data (LoongsonPerf *perf)
@@ -284,6 +290,8 @@ loongson_perf_finalize (GObject *object)
     perf = LOONGSON_PERF (object);
     g_free (perf->name);
     g_free (perf->bogomips);
+    g_free (perf->cpu_threads);
+    g_free (perf->physical_kernel);
 
     G_OBJECT_CLASS (loongson_perf_parent_class)->finalize (object);
 }

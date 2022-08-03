@@ -34,6 +34,9 @@ gboolean    init_dbus_proxy         (GError    **error);
 char       *loongson_dbus_call      (const gchar *method_name,
                                      GError     **error);
 
+int         loongson_dbus_call_int  (const gchar *method_name,
+                                     GError     **error);
+
 void        set_lable_style         (GtkWidget   *lable ,
                                      const char  *color,
                                      int          font_szie,

@@ -74,7 +74,7 @@
         </method>
 
         <method name="PhysicalKernel">
-            <arg name="name" type="s" direction="out"/>
+            <arg name="name" type="i" direction="out"/>
         </method>
 
         <method name="MaximumMemoryFrequency">
@@ -94,7 +94,7 @@
         </method>
 
         <method name="CpuThreads">
-            <arg name="name" type="s" direction="out"/>
+            <arg name="name" type="i" direction="out"/>
         </method>
 
         <method name="FanSpeed">

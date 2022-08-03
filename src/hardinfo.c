@@ -327,66 +327,6 @@ gchar *get_cpu_arch (void)
     return g_strdup (un.machine);
 }
 
-char *get_cpu_core_num (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("lscpu | grep 'Core(s) per socket:'");
-    if (data == NULL)
-    {
-        data = app_system ("lscpu | grep '每个座的核数：'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-        else
-            sprintf (buffer, "%s", strstr (data,"：") + 3 + strspn (strstr (data, "：") + 3, " "));
-    }
-    else
-        sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
-char *get_cpu_thread_num (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("lscpu | grep 'Thread(s) per core:'");
-    if (data == NULL)
-    {
-        data = app_system ("lscpu | grep '每个核的线程数：'");
-        if (data == NULL)
-        {
-            sprintf (buffer, "%s", "unknow");
-            goto done;
-        }
-        else
-            sprintf (buffer, "%s", strstr (data, "：") + 3 + strspn (strstr (data, "：") + 3, " "));
-    }
-    else
-        sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
 cpu_info_t *get_cpu_info (void)
 {
     S32 i;
@@ -583,6 +523,10 @@ const gchar *hardinfo_get_cpu_current_speed (void)
     return current_speed;
 }
 #define PATH_SYS_CPU    "/sys/devices/system/cpu"
+#define CPUBITS_SIZE 4096
+#define CPUBIT_SET(BITS, BIT) ((BITS)[(BIT)/32] |= (1 << (BIT)%32))
+#define CPUBIT_GET(BITS, BIT) (((BITS)[(BIT)/32] & (1 << (BIT)%32)) >> (BIT)%32)
+
 static int
 path_exist (int idx, int ncaches)
 {
@@ -688,4 +632,149 @@ GHashTable *get_cpu_caches (void)
     }
 
     return ht;
+}
+
+static int
+get_cpu_socket (int idx)
+{
+    FILE *fd;
+    int   result;
+    g_autofree gchar *file_name = NULL;
+
+    file_name = g_strdup_printf (PATH_SYS_CPU "/cpu%d/topology/physical_package_id", idx);
+
+    fd = fopen (file_name, "r");
+    if (fd == NULL)
+        return -1;
+
+    if (fscanf(fd, "%d", &result) <= 0)
+    {
+        fclose(fd);
+        return -1;
+    }
+
+    return result;
+}
+
+static int
+get_cpu_socket_core (int idx)
+{
+    FILE *fd;
+    int   result;
+    g_autofree gchar *file_name = NULL;
+
+    file_name = g_strdup_printf (PATH_SYS_CPU "/cpu%d/topology/core_id", idx);
+
+    fd = fopen (file_name, "r");
+    if (fd == NULL)
+        return -1;
+
+    if (fscanf(fd, "%d", &result) <= 0)
+    {
+        fclose(fd);
+        return -1;
+    }
+
+    return result;
+}
+
+int get_cpu_core_num (void)
+{
+    guint64 ncpu;
+    guint64 i = 0;
+    guint   socket = 0;
+    guint   socket_core = 0;
+    char    socket_buf[256] = { 0 };
+    char    socket_core_buf[256] = { 0 };
+
+    ncpu = glibtop_get_sysinfo ()->ncpu;
+
+    for (i = 0; i < ncpu; i++)
+    {
+        socket = get_cpu_socket (i);
+        socket_buf[socket] = 1;
+
+        socket_core = get_cpu_socket_core (i);
+        socket_core_buf[socket_core] = 1;
+    }
+    socket = 0;
+    socket_core = 0;
+
+    for (i = 0; i < sizeof (socket_buf); i++)
+    {
+        if (socket_buf[i] == 1)
+            socket++;
+        if (socket_core_buf[i] == 1)
+            socket_core++;
+    }
+
+    return socket * socket_core;
+}
+
+static uint *
+cpubits_from_str (char *str)
+{
+    char *v, *nv, *hy;
+    int   r0, r1;
+
+    uint *newbits = malloc (CPUBITS_SIZE);
+    if (newbits)
+    {
+        memset (newbits, 0, CPUBITS_SIZE);
+        if (str != NULL)
+        {
+            v = (char*)str;
+            while ( *v != 0 )
+            {
+                nv = strchr (v, ',');
+                if (nv == NULL) nv = strchr (v, 0);
+                hy = strchr (v, '-');
+                if (hy && hy < nv)
+                {
+                    r0 = strtol (v, NULL, 0);
+                    r1 = strtol (hy + 1, NULL, 0);
+                }
+                else
+                    r0 = r1 = strtol (v, NULL, 0);
+
+                for (; r0 <= r1; r0++)
+                    CPUBIT_SET (newbits, r0);
+
+                v = (*nv == ',') ? nv + 1 : nv;
+            }
+        }
+    }
+    return newbits;
+}
+
+static uint
+cpubits_count (uint *b)
+{
+    static const uint max = CPUBITS_SIZE * 8;
+    uint count = 0, i = 0;
+
+    while (i < max)
+    {
+        count += CPUBIT_GET (b, i);
+        i++;
+    }
+    return count;
+}
+
+int get_cpu_thread_num (void)
+{
+    char *tmp;
+    uint *threads;
+    int   thread;
+
+    g_file_get_contents("/sys/devices/system/cpu/present", &tmp, NULL, NULL);
+    if (tmp == NULL)
+        return -1;
+
+    threads = cpubits_from_str (tmp);
+    thread = cpubits_count (threads);
+
+    g_free (threads);
+
+    return thread;
 }
