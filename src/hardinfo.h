@@ -116,7 +116,6 @@ typedef struct _ls_sensors_t_{
 }ls_sensors_t;
 
 char       *get_cpu_max_speed          (void);
-char       *get_cpu_min_speed          (void);
 char       *get_cpu_arch               (void);
 int         get_cpu_core_num           (void);
 int         get_cpu_thread_num         (void);

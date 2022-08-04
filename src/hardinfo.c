@@ -1,12 +1,9 @@
-#include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <sys/utsname.h>
 #include <errno.h>
-#include <stdlib.h>
 #include <sys/mman.h>
 #include "hardinfo.h"
 
@@ -273,29 +270,6 @@ char *get_cpu_max_speed (void)
     char *tmp = NULL;
 
     data = app_system ("dmidecode -t 4 | grep 'Max Speed:'");
-    if (data == NULL)
-    {
-        sprintf (buffer, "%s", "unknow");
-        goto done;
-    }
-
-    sprintf (buffer, "%s", strstr (data, ":") + 1 + strspn (strstr (data, ":") + 1, " "));
-    if ((tmp = strstr (buffer, "\n")))
-        *tmp = '\0';
-
-done:
-    if (data != NULL)
-        app_free (data);
-
-    return buffer;
-}
-
-char *get_cpu_min_speed (void)
-{
-    char *data = NULL;
-    char *tmp = NULL;
-
-    data = app_system ("lscpu | grep 'CPU min MHz:'");
     if (data == NULL)
     {
         sprintf (buffer, "%s", "unknow");
