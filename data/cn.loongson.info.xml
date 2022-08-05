@@ -57,15 +57,7 @@
             <arg name="name" type="s" direction="out"/>
         </method>
 
-        <method name="KeyManagement">
-            <arg name="name" type="s" direction="out"/>
-        </method>
-
         <method name="MemoryVerification">
-            <arg name="name" type="s" direction="out"/>
-        </method>
-
-        <method name="TrustedStart">
             <arg name="name" type="s" direction="out"/>
         </method>
 
@@ -95,10 +87,6 @@
 
         <method name="CpuThreads">
             <arg name="name" type="i" direction="out"/>
-        </method>
-
-        <method name="FanSpeed">
-            <arg name="name" type="s" direction="out"/>
         </method>
 
         <method name="CpuTechnology">

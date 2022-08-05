@@ -234,17 +234,6 @@ static gboolean info_get_extended_instruction (BusInfo *object,
     return TRUE;
 }
 
-static gboolean info_get_fan_speed (BusInfo *object,
-                                    GDBusMI *invocation,
-                                    gpointer user_data)
-{
-    gchar *speed = NULL;
-
-    bus_info_complete_fan_speed (object, invocation, speed);
-
-    return TRUE;
-}
-
 static gboolean info_get_hardware_assisted_virtualization (BusInfo *object,
                                                            GDBusMI *invocation,
                                                            gpointer user_data)
@@ -273,17 +262,6 @@ static gboolean info_get_junction_temperature (BusInfo *object,
     temperature = cpu->junctiontemperature;
 
     bus_info_complete_junction_temperature (object, invocation, temperature);
-
-    return TRUE;
-}
-
-static gboolean info_get_key_management (BusInfo *object,
-                                         GDBusMI *invocation,
-                                         gpointer user_data)
-{
-    gchar *key = NULL;
-
-    bus_info_complete_key_management (object, invocation, key);
 
     return TRUE;
 }
@@ -460,17 +438,6 @@ static gboolean info_get_product_name (BusInfo *object,
     return TRUE;
 }
 
-static gboolean info_get_trusted_start (BusInfo *object,
-                                        GDBusMI *invocation,
-                                        gpointer user_data)
-{
-    gchar *trusted_start = NULL;
-
-    bus_info_complete_trusted_start (object, invocation, trusted_start);
-
-    return TRUE;
-}
-
 static void set_dbus_signal_method (InfoDaemon *daemon)
 {
     g_signal_connect (daemon->skeleton, "handle-bios-name", G_CALLBACK (info_get_biso_name), daemon);
@@ -483,10 +450,8 @@ static void set_dbus_signal_method (InfoDaemon *daemon)
     g_signal_connect (daemon->skeleton, "handle-cpu-temperature", G_CALLBACK (info_get_cpu_temperature), daemon);
     g_signal_connect (daemon->skeleton, "handle-cpu-threads", G_CALLBACK (info_get_cpu_threads), daemon);
     g_signal_connect (daemon->skeleton, "handle-extended-instruction", G_CALLBACK (info_get_extended_instruction), daemon);
-    g_signal_connect (daemon->skeleton, "handle-fan-speed", G_CALLBACK (info_get_fan_speed), daemon);
     g_signal_connect (daemon->skeleton, "handle-hardware-assisted-virtualization", G_CALLBACK (info_get_hardware_assisted_virtualization), daemon);
     g_signal_connect (daemon->skeleton, "handle-junction-temperature", G_CALLBACK (info_get_junction_temperature), daemon);
-    g_signal_connect (daemon->skeleton, "handle-key-management", G_CALLBACK (info_get_key_management), daemon);
     g_signal_connect (daemon->skeleton, "handle-maximum-cpu-frequency", G_CALLBACK (info_get_maximum_cpu_frequency), daemon);
     g_signal_connect (daemon->skeleton, "handle-maximum-memory-capacity", G_CALLBACK (info_get_maximum_memory_capacity), daemon);
     g_signal_connect (daemon->skeleton, "handle-maximum-memory-frequency", G_CALLBACK (info_get_maximum_memory_frequency), daemon);
@@ -499,7 +464,6 @@ static void set_dbus_signal_method (InfoDaemon *daemon)
     g_signal_connect (daemon->skeleton, "handle-physical-kernel", G_CALLBACK (info_get_physical_kernel), daemon);
     g_signal_connect (daemon->skeleton, "handle-power-waste", G_CALLBACK (info_get_power_waste), daemon);
     g_signal_connect (daemon->skeleton, "handle-product-name", G_CALLBACK (info_get_product_name), daemon);
-    g_signal_connect (daemon->skeleton, "handle-trusted-start", G_CALLBACK (info_get_trusted_start), daemon);
 
 }
 
