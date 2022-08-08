@@ -1,0 +1,11 @@
+/usr/bin/loongson-info
+/usr/share/applications/loongson-info.desktop
+/usr/share/metainfo/loongson-info.appdata.xml
+/usr/share/loongson-info/icons/*.png
+/usr/share/icons/hicolor/*/apps/loongson*.png
+/etc/dbus-1/system.d/cn.loongson.info.conf
+/usr/libexec/loongson-info/loongson-infod
+/usr/share/dbus-1/interfaces/cn.loongson.info.xml
+/usr/share/dbus-1/system-services/cn.loongson.info.service
+/usr/lib/systemd/system/loongson-info-daemon.service
+

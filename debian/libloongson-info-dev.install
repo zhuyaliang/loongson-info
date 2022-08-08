@@ -1,0 +1,5 @@
+/usr/include/loongson-info-1.0
+/usr/lib/*/libloongson-info.so
+/usr/lib/*/pkgconfig/loongson-info.pc
+/usr/share/gtk-doc/html/libinfo
+/usr/share/gtk-doc/html/libinfo/*

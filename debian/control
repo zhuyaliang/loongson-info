@@ -1,0 +1,34 @@
+Source: loongson-info
+Section: utils
+Priority: optional
+Maintainer: zhuyaliang <loongson@gmail.com>
+Build-Depends: debhelper-compat (=12),
+               meson,
+               pkg-config,
+               libdbus-1-dev,
+               systemd,
+               libgtop2-dev,
+               git,
+               libgtk-3-dev,
+               libsystemd0,
+               gtk-doc-tools,
+               libglib2.0-dev,
+               libpolkit-gobject-1-dev,
+Standards-Version: 4.6.0
+Homepage: http://gitlab.gen.cn/software/loongson-info
+Rules-Requires-Root: no
+
+Package: loongson-info
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},dmidecode
+Description: Loongson(4000/5000) cpu info tool
+
+Package: libloongson-info-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The libloongson-info-dev package contains headers and other files needed to build applications that use loongson-info-libs.
+
+Package: libloongson-info
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The libloongson-info package contains a library that can be used by applications that want to interact with the loongson-info daemon.
