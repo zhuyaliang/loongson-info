@@ -15,7 +15,7 @@ const char     *loongson_info_get_calculation_part       (LoongsonInfo *info);
 
 const char     *loongson_info_get_cpu_cache              (LoongsonInfo *info);
 
-const char     *loongson_info_get_cpu_speed              (LoongsonInfo *info);
+int             loongson_info_get_cpu_speed              (LoongsonInfo *info);
 
 const char     *loongson_info_get_cpu_model_name         (LoongsonInfo *info);
 
@@ -31,7 +31,7 @@ const char     *loongson_info_get_hw_virt                (LoongsonInfo *info);
 
 const char     *loongson_info_get_junction_temperature   (LoongsonInfo *info);
 
-const char     *loongson_info_get_max_cpu_speed          (LoongsonInfo *info);
+int             loongson_info_get_max_cpu_speed          (LoongsonInfo *info);
 
 const char     *loongson_info_get_max_memory_capacity    (LoongsonInfo *info);
 

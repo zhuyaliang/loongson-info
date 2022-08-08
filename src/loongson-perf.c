@@ -62,27 +62,33 @@ static void get_cpu_perf_data (LoongsonPerf *perf)
 static void get_cpu_current_cpu_hz (LoongsonPerf *perf)
 {
     g_autoptr(GError) error = NULL;
+    int speed;
 
-    perf->current_cpu_hz = loongson_dbus_call ("CpuCurrentSpeed", &error);
-    if (perf->current_cpu_hz == NULL)
+    speed = loongson_dbus_call_int ("CpuCurrentSpeed", &error);
+    if (speed < 0 && error != NULL)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
                                  "%s", error->message);
     }
+
+    perf->current_cpu_hz = g_strdup_printf ("%d MHZ", speed);
 }
 
 static void get_cpu_max_cpu_hz (LoongsonPerf *perf)
 {
     g_autoptr(GError) error = NULL;
+    int speed;
 
-    perf->max_cpu_hz = loongson_dbus_call ("MaximumCpuFrequency", &error);
-    if (perf->max_cpu_hz == NULL)
+    speed = loongson_dbus_call_int ("MaximumCpuFrequency", &error);
+    if (speed < 0 && error != NULL)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
+
+    perf->max_cpu_hz = g_strdup_printf ("%d MHZ", speed);
 }
 
 static void get_cpu_cpu_threads (LoongsonPerf *perf)
@@ -91,7 +97,7 @@ static void get_cpu_cpu_threads (LoongsonPerf *perf)
     int thread;
 
     thread = loongson_dbus_call_int ("CpuThreads", &error);
-    if (thread < 0)
+    if (thread < 0 && error != NULL)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
@@ -106,11 +112,11 @@ static void get_cpu_max_mem_capacity (LoongsonPerf *perf)
     g_autoptr(GError) error = NULL;
 
     perf->max_mem_capacity = loongson_dbus_call ("MaximumMemoryCapacity", &error);
-    if (perf->max_mem_capacity == NULL)
+    if (perf->max_mem_capacity == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -119,11 +125,11 @@ static void get_cpu_memory_channel (LoongsonPerf *perf)
     g_autoptr(GError) error = NULL;
 
     perf->memory_channel = loongson_dbus_call ("MemoryChannel", &error);
-    if (perf->memory_channel == NULL)
+    if (perf->memory_channel == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -132,11 +138,11 @@ static void get_cpu_max_mem_fre (LoongsonPerf *perf)
     g_autoptr(GError) error = NULL;
 
     perf->max_mem_fre = loongson_dbus_call ("MaximumMemoryFrequency", &error);
-    if (perf->max_mem_fre == NULL)
+    if (perf->max_mem_fre == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->mssage);
     }
 }
 
@@ -146,7 +152,7 @@ static void get_cpu_physical_kernel (LoongsonPerf *perf)
     int core;
 
     core = loongson_dbus_call_int ("PhysicalKernel", &error);
-    if (core < 0)
+    if (core < 0 && error != NULL)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
@@ -291,6 +297,8 @@ loongson_perf_finalize (GObject *object)
     g_free (perf->name);
     g_free (perf->bogomips);
     g_free (perf->cpu_threads);
+    g_free (perf->current_cpu_hz);
+    g_free (perf->max_cpu_hz);
     g_free (perf->physical_kernel);
 
     G_OBJECT_CLASS (loongson_perf_parent_class)->finalize (object);

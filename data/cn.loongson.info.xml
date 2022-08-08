@@ -82,7 +82,7 @@
         </method>
 
         <method name="MaximumCpuFrequency">
-            <arg name="name" type="s" direction="out"/>
+            <arg name="name" type="i" direction="out"/>
         </method>
 
         <method name="CpuThreads">
@@ -94,7 +94,7 @@
         </method>
 
         <method name="CpuCurrentSpeed">
-            <arg name="name" type="s" direction="out"/>
+            <arg name="name" type="i" direction="out"/>
         </method>
     </interface>
 </node>

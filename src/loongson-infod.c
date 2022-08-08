@@ -30,6 +30,8 @@
 
 #define INFO_DBUS_NAME "cn.loongson.info"
 #define INFO_DBUS_PATH "/cn/loongson/info"
+#define MAX_CPU_SPEED  2200
+
 
 struct _InfoDaemon
 {
@@ -138,9 +140,9 @@ static gboolean info_get_cpu_current_speed (BusInfo *object,
     current_speed = hardinfo_get_cpu_current_speed ();
 
     if (current_speed == NULL) {
-        bus_info_complete_cpu_current_speed (object, invocation, g_strdup (_("Unknown")));
+        bus_info_complete_cpu_current_speed (object, invocation, -1);
     } else {
-        bus_info_complete_cpu_current_speed (object, invocation, g_strdup (current_speed));
+        bus_info_complete_cpu_current_speed (object, invocation, atoi (current_speed));
     }
 
     return TRUE;
@@ -271,14 +273,16 @@ static gboolean info_get_maximum_cpu_frequency (BusInfo *object,
                                                 gpointer user_data)
 {
     gchar *frequency = NULL;
-    gchar  string[20] = {"2200 MHz"};
+    int    speed;
 
     frequency = get_cpu_max_speed ();
 
     if(!strcmp(frequency, "unknown"))
-        frequency = string;
+        speed = 2200;
+    else
+        speed = atoi (frequency);
 
-    bus_info_complete_maximum_cpu_frequency (object, invocation, frequency);
+    bus_info_complete_maximum_cpu_frequency (object, invocation, speed);
 
     return TRUE;
 }

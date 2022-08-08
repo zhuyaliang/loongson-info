@@ -53,13 +53,13 @@ const char *loongson_info_get_cpu_cache (LoongsonInfo *info)
     return ret;
 }
 
-const char *loongson_info_get_cpu_speed (LoongsonInfo *info)
+int loongson_info_get_cpu_speed (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
-    char *ret;
+    int ret;
 
-    g_return_val_if_fail (LOONGSON_IS_INFO (info), NULL);
-    g_return_val_if_fail (BUS_IS_INFO (info->proxy), NULL);
+    g_return_val_if_fail (LOONGSON_IS_INFO (info), -1);
+    g_return_val_if_fail (BUS_IS_INFO (info->proxy), -1);
 
     if (!bus_info_call_cpu_current_speed_sync (info->proxy,
                                               &ret,
@@ -205,13 +205,13 @@ const char *loongson_info_get_junction_temperature (LoongsonInfo *info)
     return ret;
 }
 
-const char *loongson_info_get_max_cpu_speed (LoongsonInfo *info)
+int loongson_info_get_max_cpu_speed (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
-    char *ret;
+    int ret;
 
-    g_return_val_if_fail (LOONGSON_IS_INFO (info), NULL);
-    g_return_val_if_fail (BUS_IS_INFO (info->proxy), NULL);
+    g_return_val_if_fail (LOONGSON_IS_INFO (info), -1);
+    g_return_val_if_fail (BUS_IS_INFO (info->proxy), -1);
 
     if (!bus_info_call_maximum_cpu_frequency_sync (info->proxy,
                                                   &ret,
