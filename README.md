@@ -44,3 +44,9 @@ method return time=1657701132.266672 sender=:1.2471 -> destination=:1.2479 seria
 20. MaximumMemoryCapacity
 21. MaximumCpuFrequency
 22. CpuThreads
+
+## 帮助手册
+```
+devhelp -s loongson_info
+```
+
