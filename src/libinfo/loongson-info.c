@@ -6,6 +6,20 @@
 #define INFO_DBUS_NAME "cn.loongson.info"
 #define INFO_DBUS_PATH "/cn/loongson/info"
 
+/**
+ * SECTION:loongson-info
+ * @title: LoongsonInfo
+ * @short_description: information about loongson(4000/5000) info
+ *
+ * An LoongsonInfo object represents loongson cpu info on the system.
+ */
+
+/**
+ * LoongsonInfo:
+ *
+ * Represents loongson cpu info on the system.
+ */
+
 struct _LoongsonInfo
 {
     GObject          parent;
@@ -14,7 +28,14 @@ struct _LoongsonInfo
 };
 
 G_DEFINE_TYPE (LoongsonInfo, loongson_info, G_TYPE_OBJECT)
-
+/**
+ * loongson_info_get_calculation_part:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) calculation part information.
+ *
+ * Returns: calculation part
+ */
 const char *loongson_info_get_calculation_part (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -34,6 +55,14 @@ const char *loongson_info_get_calculation_part (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_cpu cache:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) cpu 3 level cache information.
+ *
+ * Returns: cache information
+ */
 const char *loongson_info_get_cpu_cache (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -53,6 +82,14 @@ const char *loongson_info_get_cpu_cache (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_cpu_speed:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) cpu speed information.
+ *
+ * Returns: cpu speed (MHZ)
+ */
 int loongson_info_get_cpu_speed (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -72,6 +109,14 @@ int loongson_info_get_cpu_speed (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_cpu_model_name:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) cpu model name information.
+ *
+ * Returns: cpu model name
+ */
 const char *loongson_info_get_cpu_model_name (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -91,6 +136,14 @@ const char *loongson_info_get_cpu_model_name (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_cpu_sizes:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) cpu sizes information.
+ *
+ * Returns: cpu sizes (30 x 30 x 3)
+ */
 const char *loongson_info_get_cpu_sizes (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -110,6 +163,14 @@ const char *loongson_info_get_cpu_sizes (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_cpu_technology:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) cpu technology information.
+ *
+ * Returns: cpu technology (28nm)
+ */
 const char *loongson_info_get_cpu_technology (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -129,6 +190,14 @@ const char *loongson_info_get_cpu_technology (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_cpu_threads:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) cpu threads num information.
+ *
+ * Returns: threads nums
+ */
 int loongson_info_get_cpu_threads (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -148,6 +217,14 @@ int loongson_info_get_cpu_threads (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_extended_instruction:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) extended instruction information.
+ *
+ * Returns: extended instruction
+ */
 const char *loongson_info_get_extended_instruction (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -167,6 +244,14 @@ const char *loongson_info_get_extended_instruction (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_hw_virt:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) hardware assisted virtualization information.
+ *
+ * Returns: hardware assisted virtualization
+ */
 const char *loongson_info_get_hw_virt (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -186,6 +271,14 @@ const char *loongson_info_get_hw_virt (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_junction_temperature:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) cpu junction temperature information.
+ *
+ * Returns: junction temperature
+ */
 const char *loongson_info_get_junction_temperature (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -205,6 +298,14 @@ const char *loongson_info_get_junction_temperature (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_max_cpu_speed:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) maximum cpu speed information.
+ *
+ * Returns: maximum cpu speed
+ */
 int loongson_info_get_max_cpu_speed (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -224,6 +325,14 @@ int loongson_info_get_max_cpu_speed (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_max_memory_capacity:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) maximum memory capacity information.
+ *
+ * Returns: maximum memory capacity
+ */
 const char *loongson_info_get_max_memory_capacity (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -243,6 +352,14 @@ const char *loongson_info_get_max_memory_capacity (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_memory_channel:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) memory channel information.
+ *
+ * Returns: memory channel
+ */
 const char *loongson_info_get_memory_channel (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -262,6 +379,14 @@ const char *loongson_info_get_memory_channel (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_memory_verification:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) memory verification information.
+ *
+ * Returns: verification type
+ */
 const char *loongson_info_get_memory_verification (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -281,6 +406,14 @@ const char *loongson_info_get_memory_verification (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_memory_type:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) memory type information.
+ *
+ * Returns: memory type (DDR4/DDR3)
+ */
 const char *loongson_info_get_memory_type (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -300,6 +433,14 @@ const char *loongson_info_get_memory_type (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_micro_architecture:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) micro architecture information.
+ *
+ * Returns: micro architecture
+ */
 const char *loongson_info_get_micro_architecture (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -319,6 +460,14 @@ const char *loongson_info_get_micro_architecture (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_mmu_type:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) mmu type information.
+ *
+ * Returns: mmu type (enabled/disabled)
+ */
 const char *loongson_info_get_mmu_type (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -338,6 +487,14 @@ const char *loongson_info_get_mmu_type (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_packaging_method:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) package method information.
+ *
+ * Returns: package method (LGA)
+ */
 const char *loongson_info_get_packaging_method (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -357,6 +514,14 @@ const char *loongson_info_get_packaging_method (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_physical_core:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) physical core num information.
+ *
+ * Returns: core (4/5/6)
+ */
 int loongson_info_get_physical_core (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -376,6 +541,14 @@ int loongson_info_get_physical_core (LoongsonInfo *info)
     return ret;
 }
 
+/**
+ * loongson_info_get_power_waste:
+ * @info: LoongsonInfo info
+ *
+ * Get Loongson(4000/5000) power waste information.
+ *
+ * Returns: power waste (28W)
+ */
 const char *loongson_info_power_waste (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
@@ -451,6 +624,13 @@ static void loongson_info_init (LoongsonInfo *info)
     g_dbus_proxy_set_default_timeout (G_DBUS_PROXY (info->proxy), G_MAXINT);
 }
 
+/**
+ * loongson_info_new:
+ *
+ * Get Loongson information new object.
+ *
+ * Returns: LoongsonInfo object
+ */
 LoongsonInfo *loongson_info_new (void)
 {
     LoongsonInfo *info;
