@@ -33,5 +33,6 @@ executable(
     dependencies : [gio_dep, gio_os_dep, gtop_dep],
     install : true,
     install_dir : join_paths(get_option('prefix'), get_option('libexecdir'), 'loongson-info')
-    )
+)
 
+subdir('libinfo')

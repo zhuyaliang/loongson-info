@@ -1,10 +1,14 @@
 project('loongson-info', 'c',
-  version : '1.0.0',
+  version : '1.0.1',
   license : 'GPLv3',
-  meson_version : '>=0.40.1',
+  meson_version : '>=0.46.1',
   default_options : [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11'],
   )
 
+ls_name = meson.project_name()
+ls_api_version = '1.0'
+ls_api_name = '@0@-@1@'.format(ls_name, ls_api_version)
+libversion = meson.project_version()
 dbus_dep = dependency('dbus-1')
 ls_namespace = 'cn.loongson.info'
 ls_prefix = get_option('prefix')
@@ -14,6 +18,8 @@ ls_datadir = join_paths(ls_prefix, get_option('datadir'))
 dbus_ifaces_dir = dbus_dep.get_pkgconfig_variable('interfaces_dir', define_variable: ['datadir', ls_datadir])
 dbus_conf_dir = join_paths(dbus_dep.get_pkgconfig_variable('sysconfdir', define_variable: ['sysconfdir', ls_sysconfdir]), 'dbus-1', 'system.d')
 install_systemd_unit_dir = join_paths(ls_prefix, 'lib', 'systemd', 'system')
+ls_includedir = join_paths(ls_prefix, get_option('includedir'))
+ls_pkgincludedir = join_paths(ls_includedir, ls_api_name)
 
 # Compiler & Project arguments
 add_project_arguments([
