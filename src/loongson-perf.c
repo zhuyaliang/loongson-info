@@ -142,7 +142,7 @@ static void get_cpu_max_mem_fre (LoongsonPerf *perf)
     {
         loongson_message_dialog (_("Get loongson perf"),
                                  WARING,
-                                 "%s", error->mssage);
+                                 "%s", error->message);
     }
 }
 
