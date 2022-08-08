@@ -56,12 +56,12 @@ const char *loongson_info_get_calculation_part (LoongsonInfo *info)
 }
 
 /**
- * loongson_info_get_cpu cache:
+ * loongson_info_get_cpu_cache:
  * @info: LoongsonInfo info
  *
- * Get Loongson(4000/5000) cpu 3 level cache information.
+ * Get Loongson(4000/5000) cpu level 3 cache information.
  *
- * Returns: cache information
+ * Returns: cpu cache
  */
 const char *loongson_info_get_cpu_cache (LoongsonInfo *info)
 {
