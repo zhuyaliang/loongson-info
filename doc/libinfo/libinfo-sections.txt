@@ -21,7 +21,7 @@ loongson_info_get_micro_architecture
 loongson_info_get_mmu_type
 loongson_info_get_packaging_method
 loongson_info_get_physical_core
-loongson_info_power_waste
+loongson_info_get_power_waste
 <SUBSECTION Standard>
 LoongsonInfoClass
 LOONGSON_IS_INFO

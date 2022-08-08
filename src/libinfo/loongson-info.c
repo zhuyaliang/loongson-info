@@ -549,7 +549,7 @@ int loongson_info_get_physical_core (LoongsonInfo *info)
  *
  * Returns: power waste (28W)
  */
-const char *loongson_info_power_waste (LoongsonInfo *info)
+const char *loongson_info_get_power_waste (LoongsonInfo *info)
 {
     g_autoptr(GError) error = NULL;
     char *ret;

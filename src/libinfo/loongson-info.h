@@ -49,7 +49,7 @@ const char     *loongson_info_get_packaging_method       (LoongsonInfo *info);
 
 int             loongson_info_get_physical_core          (LoongsonInfo *info);
 
-const char     *loongson_info_power_waste                (LoongsonInfo *info);
+const char     *loongson_info_get_power_waste            (LoongsonInfo *info);
 
 G_END_DECLS
 
