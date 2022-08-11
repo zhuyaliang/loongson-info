@@ -43,11 +43,11 @@ static void get_loongson_bios_name (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->bios_name = loongson_dbus_call ("BiosName", &error);
-    if (mb->bios_name == NULL)
+    if (mb->bios_name == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -56,11 +56,11 @@ static void get_loongson_product_name (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->product_name = loongson_dbus_call ("ProductName", &error);
-    if (mb->product_name == NULL)
+    if (mb->product_name == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -69,11 +69,11 @@ static void get_loongson_memory_style (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->memory_style = loongson_dbus_call ("MemoryStyle", &error);
-    if (mb->memory_style == NULL)
+    if (mb->memory_style == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -82,11 +82,11 @@ static void get_loongson_micro_architecture (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->micro_architecture = loongson_dbus_call ("MicroArchitecture", &error);
-    if (mb->micro_architecture == NULL)
+    if (mb->micro_architecture == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -95,11 +95,11 @@ static void get_loongson_cpu_cache (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->cpu_cache = loongson_dbus_call ("CpuCache", &error);
-    if (mb->cpu_cache == NULL)
+    if (mb->cpu_cache == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -108,11 +108,11 @@ static void get_loongson_mmu (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->mmu = loongson_dbus_call ("MmuStyle", &error);
-    if (mb->mmu == NULL)
+    if (mb->mmu == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -121,11 +121,11 @@ static void get_loongson_calculation_part (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->calculation_part = loongson_dbus_call ("CalculationPart", &error);
-    if (mb->calculation_part == NULL)
+    if (mb->calculation_part == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -134,11 +134,11 @@ static void get_loongson_extended_instruction (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->extended_instruction = loongson_dbus_call ("ExtendedInstruction", &error);
-    if (mb->extended_instruction == NULL)
+    if (mb->extended_instruction == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -147,11 +147,11 @@ static void get_loongson_hw_virt (LoongsonMainboard *mb)
     g_autoptr(GError) error = NULL;
 
     mb->hw_virt = loongson_dbus_call ("HardwareAssistedVirtualization", &error);
-    if (mb->hw_virt == NULL)
+    if (mb->hw_virt == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson mainboard"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 

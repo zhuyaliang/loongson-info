@@ -135,11 +135,11 @@ static char *get_cpu_temper (LoongsonState *state)
     char *temper;
 
     temper = loongson_dbus_call ("CpuTemperature", &error);
-    if (temper == NULL)
+    if (temper == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson state"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 
     return g_strdup (temper);

@@ -53,11 +53,11 @@ static void get_cpu_memory_verifi (LoongsonSecurity *se)
     g_autoptr(GError) error = NULL;
 
     se->memory_verifi = loongson_dbus_call ("MemoryVerification", &error);
-    if (se->memory_verifi == NULL)
+    if (se->memory_verifi == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson security"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 

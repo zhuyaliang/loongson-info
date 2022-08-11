@@ -72,7 +72,7 @@ static void get_cpu_model (LoongsonSpec *spec)
     g_autoptr(GError) error = NULL;
 
     spec->model_name = loongson_dbus_call ("CpuName", &error);
-    if (spec->model_name == NULL)
+    if (spec->model_name == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
@@ -86,11 +86,11 @@ static void get_cpu_technology (LoongsonSpec *spec)
     g_autoptr(GError) error = NULL;
 
     spec->technology = loongson_dbus_call ("CpuTechnology", &error);
-    if (spec->technology == NULL)
+    if (spec->technology == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -118,11 +118,11 @@ static void get_cpu_power_waste (LoongsonSpec *spec)
     g_autoptr(GError) error = NULL;
 
     spec->power_waste = loongson_dbus_call ("PowerWaste", &error);
-    if (spec->power_waste == NULL)
+    if (spec->power_waste == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -131,11 +131,11 @@ static void get_cpu_junction_temperature (LoongsonSpec *spec)
     g_autoptr(GError) error = NULL;
 
     spec->junction_temperature = loongson_dbus_call ("JunctionTemperature", &error);
-    if (spec->junction_temperature == NULL)
+    if (spec->junction_temperature == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -144,11 +144,11 @@ static void get_cpu_packaging_method (LoongsonSpec *spec)
     g_autoptr(GError) error = NULL;
 
     spec->package_method = loongson_dbus_call ("PackagingMethod", &error);
-    if (spec->package_method == NULL)
+    if (spec->package_method == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
@@ -157,11 +157,11 @@ static void get_cpu_size (LoongsonSpec *spec)
     g_autoptr(GError) error = NULL;
 
     spec->size = loongson_dbus_call ("CpuSizes", &error);
-    if (spec->size == NULL)
+    if (spec->size == NULL && error != NULL)
     {
         loongson_message_dialog (_("Get loongson spec"),
                                  WARING,
-                                 "%s", "error->message");
+                                 "%s", error->message);
     }
 }
 
