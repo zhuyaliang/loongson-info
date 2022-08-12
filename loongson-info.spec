@@ -96,6 +96,9 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/loongson-info/interfaces/
 
 
 %changelog
+* Fri Aug 12 2022 zhuyaliang <zhuyaliang@loongson.cn> - 1.0.2-1
+- Update to 1.0.2-1
+
 * Mon Aug 08 2022 zhuyaliang <zhuyaliang@loongson.cn> - 1.0.1-1
 - initial build for loongson
 
