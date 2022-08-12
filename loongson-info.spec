@@ -1,11 +1,11 @@
 Name:          loongson-info
-Version:       1.0.1
+Version:       1.0.2
 Release:       1%{?dist}
 Summary:       Loongson (4000/5000) cpu info tool
 License:       GPLv3+ 
 URL:           http://gitlab.gen.cn/software/loongson-info
 
-Source0:       %url/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:       %url/archive/%{version}/%{name}-%{version}.tar.xz
 
 BuildRequires: gcc
 BuildRequires: git

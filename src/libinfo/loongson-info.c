@@ -179,7 +179,7 @@ const char *loongson_info_get_cpu_technology (LoongsonInfo *info)
     g_return_val_if_fail (LOONGSON_IS_INFO (info), NULL);
     g_return_val_if_fail (BUS_IS_INFO (info->proxy), NULL);
 
-    if (!bus_info_call_cpu_temperature_sync (info->proxy,
+    if (!bus_info_call_cpu_technology_sync (info->proxy,
                                             &ret,
                                              NULL,
                                             &error))
