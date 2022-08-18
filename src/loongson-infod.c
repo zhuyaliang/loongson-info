@@ -27,6 +27,7 @@
 #include "info-dbus-generated.h"
 #include "loongson-infod.h"
 #include "hardinfo.h"
+#include "dmidecode.h"
 
 #define INFO_DBUS_NAME "cn.loongson.info"
 #define INFO_DBUS_PATH "/cn/loongson/info"
@@ -36,6 +37,7 @@
 struct _InfoDaemon
 {
     GObject            parent;
+    LoongsonDmidecode *dmi;
     //Info              *info;
     BusInfo           *skeleton;
     guint              bus_name_id;
@@ -75,10 +77,16 @@ static gboolean info_get_biso_name (BusInfo *object,
                                     GDBusMI *invocation,
                                     gpointer user_data)
 {
-    gchar *bios_name;
+    gchar      *bios_name;
+    InfoDaemon *daemon;
 
-    bios_name = get_bios_version();
+    daemon = INFO_DAEMON (user_data);
+
+    bios_name = dmi_get_bios_version (daemon->dmi);
     bus_info_complete_bios_name (object, invocation, bios_name);
+
+    if (bios_name != NULL)
+        g_free (bios_name);
 
     return TRUE;
 }
@@ -272,15 +280,12 @@ static gboolean info_get_maximum_cpu_frequency (BusInfo *object,
                                                 GDBusMI *invocation,
                                                 gpointer user_data)
 {
-    gchar *frequency = NULL;
     int    speed;
+    InfoDaemon *daemon;
 
-    frequency = get_cpu_max_speed ();
+    daemon = INFO_DAEMON (user_data);
 
-    if(!strcmp(frequency, "unknown"))
-        speed = 2200;
-    else
-        speed = atoi (frequency);
+    speed = dmi_get_cpu_max_speed (daemon->dmi);
 
     bus_info_complete_maximum_cpu_frequency (object, invocation, speed);
 
@@ -291,10 +296,17 @@ static gboolean info_get_maximum_memory_capacity (BusInfo *object,
                                                   GDBusMI *invocation,
                                                   gpointer user_data)
 {
-    gchar *capacity = NULL;
+    gchar      *capacity = NULL;
+    InfoDaemon *daemon;
 
-    capacity = get_memory_capacity ();
+    daemon = INFO_DAEMON (user_data);
+
+    capacity = dmi_get_memory_capacity (daemon->dmi);
+
     bus_info_complete_maximum_memory_capacity (object, invocation, capacity);
+
+    if (capacity != NULL)
+        g_free (capacity);
 
     return TRUE;
 }
@@ -303,10 +315,16 @@ static gboolean info_get_maximum_memory_frequency (BusInfo *object,
                                                    GDBusMI *invocation,
                                                    gpointer user_data)
 {
-    gchar *frequency = NULL;
+    gchar      *frequency = NULL;
+    InfoDaemon *daemon;
 
-    frequency = get_memory_frequency ();
+    daemon = INFO_DAEMON (user_data);
+
+    frequency = dmi_get_memory_frequency (daemon->dmi);
     bus_info_complete_maximum_memory_frequency (object, invocation, frequency);
+
+    if (frequency != NULL)
+        g_free (frequency);
 
     return TRUE;
 }
@@ -315,10 +333,16 @@ static gboolean info_get_memory_channel (BusInfo *object,
                                          GDBusMI *invocation,
                                          gpointer user_data)
 {
-    gchar *channel = NULL;
+    gchar      *channel = NULL;
+    InfoDaemon *daemon;
 
-    channel = get_memory_channel ();
+    daemon = INFO_DAEMON (user_data);
+
+    channel = dmi_get_memory_channel (daemon->dmi);
     bus_info_complete_memory_channel (object, invocation, channel);
+
+    if (channel != NULL)
+        g_free (channel);
 
     return TRUE;
 }
@@ -327,14 +351,19 @@ static gboolean info_get_memory_style (BusInfo *object,
                                        GDBusMI *invocation,
                                        gpointer user_data)
 {
-    gchar *memory = NULL;
-    gchar  string[20] = {"DDR4"};
+    gchar      *memory = NULL;
+    InfoDaemon *daemon;
 
-    memory = get_memory_style ();
-    if(!strcmp(memory, "<OUT OF SPEC>"))
-        memory = string;
+    daemon = INFO_DAEMON (user_data);
 
-    bus_info_complete_memory_style (object, invocation, memory);
+    memory = dmi_get_memory_type (daemon->dmi);
+    if (!g_strcmp0 (memory, "Unknown"))
+        bus_info_complete_memory_style (object, invocation, "DDR4");
+    else
+        bus_info_complete_memory_style (object, invocation, memory);
+
+    if (memory != NULL)
+        g_free (memory);
 
     return TRUE;
 }
@@ -343,11 +372,17 @@ static gboolean info_get_memory_verification (BusInfo *object,
                                               GDBusMI *invocation,
                                               gpointer user_data)
 {
-    gchar *verification = NULL;
+    gchar      *verification = NULL;
+    InfoDaemon *daemon;
 
-    verification = get_memory_verification ();
+    daemon = INFO_DAEMON (user_data);
+
+    verification = dmi_get_memory_verification (daemon->dmi);
 
     bus_info_complete_memory_verification (object, invocation, verification);
+
+    if (verification != NULL)
+        g_free (verification);
 
     return TRUE;
 }
@@ -434,10 +469,16 @@ static gboolean info_get_product_name (BusInfo *object,
                                        GDBusMI *invocation,
                                        gpointer user_data)
 {
-    gchar *name = NULL;
+    gchar      *name = NULL;
+    InfoDaemon *daemon;
 
-    name = get_product_name();
+    daemon = INFO_DAEMON (user_data);
+
+    name = dmi_get_product_name (daemon->dmi);
     bus_info_complete_product_name (object, invocation, name);
+
+    if (name != NULL)
+        g_free (name);
 
     return TRUE;
 }
@@ -631,6 +672,7 @@ static void info_daemon_init (InfoDaemon *daemon)
     printf("product_name: %s\n",get_product_name());
 #endif
     daemon->skeleton = bus_info_skeleton_new();
+    daemon->dmi = loongson_dmidecode_new ();
 }
 
 InfoDaemon* info_daemon_new (GMainLoop *loop, gboolean replace)
