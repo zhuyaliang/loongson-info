@@ -493,9 +493,17 @@ const gchar *hardinfo_get_cpu_name (void)
 const gchar *hardinfo_get_cpu_current_speed (void)
 {
     gchar *current_speed = NULL;
-    current_speed = hardinfo_get_sysinfo ("CPU MHz");
+    guint i;
+    const char * const keys[] = {"CPU MHz", "cpu MHZ"};
+
+    for (i = 0; current_speed == NULL && i < G_N_ELEMENTS (keys); i++)
+    {
+        current_speed = hardinfo_get_sysinfo (keys[i]);
+    }
+
     return current_speed;
 }
+
 #define PATH_SYS_CPU    "/sys/devices/system/cpu"
 #define CPUBITS_SIZE 4096
 #define CPUBIT_SET(BITS, BIT) ((BITS)[(BIT)/32] |= (1 << (BIT)%32))
