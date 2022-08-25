@@ -8,4 +8,4 @@
 /usr/share/dbus-1/interfaces/cn.loongson.info.xml
 /usr/share/dbus-1/system-services/cn.loongson.info.service
 /usr/lib/systemd/system/loongson-info-daemon.service
-
+/usr/share/locale
