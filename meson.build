@@ -1,5 +1,5 @@
 project('loongson-info', 'c',
-  version : '1.0.2',
+  version : '1.0.3',
   license : 'GPLv3',
   meson_version : '>=0.46.1',
   default_options : [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11'],

@@ -1,5 +1,5 @@
 Name:          loongson-info
-Version:       1.0.2
+Version:       1.0.3
 Release:       1%{?dist}
 Summary:       Loongson (4000/5000) cpu info tool
 License:       GPLv3+ 
@@ -96,6 +96,9 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/loongson-info/interfaces/
 
 
 %changelog
+* Fri Aug 26 2022 zhuyaliang <zhuyaliang@loongson.cn> - 1.0.3-1
+- Update to 1.0.3-1
+
 * Fri Aug 12 2022 zhuyaliang <zhuyaliang@loongson.cn> - 1.0.2-1
 - Update to 1.0.2-1
 
