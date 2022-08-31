@@ -294,7 +294,7 @@ const gchar *hardinfo_get_cpu_current_speed (void)
 {
     gchar *current_speed = NULL;
     guint i;
-    const char * const keys[] = {"CPU MHz", "cpu MHZ"};
+    const char * const keys[] = {"CPU MHz", "cpu MHz"};
 
     for (i = 0; current_speed == NULL && i < G_N_ELEMENTS (keys); i++)
     {
