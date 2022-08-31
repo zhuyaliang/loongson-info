@@ -1,7 +1,7 @@
 Source: loongson-info
 Section: utils
 Priority: optional
-Maintainer: zhuyaliang <loongson@gmail.com>
+Maintainer: zhuyaliang <zhuyaliang@loongson.cn>
 Build-Depends: debhelper-compat (=12),
                meson,
                pkg-config,
@@ -20,7 +20,7 @@ Rules-Requires-Root: no
 
 Package: loongson-info
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends},dmidecode
+Depends: dmidecode, libc6, libgdk-pixbuf2.0-0, libglib2.0-0, libgtk-3-0, libgtop-2.0-11
 Description: Loongson(4000/5000) cpu info tool
 
 Package: libloongson-info-dev
@@ -30,5 +30,5 @@ Description: The libloongson-info-dev package contains headers and other files n
 
 Package: libloongson-info
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: libc6, libglib2.0-0
 Description: The libloongson-info package contains a library that can be used by applications that want to interact with the loongson-info daemon.
